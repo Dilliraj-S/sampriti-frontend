@@ -1,55 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FiUser, FiMail, FiPhone, FiMapPin, FiCalendar, FiAtSign, FiGlobe } from "react-icons/fi";
+import { FiUser, FiMail, FiPhone, FiMapPin, FiGlobe } from "react-icons/fi";
 import { Home } from "lucide-react";
 import { api } from "@/services/api.client";
 import Breadcrumb from "@/components/Breadcrumbs";
 import "./profile.css";
 
 type ProfileData = {
-  first_name: string; last_name: string;
-  email: string; username: string;
-  gender: string; date_of_birth: string;
-  phone: string; city: string; country: string; state: string; postal_code: string;
-  avatar?: string;
-  profile?: string;
-};
-
-const formatDate = (raw: string) => {
-  if (!raw) return "—";
-  const d = new Date(raw);
-  return isNaN(d.getTime()) ? raw : d.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
+  store_name: string; store_email: string; store_phone: string;
+  currency: string; gst_number: string;
 };
 
 const val = (v?: string) => v?.trim() || "—";
-
-const initials = (first: string, last: string) =>
-  ((first?.[0] ?? "") + (last?.[0] ?? "")).toUpperCase() || "U";
-
-const getBackendOrigin = () => {
-  const envBase = process.env.NEXT_PUBLIC_API_URL?.trim();
-  if (envBase) return envBase.replace(/\/api\/?$/, "").replace(/\/$/, "");
-
-  if (typeof window !== "undefined") {
-    return `${window.location.protocol}//${window.location.host}`;
-  }
-
-  return "";
-};
-
-const resolveProfileImage = (path?: string, cacheBuster?: string) => {
-  if (!path) return "";
-  if (/^(https?:|data:|blob:)/i.test(path)) return path;
-
-  const backendOrigin = getBackendOrigin();
-  const trimmedPath = path.trim();
-  const apiPath = `/api/profile/image/${trimmedPath}`;
-
-  const url = backendOrigin ? `${backendOrigin}${apiPath}` : apiPath;
-  const cacheBustParam = cacheBuster || Date.now();
-  return `${url}?v=${cacheBustParam}`;
-};
 
 const Field = ({ icon: Icon, label, value, accent = "#6366f1" }: {
   icon: React.ElementType; label: string; value: string; accent?: string;
@@ -78,29 +41,26 @@ const Section = ({ dot, title, children }: { dot: string; title: string; childre
 const ProfileViewComponent = () => {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [imageError, setImageError] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     (async () => {
-      const { data, error } = await api.get<any>("/resolveNavigation?path=/profile");
-
+      const res = await api.get<any>("/settings");
+      if (res.status && res.data) setProfile(res.data);
       setLoading(false);
-      if (!error && data?.status) setProfile(data?.data?.profile ?? null);
     })();
   }, []);
 
-  const p = profile;
-  const fullName = p ? [p.first_name, p.last_name].filter(Boolean).join(" ") || "—" : "—";
-  const profileImage = resolveProfileImage(p?.avatar || p?.profile, Date.now().toString());
+  if (!mounted) return null;
 
-  useEffect(() => {
-    setImageError(false);
-  }, [profileImage]);
+  const p = profile;
+  const fullName = p?.store_name || "Admin";
 
   return (
     <div className="page-wrapper">
       <div className="content container-fluid">
-
         <div className="ps-page-header" style={{ marginBottom: 24 }}>
           <Breadcrumb
             title="Profile"
@@ -132,74 +92,48 @@ const ProfileViewComponent = () => {
           </div>
         ) : (
           <div className="pv-layout">
-
-            {/* Left: Hero */}
             <div className="pv-hero-wrapper">
               <div className="pv-hero">
                 <div className="pv-hero-banner" />
                 <div className="pv-hero-inner">
-                  <div className="pv-avatar">
-                    {profileImage && !imageError
-                      ? <img src={profileImage} alt="avatar" onError={() => setImageError(true)} />
-                      : initials(p?.first_name ?? "", p?.last_name ?? "")
-                    }
+                  <div className="pv-avatar" style={{ background: "#2e7d32", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, fontWeight: 700 }}>
+                    {fullName.charAt(0).toUpperCase()}
                   </div>
-
                   <div>
                     <p className="pv-hero-name">{fullName}</p>
                   </div>
-
-                  {/* ADD THIS BACK */}
                   <div className="pv-hero-hr" />
-
                   <div className="pv-hero-stats">
                     <div className="pv-hero-stat">
-                      <span className="pv-hero-stat-lbl">Gender</span>
-                      <span className="pv-hero-stat-val">{val(p?.gender)}</span>
+                      <span className="pv-hero-stat-lbl">Email</span>
+                      <span className="pv-hero-stat-val">{val(p?.store_email)}</span>
                     </div>
                     <div className="pv-hero-stat">
-                      <span className="pv-hero-stat-lbl">Date of Birth</span>
-                      <span className="pv-hero-stat-val">{formatDate(p?.date_of_birth ?? "")}</span>
+                      <span className="pv-hero-stat-lbl">Phone</span>
+                      <span className="pv-hero-stat-val">{val(p?.store_phone)}</span>
                     </div>
                     <div className="pv-hero-stat">
-                      <span className="pv-hero-stat-lbl">City</span>
-                      <span className="pv-hero-stat-val">{val(p?.city)}</span>
-                    </div>
-                    <div className="pv-hero-stat">
-                      <span className="pv-hero-stat-lbl">Country</span>
-                      <span className="pv-hero-stat-val">{val(p?.country)}</span>
+                      <span className="pv-hero-stat-lbl">Currency</span>
+                      <span className="pv-hero-stat-val">{val(p?.currency)}</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right: Sections */}
             <div>
-              <Section dot="#2e7d32" title="Personal Information">
+              <Section dot="#2e7d32" title="Store Information">
                 <div className="pv-fields-grid">
-                  <Field icon={FiUser} label="First Name" value={val(p?.first_name)} accent="#2e7d32" />
-                  <Field icon={FiUser} label="Last Name" value={val(p?.last_name)} accent="#388e3c" />
-                  <Field icon={FiMail} label="Email" value={val(p?.email)} accent="#2e7d32" />
-                  <Field icon={FiPhone} label="Phone" value={val(p?.phone)} accent="#388e3c" />
-                  <Field icon={FiUser} label="Gender" value={val(p?.gender)} accent="#2e7d32" />
-                  <Field icon={FiCalendar} label="Date of Birth" value={formatDate(p?.date_of_birth ?? "")} accent="#388e3c" />
-                </div>
-              </Section>
-
-              <Section dot="#2e7d32" title="Location">
-                <div className="pv-fields-grid">
-                  <Field icon={FiMapPin} label="City" value={val(p?.city)} accent="#2e7d32" />
-                  <Field icon={FiMapPin} label="State" value={val(p?.state)} accent="#388e3c" />
-                  <Field icon={FiGlobe} label="Country" value={val(p?.country)} accent="#2e7d32" />
-                  <Field icon={FiMapPin} label="Pincode" value={val(p?.postal_code)} accent="#388e3c" />
+                  <Field icon={FiUser} label="Store Name" value={val(p?.store_name)} accent="#2e7d32" />
+                  <Field icon={FiMail} label="Email" value={val(p?.store_email)} accent="#388e3c" />
+                  <Field icon={FiPhone} label="Phone" value={val(p?.store_phone)} accent="#2e7d32" />
+                  <Field icon={FiGlobe} label="Currency" value={val(p?.currency)} accent="#388e3c" />
+                  <Field icon={FiMapPin} label="GST Number" value={val(p?.gst_number)} accent="#2e7d32" />
                 </div>
               </Section>
             </div>
-
           </div>
         )}
-
       </div>
     </div>
   );

@@ -7,6 +7,12 @@ import { getSettings, formatPrice } from "@/services/settings";
 
 interface DashData { kpi: { revenue: number; orders: number; customers: number; products: number; }; charts: { revenueOverTime: { label: string; value: number }[]; ordersByCategory: { label: string; value: number }[]; }; lists: { recentOrders: { id: string; customer: string; total: number; status: string; date: string }[]; }; }
 
+function ClientDate() {
+  const [date, setDate] = useState("");
+  useEffect(() => { setDate(new Date().toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })); }, []);
+  return <>{date}</>;
+}
+
 const PIE_PALETTE = ["#111827", "#4B5563", "#9CA3AF", "#D1D5DB", "#C4923A"];
 
 function Skeleton({ className }: { className?: string }) { return <div className={`animate-pulse bg-gray-100 rounded-xl ${className}`} />; }
@@ -44,7 +50,7 @@ export default function AdminDashboard() {
           <div>
             <div className="flex items-center gap-2 mb-2"><Sparkles size={14} className="text-gray-400" /><span className="text-xs font-bold text-gray-500 uppercase tracking-[0.2em]">Sanctum Overview</span></div>
             <h1 className="text-3xl font-heading text-gray-900">Welcome back, Admin</h1>
-            <p className="text-sm text-gray-500 mt-1 font-body">{new Date().toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
+            <p className="text-sm text-gray-500 mt-1 font-body"><ClientDate /></p>
           </div>
           <button onClick={fetchData} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold transition-all shadow-sm cursor-pointer"><RefreshCw size={14} /> Refresh</button>
         </div>
