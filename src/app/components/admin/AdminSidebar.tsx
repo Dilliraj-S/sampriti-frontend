@@ -82,11 +82,11 @@ export function AdminSidebar() {
       <div className="pl-2 pr-4 pt-6 pb-4 border-b border-gray-200">
         {!collapsed ? (
           <div>
-            <img src="/Assets/sampriti-wordmark.svg" alt="Sampriti" className="h-8 w-auto" />
+            <img src="/Assets/sampriti-logo-transparent.png" alt="Sampriti" className="h-8 w-auto" />
             <p className="text-[12px] pl-3 text-gray-500 font-bold uppercase tracking-wider">Botanicals</p>
           </div>
         ) : (
-          <img src="/Assets/sampriti-wordmark.svg" alt="Sampriti" className="h-8 w-auto" />
+          <img src="/Assets/sampriti-logo-transparent.png" alt="Sampriti" className="h-8 w-auto" />
         )}
       </div>
 
