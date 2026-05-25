@@ -152,10 +152,12 @@ const fallbackProducts = [
 export default function ProductPage() {
   const params = useParams();
   const slug = decodeURIComponent((params.slug as string) || "");
-  const [product, setProduct] = useState(fallbackProducts.find((p) => p.id === slug) || fallbackProducts[0]);
+  const [product, setProduct] = useState<any>(null);
   const [allProducts, setAllProducts] = useState(fallbackProducts);
   const [currency, setCurrency] = useState("INR");
   const [exchangeRate, setExchangeRate] = useState(85);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
@@ -166,60 +168,77 @@ export default function ProductPage() {
   const [hoveredRelated, setHoveredRelated] = useState<string | null>(null);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [thumbSlide, setThumbSlide] = useState(0);
-  const galleryImages = productGallery[slug] || [product.image];
+  const galleryImages = product ? (productGallery[slug] || [product.image]) : [""];
   const maxThumbSlide = Math.max(0, galleryImages.length - 4);
 
   useEffect(() => {
     (async () => {
-      const [pRes, settings] = await Promise.all([
-        api.get<any[]>("/products"),
+      setLoading(true);
+      setNotFound(false);
+
+      const [settings] = await Promise.all([
         getSettings().catch(() => ({ currency: "INR", exchange_rate: "85" }))
       ]);
       if (settings?.currency) setCurrency(settings.currency);
       if (settings?.exchange_rate) setExchangeRate(parseFloat(settings.exchange_rate));
+
+      const s = decodeURIComponent(slug || "").toLowerCase().trim();
+      const fb = fallbackProducts.find((f) => f.id === s);
+      let foundProduct: any = null;
+
+      if (s) {
+        const slugRes = await api.get<any>("/products/slug/" + encodeURIComponent(s));
+        if (slugRes.status && slugRes.data) {
+          foundProduct = slugRes.data;
+        } else {
+          const pRes = await api.get<any[]>("/products");
+          if (pRes.status && pRes.data?.length) {
+            foundProduct = pRes.data.find((p: any) => {
+              if (!p) return false;
+              const apiSlug = (p.slug || "").toLowerCase().trim();
+              const apiName = (p.name || "").toLowerCase().trim();
+              return apiSlug === s || apiSlug.replace(/\s+/g, "-") === s || apiName === s || apiName.replace(/\s+/g, "-") === s;
+            }) || null;
+          }
+        }
+      }
+
+      if (foundProduct) {
+        const parseUsage = (val: any) => {
+          if (typeof val === "string") try { val = JSON.parse(val); } catch { return []; }
+          if (Array.isArray(val)) return val.map((v: any) => ({
+            label: v.label || v.title || "",
+            value: v.value || v.desc || "",
+          }));
+          return [];
+        };
+        const usageDetails = parseUsage(foundProduct.usageDetails);
+        setProduct({
+          id: foundProduct.slug, name: foundProduct.name,
+          subtitle: foundProduct.subtitle || fb?.subtitle || "",
+          category: foundProduct.category?.name || fb?.category || "",
+          price: parseFloat(foundProduct.price) || fb?.price || 0,
+          image: fb ? fb.image : (foundProduct.image || ""),
+          description: foundProduct.description || fb?.description || "",
+          benefits: foundProduct.benefits || fb?.benefits || "",
+          aroma: foundProduct.aroma || fb?.aroma || "",
+          suitedTo: foundProduct.suitedTo || fb?.suitedTo || "",
+          keyIngredients: foundProduct.keyIngredients || fb?.keyIngredients || "",
+          howToUse: foundProduct.howToUse || fb?.howToUse || "",
+          essenceTitle: foundProduct.essenceTitle || fb?.essenceTitle || "",
+          essence: foundProduct.essence || fb?.essence || "",
+          usageDetails: usageDetails.length > 0 ? usageDetails : (fb?.usageDetails || []),
+          hoverImage: foundProduct.hoverImage || fb?.hoverImage || "",
+        });
+      } else if (fb) {
+        setProduct(fb);
+      } else {
+        setNotFound(true);
+      }
+
+      const pRes = await api.get<any[]>("/products");
       if (pRes.status && pRes.data?.length) {
         const fbMap = new Map(fallbackProducts.map(f => [f.id, f]));
-        const s = decodeURIComponent(slug || "").toLowerCase().trim();
-        const apiProduct = s ? pRes.data.find((p: any) => {
-          if (!p) return false;
-          const apiSlug = (p.slug || "").toLowerCase().trim();
-          const apiName = (p.name || "").toLowerCase().trim();
-          return apiSlug === s ||
-                 apiSlug.replace(/\s+/g, "-") === s ||
-                 String(p.id) === slug ||
-                 Number(p.id) === Number(slug) ||
-                 apiName === s ||
-                 apiName.replace(/\s+/g, "-") === s;
-        }) : null;
-        const fb = apiProduct ? fbMap.get(apiProduct.slug) : null;
-        if (apiProduct) {
-          const parseUsage = (val: any) => {
-            if (typeof val === "string") try { val = JSON.parse(val); } catch { return []; }
-            if (Array.isArray(val)) return val.map((v: any) => ({
-              label: v.label || v.title || "",
-              value: v.value || v.desc || "",
-            }));
-            return [];
-          };
-          const usageDetails = parseUsage(apiProduct.usageDetails);
-          setProduct({
-            id: apiProduct.slug, name: apiProduct.name,
-            subtitle: apiProduct.subtitle || fb?.subtitle || "",
-            category: apiProduct.category?.name || fb?.category || "",
-            price: parseFloat(apiProduct.price) || fb?.price || 0,
-            image: fb ? fb.image : (apiProduct.image || ""),
-            description: apiProduct.description || fb?.description || "",
-            benefits: apiProduct.benefits || fb?.benefits || "",
-            aroma: apiProduct.aroma || fb?.aroma || "",
-            suitedTo: apiProduct.suitedTo || fb?.suitedTo || "",
-            keyIngredients: apiProduct.keyIngredients || fb?.keyIngredients || "",
-            howToUse: apiProduct.howToUse || fb?.howToUse || "",
-            essenceTitle: apiProduct.essenceTitle || fb?.essenceTitle || "",
-            essence: apiProduct.essence || fb?.essence || "",
-            usageDetails: usageDetails.length > 0 ? usageDetails : (fb?.usageDetails || []),
-            hoverImage: apiProduct.hoverImage || "",
-          });
-        }
         const merged = pRes.data.map((p: any) => {
           const f = fbMap.get(p.slug);
           const def = fallbackProducts[0];
@@ -241,14 +260,16 @@ export default function ProductPage() {
         merged.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
         setAllProducts(merged);
       }
+
+      setLoading(false);
     })();
   }, [slug]);
 
-  const relatedProducts = allProducts.filter(p => p.id !== product.id);
+  const relatedProducts = product ? allProducts.filter(p => p.id !== product.id) : [];
   const maxRelatedSlide = Math.max(0, relatedProducts.length - 4);
 
   const immersiveProducts = ["shakti-peya", "chandra-rasa"];
-  const isImmersive = immersiveProducts.includes(product.id);
+  const isImmersive = product ? immersiveProducts.includes(product.id) : false;
   const heroImgClass = isImmersive
     ? "object-cover md:object-contain md:p-8"
     : "object-contain p-2 md:object-contain md:p-8";
@@ -258,6 +279,34 @@ export default function ProductPage() {
   const storyContainerClass = isImmersive
   ? "relative overflow-hidden min-h-[340px] sm:min-h-[420px] md:min-h-[520px] bg-transparent md:bg-white"
   : "relative overflow-hidden min-h-[380px] md:min-h-[520px] bg-transparent md:bg-white";
+
+  if (loading) {
+    return (
+      <main className="bg-white min-h-screen" style={{ fontFamily: "var(--font-sans)" }}>
+        <Navbar forceScrolled={true} />
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#A48662]"></div>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
+
+  if (notFound) {
+    return (
+      <main className="bg-white min-h-screen" style={{ fontFamily: "var(--font-sans)" }}>
+        <Navbar forceScrolled={true} />
+        <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
+          <h1 className="text-4xl font-light text-[#2C2A26] mb-4" style={{ fontFamily: "var(--font-serif)" }}>Product Not Found</h1>
+          <p className="text-[#5A554E] mb-8">The product you&#39;re looking for doesn&#39;t exist.</p>
+          <Link href="/shop" className="bg-[#2C2A26] text-white px-8 py-3 text-xs tracking-[0.2em] hover:bg-black transition-all duration-300">
+            Back to Shop
+          </Link>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
 
   const handleAddToCart = () => {
     addItem({ id: product.id, name: product.name, price: product.price, image: product.image, quantity });
