@@ -5,12 +5,13 @@ import { api } from "@/services/api.client";
 import { getSettings, formatPrice } from "@/services/settings";
 import ImageUpload from "@/app/components/admin/ImageUpload";
 import { toast } from "sonner";
+import { saveSectionAssignments, removeSectionAssignments, getSectionAssignments } from "@/app/components/landing/sectionStorage";
 
 interface Product {
   id: number; name: string; categoryId: number; price: number; stock: number; status: string;
   slug: string; subtitle: string; description: string; image: string; hoverImage: string;
   essenceTitle: string; essence: string; keyIngredients: string; howToUse: string; usageDetails: any;
-  aroma: string; suitedTo: string; benefits: string; format: string;
+  aroma: string; suitedTo: string; benefits: string; format: string; homepageSection: string;
   category?: { id: number; name: string; slug: string };
   createdAt: string;
 }
@@ -27,7 +28,7 @@ export default function ProductsPage() {
   const [formData, setFormData] = useState<any>({
     name: "", slug: "", subtitle: "", categoryId: "", price: "", stock: "",
     description: "", image: "", hoverImage: "", essenceTitle: "", essence: "",
-    keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active",
+    keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", homepageSection: "",
   });
 
   const load = async () => {
@@ -38,31 +39,42 @@ export default function ProductsPage() {
     if (sRes?.currency) setCurrency(sRes.currency);
     if (sRes?.exchange_rate) setExchangeRate(parseFloat(sRes.exchange_rate));
     setLoading(false);
+    return pRes.data || [];
   };
 
   useEffect(() => { load(); }, []);
 
-  const openAdd = () => { setEditing(null); setFormData({ name: "", slug: "", subtitle: "", categoryId: "", price: "", stock: "", description: "", image: "", hoverImage: "", essenceTitle: "", essence: "", keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active" }); setShowForm(true); };
+  const openAdd = () => { setEditing(null); setFormData({ name: "", slug: "", subtitle: "", categoryId: "", price: "", stock: "", description: "", image: "", hoverImage: "", essenceTitle: "", essence: "", keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", homepageSection: "" }); setShowForm(true); };
   const openEdit = (p: Product) => {
     setEditing(p);
     let usageArr = p.usageDetails;
     if (typeof usageArr === "string") { try { usageArr = JSON.parse(usageArr); } catch { usageArr = []; } }
     if (!Array.isArray(usageArr)) usageArr = [];
-    setFormData({ ...p, usageDetails: usageArr, categoryId: p.categoryId?.toString() || "", price: p.price?.toString() || "", stock: p.stock?.toString() || "" });
+    const assignments = getSectionAssignments();
+    const sectionFromStorage = assignments[String(p.id)] || assignments[p.slug] || "";
+    setFormData({ ...p, usageDetails: usageArr, categoryId: p.categoryId?.toString() || "", price: p.price?.toString() || "", stock: p.stock?.toString() || "", homepageSection: sectionFromStorage || p.homepageSection || "" });
     setShowForm(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const usageDetails = Array.isArray(formData.usageDetails) ? formData.usageDetails.filter((u: any) => u.title || u.desc) : null;
-    const payload = { ...formData, usageDetails, price: parseFloat(formData.price) || 0, stock: parseInt(formData.stock) || 0, categoryId: formData.categoryId ? parseInt(formData.categoryId) : null };
+    const payload = { ...formData, homepageSection: formData.homepageSection || null, usageDetails, price: parseFloat(formData.price) || 0, stock: parseInt(formData.stock) || 0, categoryId: formData.categoryId ? parseInt(formData.categoryId) : null };
     const res = editing ? await api.put("/products/" + editing.id, payload) : await api.post("/products", payload);
-    if (res.status) { setShowForm(false); load(); toast.success(editing ? "Product updated" : "Product added"); } else toast.error(res.message || "Failed to save product");
+    if (res.status) {
+      setShowForm(false);
+      const loaded = await load();
+      toast.success(editing ? "Product updated" : "Product added");
+      const saved = loaded.find((p: Product) => p.id === res.data?.id) || loaded.find((p: Product) => p.name === formData.name);
+      const savedId = saved?.id || res.data?.id || editing?.id;
+      const savedSlug = saved?.slug || res.data?.slug || editing?.slug || formData.slug;
+      saveSectionAssignments([savedId, savedSlug, formData.slug], formData.homepageSection || "");
+    } else toast.error(res.message || "Failed to save product");
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: number, slug: string) => {
     const res = await api.delete("/products/" + id);
-    if (res.status) { load(); toast.success("Product deleted"); } else toast.error(res.message);
+    if (res.status) { load(); removeSectionAssignments([id, slug]); toast.success("Product deleted"); } else toast.error(res.message);
   };
 
   const filtered = products.filter(p => p.name?.toLowerCase().includes(search.toLowerCase()));
@@ -83,7 +95,7 @@ export default function ProductsPage() {
             </div>
             <form onSubmit={handleSubmit} className="p-5 space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Product Name</label><input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
+                <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Product Name</label><input type="text" value={formData.name} onChange={e => { const n = e.target.value; setFormData({...formData, name: n, slug: formData.slug || n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") }); }} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Subtitle</label><input type="text" value={formData.subtitle} onChange={e => setFormData({...formData, subtitle: e.target.value})} placeholder="e.g. The Elixir of Vitality" className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -94,6 +106,7 @@ export default function ProductsPage() {
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Price ($)</label><input type="number" step="0.01" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Stock</label><input type="number" value={formData.stock} onChange={e => setFormData({...formData, stock: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Format</label><input type="text" value={formData.format} onChange={e => setFormData({...formData, format: e.target.value})} placeholder="e.g. 35g powder" className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
+                <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Homepage Section</label><select value={formData.homepageSection} onChange={e => setFormData({...formData, homepageSection: e.target.value})} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 bg-white text-black"> <option value="">None</option><option value="home">Home</option><option value="infusions">Infusions</option><option value="skincare">Skincare</option><option value="fragrance">Fragrance</option><option value="ceremony">Ceremony</option><option value="atmosphere">Atmosphere</option></select></div>
               </div>
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Description</label><textarea value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={3} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 resize-none text-black" /></div>
               <div className="grid grid-cols-2 gap-4">
@@ -165,7 +178,7 @@ export default function ProductsPage() {
                 <td className="px-6 py-4 font-semibold text-gray-800">{formatPrice(Number(p.price), currency, exchangeRate)}</td>
                 <td className="px-6 py-4 text-gray-600">{p.stock}</td>
                 <td className="px-6 py-4"><span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${p.status === "active" ? "bg-green-50 text-green-700" : p.status === "out_of_stock" ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-700"}`}>{p.status === "active" ? "Active" : p.status === "out_of_stock" ? "Out of Stock" : "Low Stock"}</span></td>
-                <td className="px-6 py-4"><div className="flex items-center gap-1"><button onClick={() => openEdit(p)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-blue-600 transition-colors"><Edit2 size={14} /></button><button onClick={() => handleDelete(p.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={14} /></button></div></td>
+                <td className="px-6 py-4"><div className="flex items-center gap-1"><button onClick={() => openEdit(p)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-blue-600 transition-colors"><Edit2 size={14} /></button>                <button onClick={() => handleDelete(p.id, p.slug)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={14} /></button></div></td>
               </tr>
             ))}
           </tbody>

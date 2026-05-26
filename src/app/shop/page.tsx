@@ -16,10 +16,22 @@ import { formatPrice, getSettings } from "@/services/settings";
 const fallbackProducts = [
   { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png" },
   { id: "chandra-rasa", name: "Chandra Rasa", subtitle: "Sleep Potion", benefits: "Calm · Settling · Restorative", format: "9 Test Tube Kit", price: 54, image: "/Assets/Chandra rasa product hd.webp", hoverImage: "/Assets/chandra rasa hover.webp" },
-  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", benefits: "Antioxidant · Cooling · Gloss", format: "Botanical Profile", price: 42, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
+  { id: "shotharaha", name: "Shotharaha", subtitle: "Dual Black Recovery", benefits: "", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png" },
   { id: "rose", name: "Rose", subtitle: "Rosa Damascena", benefits: "Hydrating · Softening · Heart", format: "Botanical Profile", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
+  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", benefits: "Antioxidant · Cooling · Gloss", format: "Botanical Profile", price: 42, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
   { id: "blue-butterfly-pea", name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", benefits: "Azure · Clarity · Calm", format: "Botanical Profile", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  { id: "black-turmeric", name: "Black Turmeric", subtitle: "Curcuma Caesia", benefits: "Kaya Kalpa · Warmth · Resilience", format: "Botanical Profile", price: 45, image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp" },
+  { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
+  { id: "kanti", name: "Kanti", subtitle: "Red Radiance", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
+  { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
+  { id: "the-sahane", name: "The Sahane", subtitle: "Stone", benefits: "", format: "", price: 36, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
+  { id: "rakta-chandanam", name: "Rakta Chandanam", subtitle: "Red Sandalwood", benefits: "", format: "", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
+  { id: "shveta-chandanam", name: "Shveta Chandanam", subtitle: "White Sandalwood", benefits: "", format: "", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
+  { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
+  { id: "jawa", name: "Jawa", subtitle: "Embers", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
+  { id: "kha", name: "Kha", subtitle: "The Zero Point", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
+  { id: "sandalwood-shavings", name: "Sandalwood Shavings", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
+  { id: "deodar-discs", name: "Deodar Discs", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
+  { id: "black-sambrani", name: "Black Sambrani", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
 ];
 
 const fadeUp = {

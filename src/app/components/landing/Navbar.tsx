@@ -22,7 +22,11 @@ interface Account {
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Shop", href: "/shop" },
+  { label: "Infusions", href: "/category/infusions" },
+  { label: "Skincare", href: "/category/skincare" },
+  { label: "Fragrance", href: "/category/fragrance" },
+  { label: "Ceremony", href: "/category/ceremony" },
+  { label: "Atmospheric", href: "/category/atmospheric" },
   { label: "The House", href: "/the-house" },
   { label: "The Archive", href: "/archive" },
   { label: "Provenance", href: "/provenance" },
@@ -50,7 +54,7 @@ function getCurrentAccount(): Account | null {
 function NavbarLogo({ scrolled }: { scrolled: boolean }) {
   return (
     <span
-      className="relative block w-[148px] min-[360px]:w-[170px] sm:w-[300px] md:w-[380px] lg:w-[390px]"
+      className="relative block"
       aria-label="Sampriti"
     >
       <Image
@@ -59,7 +63,7 @@ function NavbarLogo({ scrolled }: { scrolled: boolean }) {
         width={590}
         height={128}
         priority
-        className="h-auto w-full"
+          className="h-auto w-auto max-h-[35px] sm:max-h-[45px]"
         style={{
           filter: scrolled
             ? "none"
@@ -169,18 +173,18 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
       >
         <div className="relative max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex flex-col items-start lg:items-center">
-            <Link href="/" className="mb-0 shrink-0 lg:mb-6">
+            <Link href="/" className="mb-0 max-w-[55%] shrink-0 sm:max-w-[60%] lg:mb-6 lg:max-w-none">
               <NavbarLogo scrolled={scrolled} />
             </Link>
 
             {/* Desktop nav */}
             <div className="hidden items-center lg:flex">
-              <div className="flex items-center gap-10 xl:gap-12">
+              <div className="flex items-center gap-6 xl:gap-8">
                 {navLinks.map((link) => (
                   <Link
                     key={link.label}
                     href={link.href}
-                    className={`text-[16px] tracking-[0.1em] transition-colors duration-300 xl:text-[17px] ${
+                    className={`text-[14px] tracking-[0.1em] transition-colors duration-300 xl:text-[15px] ${
                       headerIsLight
                         ? pathname === link.href
                           ? "text-[#2C2A26] font-medium"

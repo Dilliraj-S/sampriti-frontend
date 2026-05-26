@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -16,144 +15,298 @@ import ProductImage from "@/app/components/landing/ProductImage";
 const productGallery: Record<string, string[]> = {
   "shakti-peya": ["/Assets/shakti peya.avif", "/Assets/shakti peya product hd.png", "/Assets/shakti peya product display.png", "/Assets/shakti peya product clean.png", "/Assets/shakti peya product 1.png", "/Assets/shakti peya hover.png"],
   "chandra-rasa": ["/Assets/chandra rasa.avif", "/Assets/Chandra rasa product hd.webp", "/Assets/Chandra rasa product display.webp", "/Assets/Chandra rasa product clean.webp", "/Assets/Chandra rasa product 1.webp", "/Assets/chandra rasa hover.webp"],
-  "hibiscus": ["/Assets/hibiscus hd.png", "/Assets/hibiscus new.png", "/Assets/hibiscus display.png", "/Assets/hibiscus clean.png", "/Assets/hibiscus hover.png"],
+  "shotharaha": ["/Assets/shakti peya product hd.png", "/Assets/shakti peya hover.png"],
   "rose": ["/Assets/rose hd.webp", "/Assets/rose new.webp", "/Assets/rose display.webp", "/Assets/rose clean.webp", "/Assets/Rose hover.webp", "/Assets/Sampriti Rose zoom out.png"],
+  "hibiscus": ["/Assets/hibiscus hd.png", "/Assets/hibiscus new.png", "/Assets/hibiscus display.png", "/Assets/hibiscus clean.png", "/Assets/hibiscus hover.png"],
   "blue-butterfly-pea": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea new.webp", "/Assets/blue butterfly pea display.webp", "/Assets/blue butterfly pea clean.webp", "/Assets/blue butterfly pea hover.webp"],
-  "black-turmeric": ["/Assets/black turmeric hd.webp", "/Assets/black turmeric new.webp", "/Assets/black turmeric display.webp", "/Assets/black turmeric clean.webp", "/Assets/black turmeric hover.webp", "/Assets/Black Turmeric Side display.webp"],
+  "vatari": ["/Assets/hibiscus hd.png", "/Assets/hibiscus hover.png"],
+  "kanti": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
+  "blue-ojas": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
+  "the-sahane": ["/Assets/hibiscus hd.png", "/Assets/hibiscus hover.png"],
+  "rakta-chandanam": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
+  "shveta-chandanam": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
+  "parjanya": ["/Assets/hibiscus hd.png", "/Assets/hibiscus hover.png"],
+  "jawa": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
+  "kha": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
+  "sandalwood-shavings": ["/Assets/hibiscus hd.png", "/Assets/hibiscus hover.png"],
+  "deodar-discs": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
+  "black-sambrani": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
 };
 
-const fallbackProducts = [
+type UsageDetail = {
+  label: string;
+  value: string;
+};
+
+type Product = {
+  id: string;
+  name: string;
+  subtitle: string;
+  category: string;
+  price: number;
+  format?: string;
+  image: string;
+  hoverImage: string;
+  benefits: string;
+  description: string;
+  aroma: string;
+  suitedTo: string;
+  keyIngredients: string;
+  howToUse: string;
+  usageDetails: UsageDetail[];
+  essenceTitle: string;
+  essence: string;
+  createdAt?: string;
+};
+
+type ApiProduct = {
+  slug: string;
+  name: string;
+  subtitle?: string;
+  category?: { name?: string };
+  price?: string | number;
+  format?: string;
+  image?: string;
+  hoverImage?: string;
+  benefits?: string;
+  description?: string;
+  aroma?: string;
+  suitedTo?: string;
+  keyIngredients?: string;
+  howToUse?: string;
+  usageDetails?: unknown;
+  essenceTitle?: string;
+  essence?: string;
+  createdAt?: string;
+};
+
+const fallbackProducts: Product[] = [
   {
     id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir",
-    category: "Activation / Anti-Aging / Radiance",
-    price: 54,
-    image: "/Assets/shakti peya.avif", hoverImage: "/Assets/shakti peya hover.png", benefits: "",
+    category: "Sampriti Botanicals",
+    price: 54, format: "9 Test Tube Kit",
+    image: "/Assets/shakti peya.avif", hoverImage: "/Assets/shakti peya hover.png",
+    benefits: "Activation · Anti-Aging · Radiance",
     description: "Shakti Peya is designed to support sustained vitality, circulation, digestion, and metabolic balance. The formulation encourages steady energy, warmth, and resilience - without sharp stimulation or depletion.",
     aroma: "Warming, herbaceous, grounding",
     suitedTo: "Those seeking sustained energy, mental clarity, and metabolic balance",
-    keyIngredients: "Cardamom, Coriander Seeds, Curry Leaves, Pomegranate Peel, Rose, Hibiscus, Bay Leaf, Cinnamon, Turmeric, Ginger, Lemon",
-    howToUse: "To prepare this revitalizing infusion, begin by emptying the contents of a single test tube into two cups of fresh water. Bring to a rolling boil for two to three minutes, allowing the eleven botanical ingredients to release their essence, then turn off the heat and let the tea rest for three to four minutes to reach its full potency.",
+    keyIngredients: "Cardamom, Coriander Seeds, Curry Leaves, Pomegranate Peel, Rose Damascus, Hibiscus, Bay Leaf, Cinnamon, Turmeric, Ginger, Lemon",
+    howToUse: "The Ritual of Shakti Peya\n\nTo prepare this revitalizing infusion, begin by emptying the contents of a single test tube into two cups of fresh water. Bring to a rolling boil for two to three minutes, allowing the eleven botanical ingredients to release their essence, then turn off the heat and let the tea rest for three to four minutes to reach its full potency. Once brewed, strain the liquid into your cup to reveal its signature pink hue.\n\nBest Times to Enjoy\n\nMorning: Consume before breakfast to awaken your senses and the digestive fire.\nAfternoon: Enjoy during tea time for a natural, caffeine-free energy boost.\n\nDosage\n\nOne test tube per day",
     usageDetails: [
-      { label: "Serving", value: "One test tube with two cups of fresh water" },
-      { label: "Preparation", value: "Bring to a rolling boil for two to three minutes" },
-      { label: "Resting time", value: "Allow the botanicals to settle for three to four minutes" },
-      { label: "Best time", value: "Morning or midday, when sustained activation is desired" }
+      { label: "Morning", value: "Consume before breakfast to awaken your senses and the digestive fire." },
+      { label: "Afternoon", value: "Enjoy during tea time for a natural, caffeine-free energy boost." },
+      { label: "Dosage", value: "One test tube per day" }
     ],
-    essenceTitle: "The Essence of Activation",
-    essence: "A calibrated botanical sequence designed to support metabolic vitality and digestive harmony. This potent infusion provides a rich source of antioxidants to balance the body's inflammatory response, while assisting in hormonal equilibrium and the preservation of cellular longevity."
+    essenceTitle: "Botanical Highlights",
+    essence: "A calibrated botanical sequence designed to support metabolic vitality and digestive harmony by aiding in natural de-bloating and nutrient assimilation. This potent infusion provides a rich source of antioxidants to balance the body's inflammatory response, while assisting in hormonal equilibrium and the preservation of cellular longevity."
   },
   {
     id: "chandra-rasa",
     name: "Chandra Rasa",
     subtitle: "Sleep Potion",
-    category: "Calm / Settling / Restorative",
-    price: 54,
-    image: "/Assets/chandra rasa.avif", hoverImage: "/Assets/chandra rasa hover.webp", benefits: "",
-    description: "A nocturnal composition for the quiet transition into rest, crafted to support calm and restoration. This botanical sequence provides comprehensive support for the parasympathetic nervous system.",
+    category: "Sampriti Botanicals",
+    price: 54, format: "9 Test Tube Kit",
+    image: "/Assets/chandra rasa.avif", hoverImage: "/Assets/chandra rasa hover.webp",
+    benefits: "Calm · Settling · Restorative",
+    description: "This botanical sequence provides comprehensive support for the parasympathetic nervous system, aiding in the reduction of cognitive noise and the stabilization of the stress response through adaptogenic modulation. It assists the body in establishing a consistent nighttime recovery cycle, supporting deeper sleep quality and the natural cellular repair processes essential for long-term neurological health.",
     aroma: "Calming, earthy, settling",
     suitedTo: "Those seeking restorative sleep and nervous system balance",
-    keyIngredients: "Sarpagandha, Blue Butterfly Pea, Cloves, Fennel, Licorice, Jatamansi, Brahmi, Ashwagandha, Peppermint",
-    howToUse: "To invite the restorative stillness of the evening, begin by emptying the contents of a single test tube into two cups of fresh water. Bring the blend to a rolling boil for two to three minutes, allowing the calming botanicals to fully release their essence, then turn off the heat and let the infusion rest for three to four minutes to reach its peak serenity.",
+    keyIngredients: "Brahmi (Gotu Kola), Jatamansi, Ashwagandha, Licorice, Saffron, Rose Petals, Warm Milk",
+    howToUse: "9 servings per kit.\n\nOur commitment to the earth is as deep as our commitment to your wellness. All Sampriti products are housed in recyclable glass test tubes with biodegradable cork stoppers. Our outer packaging is made from 100% post-consumer recycled paper and printed with soy-based inks. Please reuse or recycle thoughtfully.",
     usageDetails: [
-      { label: "Serving", value: "One test tube with two cups of fresh water" },
-      { label: "Preparation", value: "Bring to a rolling boil for two to three minutes" },
-      { label: "Resting time", value: "Let the infusion rest for three to four minutes" },
-      { label: "Best time", value: "Evening, ideally 30 to 45 minutes before rest" }
+      { label: "Servings", value: "9 servings per kit." }
     ],
-    essenceTitle: "The Essence of Rest",
-    essence: "The carminative properties of Fennel and Peppermint ensure digestive ease and physical weightlessness, allowing the system to focus entirely on restorative rest and emotional recalibration without nocturnal interruption."
+    essenceTitle: "The Ritual of Chandra Rasa",
+    essence: "To invite the restorative stillness of the evening, begin by emptying the contents of a single test tube into two cups of fresh water. Bring the blend to a rolling boil for two to three minutes, allowing the calming botanicals to fully release their essence, then turn off the heat and let the infusion rest for three to four minutes to reach its peak serenity. Once brewed, strain the liquid into your cup to reveal its deep, tranquil hue.\n\nChandra Rasa use\n\nBest Time to Enjoy\nThis soothing sleep potion is best enjoyed in the evening before bed, serving as a gentle transition into a state of profound relaxation and high-quality, calm sleep.\n\nThe carminative properties of Fennel and Peppermint ensure digestive ease and physical weightlessness, allowing the system to focus entirely on restorative rest and emotional recalibration without nocturnal interruption."
   },
   {
     id: "hibiscus",
     name: "Hibiscus",
     subtitle: "Rosa-Sinensis",
-    category: "Antioxidant Infusion",
+    category: "Sampriti Botanicals",
     price: 42,
     image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", benefits: "",
     description: "A vibrant infusion of sun-drenched petals, known for its high antioxidant content and ability to support natural collagen production. This botanical essence revitalises the skin's appearance, lending a youthful radiance.",
     aroma: "Tart, floral, refreshing",
-    suitedTo: "Those seeking cardiovascular support and radiant skin",
+    suitedTo: "Those seeking cardiovascular support, radiant skin, and antioxidant protection",
     keyIngredients: "Organic Hibiscus Petals, Vitamin C, Anthocyanins",
-    howToUse: "Steep one serving in hot water for 4–5 minutes. May be enjoyed hot or chilled over ice. Add honey to taste if desired.",
-    usageDetails: [
-      { label: "Serving", value: "One serving in a cup or teapot" },
-      { label: "Preparation", value: "Pour hot water over the petals" },
-      { label: "Steeping time", value: "Four to five minutes" },
-      { label: "Finish", value: "Enjoy warm, or chill over ice with honey if desired" }
-    ],
-    essenceTitle: "The Crimson Catalyst",
-    essence: "Hibiscus has been revered across cultures for its remarkable concentration of anthocyanins and polyphenols. This infusion captures the essence of the bloom in its most bioavailable form, supporting cardiovascular health and radiant skin."
+    howToUse: "Our commitment to the earth is as deep as our commitment to your wellness. All Sampriti products are housed in recyclable glass test tubes with biodegradable cork stoppers. Our outer packaging is made from 100% post-consumer recycled paper and printed with soy-based inks. Please reuse or recycle thoughtfully.",
+    usageDetails: [],
+    essenceTitle: "A Botanical Antioxidant",
+    essence: "The hibiscus flower has been revered across cultures for its remarkable concentration of anthocyanins and polyphenols. This infusion captures the essence of the bloom in its most bioavailable form, supporting cardiovascular health and radiant skin.\n\nHibiscus Rosa-Sinensis use"
   },
   {
     id: "rose",
     name: "Rose",
     subtitle: "Rosa Damascena",
-    category: "Hydrating Essence",
+    category: "Sampriti Botanicals",
     price: 42,
     image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", benefits: "",
     description: "Steam-distilled from hand-picked petals at dawn. A deeply hydrating and soothing essence that balances the skin's pH and calms the senses. This timeless botanical provides comfort and long-lasting moisture.",
     aroma: "Rich, floral, deeply comforting",
     suitedTo: "Those seeking hydration, emotional balance, and sensory refinement",
     keyIngredients: "Rosa Damascena Petals, Rosewater, Natural Essential Oils",
-    howToUse: "Dissolve one serving in warm water or milk.\nSip slowly and mindfully.\nIdeal as an afternoon ritual or evening wind-down.",
-    usageDetails: [
-      { label: "Serving", value: "One serving in warm water or milk" },
-      { label: "Preparation", value: "Stir until fully dissolved and aromatic" },
-      { label: "Ritual", value: "Sip slowly and mindfully" },
-      { label: "Best time", value: "Afternoon pause or gentle evening wind-down" }
-    ],
+    howToUse: "Rose\n\nDissolve one serving in warm water or milk.\nSip slowly and mindfully.\nIdeal as an afternoon ritual or evening wind-down.",
+    usageDetails: [],
     essenceTitle: "The Essence of Calm",
-    essence: "Distilled from organically cultivated rose petals, this elixir carries centuries of botanical wisdom. Rose has long been associated with emotional equilibrium and gentle nervous system support — a potion for the heart and the mind alike."
+    essence: "Distilled from organically cultivated rose petals, this elixir carries centuries of botanical wisdom. Rose has long been associated with emotional equilibrium and gentle nervous system support — a potion for the heart and the mind alike.\n\nRose use"
   },
   {
     id: "blue-butterfly-pea",
     name: "Blue Butterfly Pea",
     subtitle: "Clitoria Ternatea",
-    category: "Azure Infusion",
+    category: "Sampriti Botanicals",
     price: 42,
     image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", benefits: "",
     description: "A brilliant azure infusion rich in anthocyanins. Supports cognitive function and provides a powerful shield against environmental stressors. This antioxidant powerhouse promotes a calm, even tone.",
     aroma: "Subtle, earthy, naturally sweet",
-    suitedTo: "Those seeking cognitive support and stress relief",
+    suitedTo: "Those seeking cognitive support, stress relief, and antioxidant protection",
     keyIngredients: "Butterfly Pea Flower Extract, Proanthocyanidins",
-    howToUse: "Steep one serving in hot water for 3–4 minutes to reveal the signature blue hue. Add a squeeze of lemon to watch it transform to violet. Enjoy hot or iced throughout the day.",
-    usageDetails: [
-      { label: "Serving", value: "One serving in hot water" },
-      { label: "Steeping time", value: "Three to four minutes, until the blue hue develops" },
-      { label: "Optional", value: "Add lemon to shift the infusion toward violet" },
-      { label: "Finish", value: "Enjoy hot for calm focus, or pour over ice" }
-    ],
-    essenceTitle: "The Azure Elixir",
-    essence: "The striking blue pigment of Clitoria ternatea is more than visual spectacle — it is a marker of potent anthocyanin content. This flower has been used in Ayurvedic traditions for centuries to enhance cognitive function and promote tranquility."
+    howToUse: "Blue Butterfly Pea\n\nSteep one serving in hot water for 3–4 minutes to reveal the signature blue hue.\nAdd a squeeze of lemon to watch it transform to violet.\nEnjoy hot or iced throughout the day.",
+    usageDetails: [],
+    essenceTitle: "Nature's Chromatic Wonder",
+    essence: "The striking blue pigment of Clitoria ternatea is more than visual spectacle — it is a marker of potent anthocyanin content. This flower has been used in Ayurvedic and Southeast Asian traditions for centuries to enhance cognitive function and promote tranquillity.\n\nBlue Butterfly Pea use"
   },
   {
     id: "black-turmeric",
     name: "Black Turmeric",
     subtitle: "Curcuma Caesia",
-    category: "Kaya Kalpa Agent",
+    category: "Sampriti Botanicals",
     price: 45,
     image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp", benefits: "",
     description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity. Black Turmeric is revered in traditional medicine for its exceptional anti-inflammatory and rejuvenative properties.",
     aroma: "Deep, earthy, camphoraceous",
-    suitedTo: "Those seeking cellular renewal and deep recovery",
+    suitedTo: "Those seeking cellular renewal, deep recovery, and longevity support",
     keyIngredients: "Black Turmeric Rhizome, Curcuminoids, Essential Volatile Oils",
-    howToUse: "Dissolve one serving in warm water with a pinch of black pepper. Black pepper enhances absorption of curcumin compounds. Best taken in the morning on an empty stomach.",
-    usageDetails: [
-      { label: "Serving", value: "One serving in warm water" },
-      { label: "Preparation", value: "Add a small pinch of black pepper and stir until dissolved" },
-      { label: "Purpose", value: "Black pepper supports absorption of curcumin compounds" },
-      { label: "Best time", value: "Morning on an empty stomach, unless your routine requires otherwise" }
-    ],
-    essenceTitle: "The Shadow Catalyst",
-    essence: "Black turmeric is among the rarest members of the Curcuma family. Its distinctive dark rhizome contains a unique profile of curcuminoids that far surpass common turmeric in bioactivity, offering profound anti-inflammatory and adaptogenic support."
+    howToUse: "Black Turmeric\n\nDissolve one serving in warm water with a pinch of black pepper.\nBlack pepper enhances absorption of curcumin compounds.\nBest taken in the morning on an empty stomach.",
+    usageDetails: [],
+    essenceTitle: "Ancient Root, Modern Science",
+    essence: "Black turmeric is among the rarest members of the Curcuma family. Its distinctive dark rhizome contains a unique profile of curcuminoids that far surpass common turmeric in bioactivity, offering profound anti-inflammatory and adaptogenic support.\n\nBlack Turmeric use"
+  },
+  {
+    id: "shotharaha",
+    name: "Shotharaha", subtitle: "Dual Black Recovery",
+    category: "Restorative Infusion",
+    price: 54, format: "9 Test Tube Kit",
+    image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "vatari",
+    name: "Vatari", subtitle: "Botanical Botox",
+    category: "Skincare Ritual",
+    price: 48, format: "Botanical Profile",
+    image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "kanti",
+    name: "Kanti", subtitle: "Red Radiance",
+    category: "Skincare Ritual",
+    price: 48, format: "Botanical Profile",
+    image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "blue-ojas",
+    name: "Blue Ojas", subtitle: "Vitality Concentrate",
+    category: "Skincare Ritual",
+    price: 48, format: "Botanical Profile",
+    image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "the-sahane",
+    name: "The Sahane", subtitle: "Stone",
+    category: "Ceremony",
+    price: 36, format: "",
+    image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "rakta-chandanam",
+    name: "Rakta Chandanam", subtitle: "Red Sandalwood",
+    category: "Ceremony",
+    price: 42, format: "",
+    image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "shveta-chandanam",
+    name: "Shveta Chandanam", subtitle: "White Sandalwood",
+    category: "Ceremony",
+    price: 42, format: "",
+    image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "parjanya",
+    name: "Parjanya", subtitle: "The First Rain",
+    category: "Fragrance",
+    price: 54, format: "Botanical Profile",
+    image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "jawa",
+    name: "Jawa", subtitle: "Embers",
+    category: "Fragrance",
+    price: 54, format: "Botanical Profile",
+    image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "kha",
+    name: "Kha", subtitle: "The Zero Point",
+    category: "Fragrance",
+    price: 54, format: "Botanical Profile",
+    image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "sandalwood-shavings",
+    name: "Sandalwood Shavings", subtitle: "",
+    category: "Atmospheric",
+    price: 28, format: "",
+    image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "deodar-discs",
+    name: "Deodar Discs", subtitle: "",
+    category: "Atmospheric",
+    price: 28, format: "",
+    image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
+  },
+  {
+    id: "black-sambrani",
+    name: "Black Sambrani", subtitle: "",
+    category: "Atmospheric",
+    price: 28, format: "",
+    image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", benefits: "",
+    description: "", aroma: "", suitedTo: "", keyIngredients: "",
+    howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   }
 ];
 
 export default function ProductPage() {
   const params = useParams();
   const slug = decodeURIComponent((params.slug as string) || "");
-  const [product, setProduct] = useState<any>(null);
-  const [allProducts, setAllProducts] = useState(fallbackProducts);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [allProducts, setAllProducts] = useState<Product[]>(fallbackProducts);
   const [currency, setCurrency] = useState("INR");
   const [exchangeRate, setExchangeRate] = useState(85);
   const [loading, setLoading] = useState(true);
@@ -184,16 +337,16 @@ export default function ProductPage() {
 
       const s = decodeURIComponent(slug || "").toLowerCase().trim();
       const fb = fallbackProducts.find((f) => f.id === s);
-      let foundProduct: any = null;
+      let foundProduct: ApiProduct | null = null;
 
       if (s) {
-        const slugRes = await api.get<any>("/products/slug/" + encodeURIComponent(s));
+        const slugRes = await api.get<ApiProduct>("/products/slug/" + encodeURIComponent(s));
         if (slugRes.status && slugRes.data) {
           foundProduct = slugRes.data;
         } else {
-          const pRes = await api.get<any[]>("/products");
+          const pRes = await api.get<ApiProduct[]>("/products");
           if (pRes.status && pRes.data?.length) {
-            foundProduct = pRes.data.find((p: any) => {
+            foundProduct = pRes.data.find((p) => {
               if (!p) return false;
               const apiSlug = (p.slug || "").toLowerCase().trim();
               const apiName = (p.name || "").toLowerCase().trim();
@@ -204,60 +357,69 @@ export default function ProductPage() {
       }
 
       if (foundProduct) {
-        const parseUsage = (val: any) => {
+        const useFallbackCopy = fb?.id === "shakti-peya" || fb?.id === "chandra-rasa" || fb?.id === "black-turmeric" || fb?.id === "hibiscus" || fb?.id === "rose" || fb?.id === "blue-butterfly-pea";
+        const parseUsage = (val: unknown): UsageDetail[] => {
           if (typeof val === "string") try { val = JSON.parse(val); } catch { return []; }
-          if (Array.isArray(val)) return val.map((v: any) => ({
-            label: v.label || v.title || "",
-            value: v.value || v.desc || "",
-          }));
+          if (Array.isArray(val)) return val.map((v) => {
+            const item = v && typeof v === "object" ? v as Record<string, unknown> : {};
+            return {
+              label: String(item.label || item.title || ""),
+              value: String(item.value || item.desc || ""),
+            };
+          });
           return [];
         };
         const usageDetails = parseUsage(foundProduct.usageDetails);
         setProduct({
-          id: foundProduct.slug, name: foundProduct.name,
-          subtitle: foundProduct.subtitle || fb?.subtitle || "",
-          category: foundProduct.category?.name || fb?.category || "",
-          price: parseFloat(foundProduct.price) || fb?.price || 0,
+          id: foundProduct.slug,
+          name: fb?.name || foundProduct.name,
+          subtitle: fb?.subtitle || foundProduct.subtitle || "",
+          category: useFallbackCopy ? fb?.category || "" : (foundProduct.category?.name || fb?.category || ""),
+          price: fb?.price || parseFloat(String(foundProduct.price || 0)) || 0,
+          format: fb?.format || foundProduct.format || "",
           image: fb ? fb.image : (foundProduct.image || ""),
-          description: foundProduct.description || fb?.description || "",
-          benefits: foundProduct.benefits || fb?.benefits || "",
-          aroma: foundProduct.aroma || fb?.aroma || "",
-          suitedTo: foundProduct.suitedTo || fb?.suitedTo || "",
-          keyIngredients: foundProduct.keyIngredients || fb?.keyIngredients || "",
-          howToUse: foundProduct.howToUse || fb?.howToUse || "",
-          essenceTitle: foundProduct.essenceTitle || fb?.essenceTitle || "",
-          essence: foundProduct.essence || fb?.essence || "",
-          usageDetails: usageDetails.length > 0 ? usageDetails : (fb?.usageDetails || []),
+          description: useFallbackCopy ? fb?.description || "" : (foundProduct.description || fb?.description || ""),
+          benefits: useFallbackCopy && fb?.id === "shakti-peya" ? "" : (fb?.benefits || foundProduct.benefits || ""),
+          aroma: useFallbackCopy ? fb?.aroma || "" : (foundProduct.aroma || fb?.aroma || ""),
+          suitedTo: useFallbackCopy ? fb?.suitedTo || "" : (foundProduct.suitedTo || fb?.suitedTo || ""),
+          keyIngredients: useFallbackCopy ? fb?.keyIngredients || "" : (foundProduct.keyIngredients || fb?.keyIngredients || ""),
+          howToUse: useFallbackCopy ? fb?.howToUse || "" : (foundProduct.howToUse || fb?.howToUse || ""),
+          essenceTitle: useFallbackCopy ? fb?.essenceTitle || "" : (foundProduct.essenceTitle || fb?.essenceTitle || ""),
+          essence: useFallbackCopy ? fb?.essence || "" : (foundProduct.essence || fb?.essence || ""),
+          usageDetails: useFallbackCopy ? (fb?.usageDetails || []) : (usageDetails.length > 0 ? usageDetails : (fb?.usageDetails || [])),
           hoverImage: foundProduct.hoverImage || fb?.hoverImage || "",
         });
       } else if (fb) {
-        setProduct(fb);
+        setProduct(fb.id === "shakti-peya" ? { ...fb, benefits: "" } : fb);
       } else {
         setNotFound(true);
       }
 
-      const pRes = await api.get<any[]>("/products");
+      const pRes = await api.get<ApiProduct[]>("/products");
       if (pRes.status && pRes.data?.length) {
         const fbMap = new Map(fallbackProducts.map(f => [f.id, f]));
-        const merged = pRes.data.map((p: any) => {
+        const merged: Product[] = pRes.data.map((p) => {
           const f = fbMap.get(p.slug);
           const def = fallbackProducts[0];
           return {
-            id: p.slug, name: p.name, subtitle: p.subtitle || f?.subtitle || "",
+            id: p.slug,
+            name: f?.name || p.name,
+            subtitle: f?.subtitle || p.subtitle || "",
             category: p.category?.name || f?.category || "",
-            price: parseFloat(p.price) || (f?.price ?? 0),
+            price: f?.price || parseFloat(String(p.price || 0)) || 0,
+            format: f?.format || p.format || "",
             image: f ? f.image : (p.image || def.image),
             hoverImage: f ? f.hoverImage : (p.hoverImage || ""),
             description: p.description || f?.description || "",
-            benefits: p.benefits || f?.benefits || "",
+            benefits: f?.benefits || p.benefits || "",
             aroma: f?.aroma || "", suitedTo: f?.suitedTo || "",
             keyIngredients: f?.keyIngredients || "", howToUse: f?.howToUse || "",
             essenceTitle: f?.essenceTitle || "", essence: f?.essence || "",
-            usageDetails: p.usageDetails || f?.usageDetails || [],
+            usageDetails: f?.usageDetails || [],
             createdAt: p.createdAt,
           };
         });
-        merged.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        merged.sort((a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime());
         setAllProducts(merged);
       }
 
@@ -270,6 +432,7 @@ export default function ProductPage() {
 
   const immersiveProducts = ["shakti-peya", "chandra-rasa"];
   const isImmersive = product ? immersiveProducts.includes(product.id) : false;
+  const isShaktiPeya = product?.id === "shakti-peya";
   const heroImgClass = isImmersive
     ? "object-cover md:object-contain md:p-8"
     : "object-contain p-2 md:object-contain md:p-8";
@@ -357,8 +520,8 @@ export default function ProductPage() {
                   <div className="overflow-hidden bg-white">
                     <div className="flex gap-3 transition-transform duration-400" style={{ transform: `translateX(-${thumbSlide * 25}%)` }}>
                       {galleryImages.map((img, i) => (
-                        <button key={i} onClick={() => setGalleryIndex(i)} className={`flex-shrink-0 w-[calc(25%-9px)] aspect-square rounded-lg overflow-hidden border bg-white transition-all cursor-pointer ${i === galleryIndex ? "border-[#A48662] ring-1 ring-[#A48662]" : "border-gray-200 hover:border-gray-400"}`}>
-                          <img src={img} alt={`${product.name} view ${i + 1}`} className="w-full h-full object-cover" />
+                        <button key={i} onClick={() => setGalleryIndex(i)} className={`relative flex-shrink-0 w-[calc(25%-9px)] aspect-square rounded-lg overflow-hidden border bg-white transition-all cursor-pointer ${i === galleryIndex ? "border-[#A48662] ring-1 ring-[#A48662]" : "border-gray-200 hover:border-gray-400"}`}>
+                          <ProductImage src={img} alt={`${product.name} view ${i + 1}`} fill className="object-cover" />
                         </button>
                       ))}
                     </div>
@@ -374,6 +537,15 @@ export default function ProductPage() {
                 {product.name}
               </h1>
               <p className="text-[#5A554E] text-lg mb-6">{product.subtitle}</p>
+              {isShaktiPeya && product.description && (
+                <p className="text-[#5A554E] leading-relaxed mb-6">{product.description}</p>
+              )}
+              {!isShaktiPeya && product.benefits && (
+                <p className="text-[#5A554E] text-lg mb-6">{product.benefits}</p>
+              )}
+              {product.format && (
+                <p className="text-[#5A554E] mb-6">{product.format}</p>
+              )}
               <p className="text-[#2C2A26] text-3xl mb-4" style={{ fontFamily: "var(--font-serif)" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
 
               {/* Quantity & Add to Cart */}
@@ -394,7 +566,7 @@ export default function ProductPage() {
                   {["description", "ingredients", "howToUse"].map((tab) => (
                     <button key={tab} onClick={() => setActiveTab(tab)}
                       className={`py-4 text-[10px] md:text-xs tracking-[0.15em] md:tracking-[0.2em] uppercase cursor-pointer ${activeTab === tab ? "text-[#A48662] border-b-2 border-[#A48662]" : "text-[#5A554E] hover:text-[#2C2A26]"}`}>
-                      {tab === "howToUse" ? "Servings" : tab === "ingredients" ? "Key ingredients" : tab}
+                      {tab === "howToUse" ? "Servings" : tab === "ingredients" ? "Ingredients" : tab}
                     </button>
                   ))}
                 </div>
@@ -417,7 +589,7 @@ export default function ProductPage() {
                       <p className="text-[#5A554E] leading-relaxed whitespace-pre-line">{product.howToUse}</p>
                       {product.usageDetails?.length > 0 && (
                         <div className="pt-4 border-t border-[#E5DCCF] space-y-3">
-                          {product.usageDetails.map((item: any) => (
+                          {product.usageDetails.map((item: UsageDetail) => (
                             <div key={item.label} className="flex gap-2">
                               <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-[#2C2A26] min-w-[100px]">{item.label}:</span>
                               <span className="text-sm text-[#5A554E]">{item.value}</span>
@@ -511,13 +683,13 @@ export default function ProductPage() {
                     className="mb-6 text-3xl font-light leading-tight text-[#2C2A26] md:text-4xl"
                     style={{ fontFamily: "var(--font-serif)" }}
                   >
-                    How to use
+                    How to Use
                   </h2>
                   <p className="leading-[1.85] text-[#5A554E] whitespace-pre-line">
                     {product.howToUse}
                   </p>
                   <div className="mt-8 border-t border-[#E5DCCF]">
-                    {product.usageDetails.map((item) => (
+                    {product.usageDetails.map((item: UsageDetail) => (
                       <div key={item.label}
                         className="grid gap-2 border-b border-[#E5DCCF] py-4 md:grid-cols-[140px_1fr]"
                       >
@@ -543,15 +715,6 @@ export default function ProductPage() {
           </div>
 
           {/* ── Botanical Highlights / Essence ────────────────────────────── */}
-          <div className="mt-24">
-            <h2 className="text-[#2C2A26] text-2xl md:text-3xl font-light mb-6 text-center" style={{ fontFamily: "var(--font-serif)" }}>
-              {product.essenceTitle}
-            </h2>
-            <p className="text-[#5A554E] max-w-2xl mx-auto leading-relaxed text-center">
-              {product.essence}
-            </p>
-          </div>
-
           {/* ── You may also like ─────────────────────────────────────────── */}
           {relatedProducts.length > 0 && (
             <div className="mt-24 mb-16">

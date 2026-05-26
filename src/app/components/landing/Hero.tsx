@@ -146,7 +146,7 @@ export default function Hero() {
           variants={fadeInSlow}
           initial="hidden"
           animate="show"
-          className="w-full max-w-3xl text-center"
+          className="w-full max-w-[900px] text-center"
         >
           {heroBanners.length > 0 ? (
             <motion.div
@@ -155,19 +155,19 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <p className="mb-3 text-[14px] font-medium tracking-[0.08em] text-white/90 uppercase">
+              <p className="mb-3 text-[clamp(0.6rem,1.5vw,0.75rem)] tracking-[0.1em] text-white/90" style={{ fontFamily: "var(--font-heading)" }}>
                 {heroBanners[currentBanner]?.title || "Rooted In"}
               </p>
             </motion.div>
           ) : (
-            <p className="mb-3 text-[14px] font-medium tracking-[0.08em] text-white">
+            <p className="mb-3 text-[clamp(0.6rem,1.5vw,0.75rem)] tracking-[0.1em] text-white" style={{ fontFamily: "var(--font-heading)" }}>
               Rooted In
             </p>
           )}
 
           <h1
-            className="mb-4 text-white text-3xl font-light leading-[1.15] tracking-[0.1em] sm:text-4xl sm:tracking-[0.18em] md:text-5xl md:tracking-[0.22em]"
-            style={{ fontFamily: "var(--font-sans)" }}
+            className="text-white font-[400] leading-[1.1] tracking-[0.1em] mx-auto"
+            style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.5rem,5vw,2.5rem)", textShadow: "0 2px 10px rgba(0,0,0,0.3)", maxWidth: "900px" }}
           >
             {heroBanners.length > 0 ? "Discover Our Collection" : "Living Herbal Lineages"}
           </h1>
@@ -176,14 +176,10 @@ export default function Hero() {
             variants={fadeInDelay}
             initial="hidden"
             animate="show"
-            className="mx-auto mb-6 max-w-[94vw] text-center text-[clamp(10px,3vw,20px)] font-semibold leading-relaxed text-white/85"
+            className="mx-auto mb-6 text-center text-[clamp(0.85rem,1.5vw,1.05rem)] font-[400] leading-[1.6] text-white/90 max-w-[600px]"
+            style={{ fontFamily: "var(--font-body)", textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}
           >
-            <span className="block whitespace-nowrap">
-              A botanical house of ritual science and disciplined formulation,
-            </span>
-            <span className="block whitespace-nowrap">
-              guided by the quiet intelligence of the earth.
-            </span>
+            A botanical house of ritual science and disciplined formulation, guided by the quiet intelligence of the earth.
           </motion.p>
 
           <motion.div variants={fadeInDelay2} initial="hidden" animate="show">
