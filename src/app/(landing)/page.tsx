@@ -13,13 +13,13 @@ const VideoSection = dynamic(
   { ssr: true }
 );
 
-const ProvenancePreview = dynamic(
-  () => import("@/app/components/landing/ProvenancePreview"),
+const Archive = dynamic(
+  () => import("@/app/components/landing/Archive"),
   { ssr: true }
 );
 
-const Archive = dynamic(
-  () => import("@/app/components/landing/Archive"),
+const OurStandards = dynamic(
+  () => import("@/app/components/landing/OurStandards"),
   { ssr: true }
 );
 
@@ -50,11 +50,11 @@ export default function HomePage() {
       <Suspense fallback={<SectionPlaceholder />}>
         <Archive />
       </Suspense>
+      <Suspense fallback={<SectionPlaceholder />}>
+        <OurStandards />
+      </Suspense>
       <Suspense fallback={null}>
         <SectionBanner />
-      </Suspense>
-      <Suspense fallback={<SectionPlaceholder />}>
-        <ProvenancePreview />
       </Suspense>
       <Suspense fallback={<SectionPlaceholder />}>
         <Footer />

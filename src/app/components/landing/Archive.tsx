@@ -121,7 +121,7 @@ function ArchivePreview({ customArticles }: { customArticles?: ArchiveArticle[] 
           className="text-[#2B2925] text-4xl md:text-5xl font-light"
           style={{ fontFamily: "var(--font-serif)" }}
         >
-          The Archive
+          Curated Works
         </h2>
       </div>
 
@@ -133,7 +133,7 @@ function ArchivePreview({ customArticles }: { customArticles?: ArchiveArticle[] 
             article={article}
             index={i}
             large
-            linked={false}
+            linked={true}
             showRead={false}
           />
         ))}
@@ -150,7 +150,7 @@ function ArchivePreview({ customArticles }: { customArticles?: ArchiveArticle[] 
               className="mb-4 text-[#A48662]/70 text-[0.6rem] tracking-[0.32em] uppercase"
               style={{ fontFamily: "var(--font-sans)" }}
             >
-              The Archive
+              Curated Works
             </p>
             <div className="mb-7 h-px w-10 bg-[#A48662]/30" />
             <h3
@@ -169,7 +169,7 @@ function ArchivePreview({ customArticles }: { customArticles?: ArchiveArticle[] 
           </div>
           <Link
             href="/archive"
-            className="mt-[3.4cm] inline-flex items-center justify-center bg-[#262420] px-6 py-4 text-center text-white text-[0.65rem] tracking-[0.26em] uppercase transition-colors duration-300 hover:bg-[#3A342D] cursor-pointer"
+            className="mt-[1.8cm] inline-flex items-center justify-center bg-[#262420] px-6 py-4 text-center text-white text-[0.65rem] tracking-[0.26em] uppercase transition-colors duration-300 hover:bg-[#3A342D] cursor-pointer"
             style={{ fontFamily: "var(--font-sans)", fontWeight: 500 }}
           >
             Explore All Articles {"\u2192"}
@@ -197,12 +197,12 @@ function ArchiveHeader() {
         >
           CURATED WORKS
         </p>
-        <h2
-          className="text-[#2B2925] text-4xl md:text-5xl font-light"
-          style={{ fontFamily: "var(--font-serif)" }}
-        >
-          The Archive
-        </h2>
+          <h2
+            className="text-[#2B2925] text-4xl md:text-5xl font-light"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            Curated Works
+          </h2>
       </div>
       <p
         className="max-w-xs text-[#5A554E] text-sm leading-relaxed md:text-right"

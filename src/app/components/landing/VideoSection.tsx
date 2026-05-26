@@ -66,7 +66,7 @@ export default function VideoSection() {
           whileInView="show"
           variants={fadeInSlow}
           viewport={{ once: true }}
-          className="max-w-xl pt-[107px] pl-6 pr-6 md:pt-[115px] md:pr-0 lg:pl-2"
+          className="max-w-xl pt-16 pl-6 pr-6 md:pt-24 md:pr-0 lg:pl-2"
         >
           <h2 className="text-[#2C2A26] text-2xl md:text-3xl font-light tracking-[0.18em]" style={{ fontFamily: "var(--font-sans)" }}>
             The Intelligence of Ancient Botanicals
@@ -88,11 +88,11 @@ export default function VideoSection() {
           whileInView="show"
           variants={fadeInSlow}
           viewport={{ once: true }}
-          className="relative mt-[75px] h-[345px] overflow-hidden bg-black md:h-[calc(100%-75px)] md:min-h-0"
+          className="relative h-full min-h-[300px] overflow-hidden md:min-h-[400px]"
         >
           <video
             ref={videoRef}
-            className="h-full w-full object-contain"
+            className="h-full w-full object-cover"
             muted
             loop
             playsInline

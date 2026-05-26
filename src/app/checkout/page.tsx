@@ -421,25 +421,46 @@ export default function CheckoutPage() {
                   Order Summary
                 </h2>
                 <div className="space-y-4 mb-6">
-                  {items.map((item) => (
-                    <div key={item.id} className="flex gap-4">
-                      <div className="w-16 h-16 flex-shrink-0 overflow-hidden">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          width={64}
-                          height={64}
-                          className="w-full h-full object-contain p-2"
-                          unoptimized
-                        />
+                  {items.map((item) => {
+                      return (
+                      <div key={item.id} className="flex gap-4 items-center">
+                        <div className="w-16 h-16 flex-shrink-0 overflow-hidden">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={64}
+                            height={64}
+                            className="w-full h-full object-contain p-2"
+                            unoptimized
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm truncate" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>{item.name}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <button
+                              onClick={() => { const s = useCartStore.getState(); const i = s.items.find(x => x.id === item.id); if (i && i.quantity > 1) s.updateQuantity(item.id, i.quantity - 1); }}
+                              className="w-7 h-7 flex items-center justify-center border text-sm cursor-pointer hover:bg-gray-50"
+                              style={{ borderColor: "rgba(164,134,98,0.25)", color: "#5A554E" }}
+                            >−</button>
+                            <span className="text-sm w-5 text-center" style={{ color: "#2B2925" }}>{item.quantity}</span>
+                            <button
+                              onClick={() => { const s = useCartStore.getState(); const i = s.items.find(x => x.id === item.id); if (i) s.updateQuantity(item.id, i.quantity + 1); }}
+                              className="w-7 h-7 flex items-center justify-center border text-sm cursor-pointer hover:bg-gray-50"
+                              style={{ borderColor: "rgba(164,134,98,0.25)", color: "#5A554E" }}
+                            >+</button>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end gap-1">
+                          <p className="text-sm whitespace-nowrap" style={{ fontFamily: "var(--font-serif)", color: "#A48662" }}>${item.price * item.quantity}</p>
+                          <button
+                            onClick={() => useCartStore.getState().removeItem(item.id)}
+                            className="text-xs cursor-pointer hover:opacity-60 transition-opacity"
+                            style={{ color: "#A48662", fontFamily: "var(--font-sans)" }}
+                          >Remove</button>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <p className="text-sm" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>{item.name}</p>
-                        <p className="text-sm" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>Qty: {item.quantity}</p>
-                      </div>
-                      <p style={{ fontFamily: "var(--font-serif)", color: "#A48662" }}>${item.price * item.quantity}</p>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 <div className="flex justify-between py-2">
                   <span style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>Subtotal</span>
@@ -454,6 +475,19 @@ export default function CheckoutPage() {
                 <div className="flex justify-between py-2 border-t mt-2 pt-4" style={{ borderColor: "rgba(164,134,98,0.2)" }}>
                   <span style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>Total</span>
                   <span className="text-xl" style={{ fontFamily: "var(--font-serif)", color: "#A48662" }}>${total}</span>
+                </div>
+                <div className="mt-6 pt-4 border-t" style={{ borderColor: "rgba(164,134,98,0.15)" }}>
+                  <Link
+                    href="/"
+                    className="flex items-center justify-center gap-2 py-3 text-xs tracking-[0.2em] uppercase transition-colors"
+                    style={{ fontFamily: "var(--font-sans)", color: "#A48662" }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                    Continue Shopping
+                  </Link>
                 </div>
               </div>
             </motion.div>
