@@ -173,7 +173,7 @@ export default function ShopPage() {
           </p>
           <a
             href="#shop-products"
-            className="mt-8 inline-flex h-12 items-center justify-center bg-[#333333] px-9 text-[#F9F7F3] text-base font-semibold transition-colors duration-300 hover:bg-black"
+            className="mt-8 inline-flex h-12 items-center justify-center bg-[#333333] px-9 text-[#F9F7F3] text-base font-normal transition-colors duration-300 hover:bg-black"
           >
             Explore the collection
           </a>
@@ -242,7 +242,7 @@ export default function ShopPage() {
 
               <button
                 onClick={() => handleAddToCart(product)}
-                className="mt-2 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-semibold hover:bg-black transition-all duration-300 cursor-pointer"
+                className="mt-2 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer"
                 style={{ fontFamily: "var(--font-sans)", fontWeight: 500 }}
               >
                 Add To Cart
@@ -314,7 +314,7 @@ export default function ShopPage() {
 
               <button
                 onClick={() => handleAddToCart(product)}
-                className="mt-2 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-semibold hover:bg-black transition-all duration-300 cursor-pointer"
+                className="mt-2 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer"
                 style={{ fontFamily: "var(--font-sans)", fontWeight: 500 }}
               >
                 Add To Cart
