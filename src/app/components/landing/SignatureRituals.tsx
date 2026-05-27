@@ -203,7 +203,7 @@ export default function SignatureRituals() {
                 <p className="mb-8 text-[#6F6A64] text-base">{product.format}</p>
                 <p className="text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
               </div>
-              <button onClick={() => handleAddToCart(product)} className="mt-3 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
+              <button onClick={() => handleAddToCart(product)} className="mt-3 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
             </motion.div>
           ))}
         </div>
@@ -254,7 +254,7 @@ export default function SignatureRituals() {
             </div>
             <div className="flex flex-col justify-center px-6 py-10 md:py-0 md:pl-12 md:pr-12 lg:pl-20 lg:pr-20 md:w-[42%]">
               <Link href="/product/black-turmeric" className="block">
-                <div className="relative mb-3 flex h-[270px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct("black-turmeric")} onMouseLeave={() => setHoveredProduct(null)}>
+                <div className="relative mb-3 flex h-[310px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct("black-turmeric")} onMouseLeave={() => setHoveredProduct(null)}>
                   <ProductImage
                     src="/Assets/black turmeric hd.webp"
                     alt="Black Turmeric"
@@ -277,7 +277,7 @@ export default function SignatureRituals() {
                   <p className="mt-4 text-[#2C2A26] text-xl font-light">{formatPrice(45, currency, exchangeRate)}</p>
                 </div>
               </Link>
-              <button onClick={() => { addItem({ id: "black-turmeric", name: "Black Turmeric", price: 45, quantity: 1, image: "/Assets/black turmeric hd.webp" }); openCart(); }} className="mt-2 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer">Add To Cart</button>
+              <button onClick={() => { addItem({ id: "black-turmeric", name: "Black Turmeric", price: 45, quantity: 1, image: "/Assets/black turmeric hd.webp" }); openCart(); }} className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer">Add To Cart</button>
             </div>
           </div>
         </motion.div>
@@ -301,18 +301,18 @@ export default function SignatureRituals() {
                   <h3 className="text-[#2C2A26] text-2xl md:text-3xl font-light tracking-[0.08em]" style={{ fontFamily: "var(--font-serif)" }}>{label}</h3>
                 </motion.div>
               )}
-              <div className="relative">
+              <div className="relative md:left-1/2 md:w-screen md:-translate-x-1/2">
                 {slide > 0 && (
-                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.max(0, slide - 1) }))} className="absolute -left-8 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronLeft size={26} strokeWidth={1.8} /></button>
+                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.max(0, slide - 1) }))} className="absolute -left-3 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronLeft size={26} strokeWidth={1.8} /></button>
                 )}
                 {slide < maxSlide && (
-                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.min(maxSlide, slide + 1) }))} className="absolute -right-8 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronRight size={26} strokeWidth={1.8} /></button>
+                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.min(maxSlide, slide + 1) }))} className="absolute -right-3 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronRight size={26} strokeWidth={1.8} /></button>
                 )}
-                <div className="hidden md:grid md:grid-cols-3 gap-8">
+                <div className="hidden md:grid md:grid-cols-3 gap-16">
                   {visible.map((product) => (
                     <div key={product.id} className="group flex min-w-0 flex-col justify-between">
                       <Link href={`/product/${product.id}`} className="block">
-                        <div className="relative mb-3 flex h-[270px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct(product.id)} onMouseLeave={() => setHoveredProduct(null)}>
+                        <div className="relative mb-3 flex h-[310px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct(product.id)} onMouseLeave={() => setHoveredProduct(null)}>
                           <ProductImage
                             src={product.image}
                             alt={product.name}
@@ -331,13 +331,13 @@ export default function SignatureRituals() {
                           )}
                         </div>
                         <div className="text-center">
-                          <h3 className="text-[#2C2A26] text-[19px] font-normal tracking-[0.12em]" style={{ fontFamily: "var(--font-sans)" }}>{product.name}</h3>
-                          <p className="mt-1 text-[15px] italic tracking-[0.08em] text-[#6F6A64]">{product.subtitle}</p>
-                          <p className="mx-auto mt-3 text-[15px] leading-relaxed text-[#8A847C]">{product.description}</p>
-                          <p className="mt-4 text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
+                          <h3 className="text-[#2C2A26] text-xl font-normal tracking-[0.12em]" style={{ fontFamily: "var(--font-sans)" }}>{product.name}</h3>
+                          <p className="mt-1 text-base italic tracking-[0.08em] text-[#6F6A64]">{product.subtitle}</p>
+                          <p className="mx-auto mt-3 text-base leading-relaxed text-[#8A847C]">{product.description}</p>
+                          <p className="mt-4 text-[#2C2A26] text-2xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
                         </div>
                       </Link>
-                      <button onClick={() => handleAddToCart(product)} className="mt-2 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer">Add To Cart</button>
+                      <button onClick={() => handleAddToCart(product)} className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer">Add To Cart</button>
                     </div>
                   ))}
                 </div>
@@ -345,7 +345,7 @@ export default function SignatureRituals() {
                   {sectionProducts.map((product) => (
                     <motion.div key={product.id} variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="group flex min-w-0 flex-col justify-between">
                       <Link href={`/product/${product.id}`} className="block">
-                        <div className="relative mb-3 flex h-[270px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct(product.id)} onMouseLeave={() => setHoveredProduct(null)}>
+                        <div className="relative mb-3 flex h-[310px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct(product.id)} onMouseLeave={() => setHoveredProduct(null)}>
                           <ProductImage
                             src={product.image}
                             alt={product.name}
@@ -364,13 +364,13 @@ export default function SignatureRituals() {
                           )}
                         </div>
                         <div className="text-center">
-                          <h3 className="text-[#2C2A26] text-[19px] font-normal tracking-[0.12em]" style={{ fontFamily: "var(--font-sans)" }}>{product.name}</h3>
-                          <p className="mt-1 text-[15px] italic tracking-[0.08em] text-[#6F6A64]">{product.subtitle}</p>
-                          <p className="mx-auto mt-3 text-[15px] leading-relaxed text-[#8A847C]">{product.description}</p>
-                          <p className="mt-4 text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
+                          <h3 className="text-[#2C2A26] text-xl font-normal tracking-[0.12em]" style={{ fontFamily: "var(--font-sans)" }}>{product.name}</h3>
+                          <p className="mt-1 text-base italic tracking-[0.08em] text-[#6F6A64]">{product.subtitle}</p>
+                          <p className="mx-auto mt-3 text-base leading-relaxed text-[#8A847C]">{product.description}</p>
+                          <p className="mt-4 text-[#2C2A26] text-2xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
                         </div>
                       </Link>
-                      <button onClick={() => handleAddToCart(product)} className="mt-2 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer">Add To Cart</button>
+                      <button onClick={() => handleAddToCart(product)} className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer">Add To Cart</button>
                     </motion.div>
                   ))}
                 </div>

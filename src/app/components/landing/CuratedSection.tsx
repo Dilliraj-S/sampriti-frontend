@@ -99,11 +99,11 @@ export default function CuratedSection({ section, title, description }: CuratedS
           {description && <p className="mx-auto mt-5 max-w-3xl text-base md:text-lg leading-relaxed text-[#8A847C]">{description}</p>}
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
           {products.map((product) => (
             <motion.div key={product.id} variants={fadeInUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="group flex min-w-0 flex-col justify-between">
               <Link href={`/product/${product.id}`} className="block">
-                <div className="relative mb-3 flex h-[270px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct(product.id)} onMouseLeave={() => setHoveredProduct(null)}>
+                <div className="relative mb-3 flex h-[310px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct(product.id)} onMouseLeave={() => setHoveredProduct(null)}>
                   <ProductImage
                     src={hoveredProduct === product.id && product.hoverImage ? product.hoverImage : product.image}
                     alt={product.name}
@@ -113,13 +113,13 @@ export default function CuratedSection({ section, title, description }: CuratedS
                   />
                 </div>
                 <div className="text-center">
-                  <h3 className="text-[#2C2A26] text-[19px] font-normal tracking-[0.12em]" style={{ fontFamily: "var(--font-sans)" }}>{product.name}</h3>
-                  <p className="mt-1 text-[15px] italic tracking-[0.08em] text-[#6F6A64]">{product.subtitle}</p>
-                  {'description' in product && product.description && <p className="mx-auto mt-3 text-[15px] leading-relaxed text-[#8A847C]">{(product as any).description}</p>}
-                  <p className="mt-4 text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
+                  <h3 className="text-[#2C2A26] text-xl font-normal tracking-[0.12em]" style={{ fontFamily: "var(--font-sans)" }}>{product.name}</h3>
+                  <p className="mt-1 text-base italic tracking-[0.08em] text-[#6F6A64]">{product.subtitle}</p>
+                  {'description' in product && product.description && <p className="mx-auto mt-3 text-base leading-relaxed text-[#8A847C]">{(product as any).description}</p>}
+                  <p className="mt-4 text-[#2C2A26] text-2xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
                 </div>
               </Link>
-              <button onClick={() => { addItem({ id: product.id, name: product.name, price: product.price, quantity: 1, image: product.image }); openCart(); }} className="mt-2 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
+              <button onClick={() => { addItem({ id: product.id, name: product.name, price: product.price, quantity: 1, image: product.image }); openCart(); }} className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
             </motion.div>
           ))}
         </div>
