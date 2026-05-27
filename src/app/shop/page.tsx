@@ -14,24 +14,24 @@ import { api } from "@/services/api.client";
 import { formatPrice, getSettings } from "@/services/settings";
 
 const fallbackProducts = [
-  { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png" },
-  { id: "chandra-rasa", name: "Chandra Rasa", subtitle: "Sleep Potion", benefits: "Calm · Settling · Restorative", format: "9 Test Tube Kit", price: 54, image: "/Assets/Chandra rasa product hd.webp", hoverImage: "/Assets/chandra rasa hover.webp" },
-  { id: "shotharaha", name: "Shotharaha", subtitle: "Dual Black Recovery", benefits: "", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png" },
-  { id: "rose", name: "Rose", subtitle: "Rosa Damascena", benefits: "Hydrating · Softening · Heart", format: "Botanical Profile", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", benefits: "Antioxidant · Cooling · Gloss", format: "Botanical Profile", price: 42, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
-  { id: "blue-butterfly-pea", name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", benefits: "Azure · Clarity · Calm", format: "Botanical Profile", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
-  { id: "kanti", name: "Kanti", subtitle: "Red Radiance", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  { id: "the-sahane", name: "The Sahane", subtitle: "Stone", benefits: "", format: "", price: 36, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
-  { id: "rakta-chandanam", name: "Rakta Chandanam", subtitle: "Red Sandalwood", benefits: "", format: "", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  { id: "shveta-chandanam", name: "Shveta Chandanam", subtitle: "White Sandalwood", benefits: "", format: "", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
-  { id: "jawa", name: "Jawa", subtitle: "Embers", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  { id: "kha", name: "Kha", subtitle: "The Zero Point", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  { id: "sandalwood-shavings", name: "Sandalwood Shavings", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
-  { id: "deodar-discs", name: "Deodar Discs", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  { id: "black-sambrani", name: "Black Sambrani", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
+  { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png", description: "Shakti Peya is designed to support sustained vitality, circulation, digestion, and metabolic balance." },
+  { id: "chandra-rasa", name: "Chandra Rasa", subtitle: "Sleep Potion", benefits: "Calm · Settling · Restorative", format: "9 Test Tube Kit", price: 54, image: "/Assets/Chandra rasa product hd.webp", hoverImage: "/Assets/chandra rasa hover.webp", description: "A lunar-calming adaptogenic brew formulation for restful sleep and nervous system balance." },
+  { id: "shotharaha", name: "Shotharaha", subtitle: "Dual Black Recovery", benefits: "", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png", description: "A potent adaptogenic brew rooted in the ancient Siddha tradition." },
+  { id: "rose", name: "Rose", subtitle: "Rosa Damascena", benefits: "Hydrating · Softening · Heart", format: "Botanical Profile", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "A sacred petal infusion crafted from heirloom roses for the heart and senses." },
+  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", benefits: "Antioxidant · Cooling · Gloss", format: "Botanical Profile", price: 42, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "A vibrant floral infusion for radiant skin and hair, rich in antioxidants." },
+  { id: "blue-butterfly-pea", name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", benefits: "Azure · Clarity · Calm", format: "Botanical Profile", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity." },
+  { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "" },
+  { id: "kanti", name: "Kanti", subtitle: "Red Radiance", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "" },
+  { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "" },
+  { id: "the-sahane", name: "The Sahane", subtitle: "Stone", benefits: "", format: "", price: 36, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "" },
+  { id: "rakta-chandanam", name: "Rakta Chandanam", subtitle: "Red Sandalwood", benefits: "", format: "", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "" },
+  { id: "shveta-chandanam", name: "Shveta Chandanam", subtitle: "White Sandalwood", benefits: "", format: "", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "" },
+  { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "" },
+  { id: "jawa", name: "Jawa", subtitle: "Embers", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "" },
+  { id: "kha", name: "Kha", subtitle: "The Zero Point", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "" },
+  { id: "sandalwood-shavings", name: "Sandalwood Shavings", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "" },
+  { id: "deodar-discs", name: "Deodar Discs", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "" },
+  { id: "black-sambrani", name: "Black Sambrani", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.png", description: "" },
 ];
 
 const fadeUp = {
@@ -41,7 +41,7 @@ const fadeUp = {
 
 // Shared image container class
 const imageContainerClass =
-  "relative h-[290px] overflow-hidden bg-white md:h-[330px] lg:h-[380px]";
+  "relative h-[310px] overflow-hidden bg-white md:h-[350px] lg:h-[400px]";
 
 export default function ShopPage() {
   const addItem = useCartStore((s) => s.addItem);
@@ -73,6 +73,7 @@ export default function ShopPage() {
             id: p.slug, name: p.name, subtitle: p.subtitle || "",
             benefits: p.benefits || fb?.benefits || "",
             format: p.format || fb?.format || "",
+            description: p.description || fb?.description || "",
             price: parseFloat(p.price) || fb?.price || 0,
             image: fb ? fb.image : (p.image || ""),
             hoverImage: fb ? fb.hoverImage : (p.hoverImage || ""),
@@ -207,6 +208,7 @@ export default function ShopPage() {
 
       {/* PRODUCT PRESENTATION */}
       <div id="shop-products" className="relative scroll-mt-24 px-6 pt-20 md:px-12 lg:px-20 pb-24">
+        <div className="max-w-6xl mx-auto">
 
         {/* ── Mobile grid (single column, all products) ───────────────────── */}
         <div className="grid grid-cols-1 items-stretch gap-y-16 md:hidden">
@@ -230,19 +232,18 @@ export default function ShopPage() {
 
               <div className="flex-1 text-center">
                 <h3
-                  className="mb-1 mt-3 text-[#2C2A26] text-[19px] font-normal tracking-[0.14em]"
+                  className="mb-1 mt-3 text-[#2C2A26] text-xl font-normal tracking-[0.14em]"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {product.name} | {product.subtitle}
                 </h3>
-                <p className="mb-4 text-[#6F6A64] text-[15px]">{product.benefits}</p>
-                <p className="mb-5 text-[#6F6A64] text-[15px]">{product.format}</p>
-                <p className="mt-auto text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
+                {product.description && <p className="mx-auto mt-3 mb-5 text-base leading-relaxed text-[#8A847C]">{product.description}</p>}
+                <p className="mt-auto text-[#2C2A26] text-2xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
               </div>
 
               <button
                 onClick={() => handleAddToCart(product)}
-                className="mt-2 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-semibold hover:bg-black transition-all duration-300 cursor-pointer"
+                className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-semibold hover:bg-black transition-all duration-300 cursor-pointer"
                 style={{ fontFamily: "var(--font-sans)", fontWeight: 500 }}
               >
                 Add To Cart
@@ -279,7 +280,7 @@ export default function ShopPage() {
           initial={{ opacity: 0.85, x: canScrollBack ? 18 : -18 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.35, ease: "easeOut" }}
-          className="hidden grid-cols-1 items-stretch gap-y-16 md:grid md:grid-cols-3 md:items-stretch md:gap-x-8 lg:gap-x-10"
+          className="hidden md:grid md:grid-cols-3 md:items-stretch gap-16"
         >
           {visibleProducts.map((product, index) => (
             <motion.div
@@ -302,19 +303,18 @@ export default function ShopPage() {
               {/* Product Info */}
               <div className="flex-1 text-center">
                 <h3
-                  className="mb-1 mt-3 text-[#2C2A26] text-[19px] font-normal tracking-[0.14em]"
+                  className="mb-1 mt-3 text-[#2C2A26] text-xl font-normal tracking-[0.14em]"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {product.name} | {product.subtitle}
                 </h3>
-                <p className="mb-4 text-[#6F6A64] text-[15px]">{product.benefits}</p>
-                <p className="mb-5 text-[#6F6A64] text-[15px]">{product.format}</p>
-                <p className="text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
+                {product.description && <p className="mx-auto mt-3 mb-5 text-base leading-relaxed text-[#8A847C]">{product.description}</p>}
+                <p className="text-[#2C2A26] text-2xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
               </div>
 
               <button
                 onClick={() => handleAddToCart(product)}
-                className="mt-2 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-semibold hover:bg-black transition-all duration-300 cursor-pointer"
+                className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-semibold hover:bg-black transition-all duration-300 cursor-pointer"
                 style={{ fontFamily: "var(--font-sans)", fontWeight: 500 }}
               >
                 Add To Cart
@@ -322,6 +322,7 @@ export default function ShopPage() {
             </motion.div>
           ))}
         </motion.div>
+      </div>
       </div>
 
       <Footer />

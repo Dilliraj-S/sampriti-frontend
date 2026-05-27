@@ -231,7 +231,7 @@ export default function MateriaGrid() {
               </div>
 
               {/* Content */}
-              <div className="p-4 md:p-5">
+              <div className="pt-4 pb-4 md:pt-5 md:pb-5">
                 <p
                   className="text-[#A48662] text-xs tracking-wide italic mb-0.5"
                   style={{ fontFamily: "var(--font-serif)" }}
