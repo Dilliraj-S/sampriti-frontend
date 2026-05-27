@@ -29,26 +29,26 @@ interface CuratedSectionProps {
   description?: string;
 }
 
-const fallbackBySection: Record<string, { id: string; name: string; subtitle: string; price: number; image: string; hoverImage: string }[]> = {
+const fallbackBySection: Record<string, { id: string; name: string; subtitle: string; price: number; image: string; hoverImage: string; description?: string }[]> = {
   home: [
-    { id: "black-turmeric", name: "Black Turmeric", subtitle: "Curcuma Caesia", price: 45, image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp" },
+    { id: "black-turmeric", name: "Black Turmeric", subtitle: "Curcuma Caesia", price: 45, image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp", description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity." },
   ],
   influence: [
-    { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", price: 48, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
+    { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", price: 48, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "A potent botanical formulation for rejuvenation." },
   ],
   skincare: [
-    { id: "kanti", name: "Kanti", subtitle: "Red Radiance", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-    { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
+    { id: "kanti", name: "Kanti", subtitle: "Red Radiance", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "A radiant botanical essence for skin vitality." },
+    { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "A potent concentrate for cellular vitality." },
   ],
   fragrance: [
-    { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", price: 54, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
-    { id: "jawa", name: "Jawa", subtitle: "Embers", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-    { id: "kha", name: "Kha", subtitle: "The Zero Point", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
+    { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", price: 54, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "First rain fragrance captured in botanical form." },
+    { id: "jawa", name: "Jawa", subtitle: "Embers", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "Warm ember fragrance for deep atmosphere." },
+    { id: "kha", name: "Kha", subtitle: "The Zero Point", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "Zero point fragrance of stillness." },
   ],
   atmosphere: [
-    { id: "sandalwood-shavings", name: "Sandalwood Shavings", subtitle: "Mysore Sandalwood", price: 38, image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp" },
-    { id: "deodar-discs", name: "Deodar Discs", subtitle: "Cedar of the Gods", price: 32, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
-    { id: "black-sambrani", name: "Black Sambrani", subtitle: "Sacred Resin", price: 36, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
+    { id: "sandalwood-shavings", name: "Sandalwood Shavings", subtitle: "Mysore Sandalwood", price: 38, image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp", description: "Pure sandalwood for ambient purification." },
+    { id: "deodar-discs", name: "Deodar Discs", subtitle: "Cedar of the Gods", price: 32, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "Himalayan cedar discs for sacred space." },
+    { id: "black-sambrani", name: "Black Sambrani", subtitle: "Sacred Resin", price: 36, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "Traditional resin for deep meditative smoke." },
   ],
 };
 
@@ -81,6 +81,7 @@ export default function CuratedSection({ section, title, description }: CuratedS
               price: parseFloat(String(p.price || 0)) || 0,
               image: fb?.image || p.image || "",
               hoverImage: fb?.hoverImage || p.hoverImage || "",
+              description: fb?.description || p.description || "",
             };
           });
         if (filtered.length) setProducts(filtered);
@@ -107,13 +108,14 @@ export default function CuratedSection({ section, title, description }: CuratedS
                     src={hoveredProduct === product.id && product.hoverImage ? product.hoverImage : product.image}
                     alt={product.name}
                     fill
-                    className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply`}
+                    className="object-contain p-0 transition-opacity duration-500 mix-blend-multiply"
                     sizes="33vw"
                   />
                 </div>
-                <div className="min-h-[152px] text-center">
+                <div className="text-center">
                   <h3 className="text-[#2C2A26] text-[19px] font-normal tracking-[0.12em]" style={{ fontFamily: "var(--font-sans)" }}>{product.name}</h3>
                   <p className="mt-1 text-[15px] italic tracking-[0.08em] text-[#6F6A64]">{product.subtitle}</p>
+                  {'description' in product && product.description && <p className="mx-auto mt-3 text-[15px] leading-relaxed text-[#8A847C]">{(product as any).description}</p>}
                   <p className="mt-4 text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
                 </div>
               </Link>
