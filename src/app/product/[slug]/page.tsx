@@ -471,6 +471,8 @@ export default function ProductPage() {
     );
   }
 
+  if (!product) return null;
+
   const handleAddToCart = () => {
     addItem({ id: product.id, name: product.name, price: product.price, image: product.image, quantity });
     setToast(product.name);
@@ -486,7 +488,7 @@ export default function ProductPage() {
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Breadcrumb */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <div className="flex items-center gap-2 text-xs tracking-[0.2em] text-[#5A554E]">
               <Link href="/" className="hover:text-[#2C2A26]">HOME</Link>
               <span>/</span>
@@ -494,7 +496,7 @@ export default function ProductPage() {
               <span>/</span>
               <span className="text-[#2C2A26]">{product.name}</span>
             </div>
-          </div>
+          </div> */}
 
           <div className="grid lg:grid-cols-2 gap-0 lg:gap-16">
 
