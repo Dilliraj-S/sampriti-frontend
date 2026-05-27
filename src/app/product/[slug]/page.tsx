@@ -591,7 +591,7 @@ export default function ProductPage() {
                       <p className="text-[#5A554E] leading-relaxed whitespace-pre-line">{product.howToUse}</p>
                       {product.usageDetails?.length > 0 && (
                         <div className="pt-4 border-t border-[#E5DCCF] space-y-3">
-                          {product.usageDetails.map((item: UsageDetail) => (
+                    {product.usageDetails.map((item: UsageDetail, i: number) => (
                             <div key={item.label} className="flex gap-2">
                               <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-[#2C2A26] min-w-[100px]">{item.label}:</span>
                               <span className="text-sm text-[#5A554E]">{item.value}</span>
@@ -691,8 +691,8 @@ export default function ProductPage() {
                     {product.howToUse}
                   </p>
                   <div className="mt-8 border-t border-[#E5DCCF]">
-                    {product.usageDetails.map((item: UsageDetail) => (
-                      <div key={item.label}
+                    {product.usageDetails.map((item: UsageDetail, idx: number) => (
+                      <div key={`${item.label}-${item.value}-${idx}`}
                         className="grid gap-2 border-b border-[#E5DCCF] py-4 md:grid-cols-[140px_1fr]"
                       >
                         <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#2C2A26]">{item.label}</p>
