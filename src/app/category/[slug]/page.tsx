@@ -234,7 +234,7 @@ export default function CategoryPage() {
                       {p.description && <p className="mx-auto mt-3 text-[15px] leading-relaxed text-[#8A847C]">{p.description}</p>}
                       <p className="mt-4 text-[#2C2A26] text-xl font-light">{formatPrice(p.price, currency, exchangeRate)}</p>
                     </div>
-                    <button onClick={() => handleAddToCart(p, slugKey)} className="mt-5 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
+                    <button onClick={() => handleAddToCart(p, slugKey)} className="mt-5 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
                   </motion.div>
                 );
               })}

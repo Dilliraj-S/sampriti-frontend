@@ -716,7 +716,7 @@ export default function ProductPage() {
               {/* Mobile/Tablet: Grid (no arrows) */}
               <div className="lg:hidden grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                 {relatedProducts.map((related) => (
-                  <div key={related.id} className="group text-center flex flex-col"
+                  <div key={related.id} className="group text-center flex flex-col h-full"
                     onMouseEnter={() => setHoveredRelated(related.id)}
                     onMouseLeave={() => setHoveredRelated(null)}
                   >
@@ -735,7 +735,7 @@ export default function ProductPage() {
                         setTimeout(() => setToast(null), 2000);
                         openCart();
                       }}
-                      className="bg-[#262420] text-[#F9F7F3] px-8 py-2 text-[10px] md:text-xs tracking-[0.15em] hover:bg-black transition-all duration-300 cursor-pointer"
+                      className="mt-auto bg-[#262420] text-[#F9F7F3] px-8 py-2 text-[10px] md:text-xs tracking-[0.15em] hover:bg-black transition-all duration-300 cursor-pointer"
                     >
                       Add To Cart
                     </button>

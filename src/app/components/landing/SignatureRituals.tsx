@@ -203,7 +203,7 @@ export default function SignatureRituals() {
                 <p className="mb-8 text-[#6F6A64] text-base">{product.format}</p>
                 <p className="text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
               </div>
-              <button onClick={() => handleAddToCart(product)} className="mt-3 mx-auto flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
+              <button onClick={() => handleAddToCart(product)} className="mt-3 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
             </motion.div>
           ))}
         </div>
@@ -211,10 +211,10 @@ export default function SignatureRituals() {
         {/* Black Turmeric Video */}
         <motion.div variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="relative left-1/2 -translate-x-1/2 w-screen mb-20">
           <div className="flex flex-col md:flex-row md:items-stretch">
-            <div className="relative h-full min-h-[300px] overflow-hidden md:min-h-[400px] md:w-[58%]">
+            <div className="relative min-h-[300px] overflow-hidden md:min-h-[400px] md:w-[58%]">
               <video
                 ref={videoRef}
-                className="h-full w-full object-cover"
+                className="h-[300px] w-full object-cover md:h-full"
                 muted
                 loop
                 playsInline
