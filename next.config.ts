@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         port: "5000",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "sampritibackend.codespidey.com",
+        pathname: "/uploads/**",
+      },
     ],
   },
 };
