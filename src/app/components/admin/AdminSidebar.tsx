@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Package,
-  FolderTree,
   ShoppingCart,
   ClipboardList,
   Users,
@@ -34,7 +33,7 @@ const adminNav = [
     label: "CATALOG",
     items: [
       { name: "Products", href: "/admin/products", icon: Package },
-      { name: "Categories", href: "/admin/categories", icon: FolderTree },
+
       { name: "Inventory", href: "/admin/inventory", icon: ClipboardList },
     ],
   },

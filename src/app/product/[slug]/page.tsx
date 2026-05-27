@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import Footer from "@/app/components/landing/Footer";
 import { useCartStore } from "@/app/components/landing/cartStore";
 import { api } from "@/services/api.client";
 import { formatPrice, getSettings } from "@/services/settings";
+import { normalizeImagePath } from "@/app/utils/normalizeImagePath";
 import ProductImage from "@/app/components/landing/ProductImage";
 
 const productGallery: Record<string, string[]> = {
@@ -149,7 +150,7 @@ const fallbackProducts: Product[] = [
     howToUse: "Rose\n\nDissolve one serving in warm water or milk.\nSip slowly and mindfully.\nIdeal as an afternoon ritual or evening wind-down.",
     usageDetails: [],
     essenceTitle: "The Essence of Calm",
-    essence: "Distilled from organically cultivated rose petals, this elixir carries centuries of botanical wisdom. Rose has long been associated with emotional equilibrium and gentle nervous system support — a potion for the heart and the mind alike.\n\nRose use"
+    essence: "Distilled from organically cultivated rose petals, this elixir carries centuries of botanical wisdom. Rose has long been associated with emotional equilibrium and gentle nervous system support - a potion for the heart and the mind alike.\n\nRose use"
   },
   {
     id: "blue-butterfly-pea",
@@ -162,10 +163,10 @@ const fallbackProducts: Product[] = [
     aroma: "Subtle, earthy, naturally sweet",
     suitedTo: "Those seeking cognitive support, stress relief, and antioxidant protection",
     keyIngredients: "Butterfly Pea Flower Extract, Proanthocyanidins",
-    howToUse: "Blue Butterfly Pea\n\nSteep one serving in hot water for 3–4 minutes to reveal the signature blue hue.\nAdd a squeeze of lemon to watch it transform to violet.\nEnjoy hot or iced throughout the day.",
+    howToUse: "Blue Butterfly Pea\n\nSteep one serving in hot water for 3-4 minutes to reveal the signature blue hue.\nAdd a squeeze of lemon to watch it transform to violet.\nEnjoy hot or iced throughout the day.",
     usageDetails: [],
     essenceTitle: "Nature's Chromatic Wonder",
-    essence: "The striking blue pigment of Clitoria ternatea is more than visual spectacle — it is a marker of potent anthocyanin content. This flower has been used in Ayurvedic and Southeast Asian traditions for centuries to enhance cognitive function and promote tranquillity.\n\nBlue Butterfly Pea use"
+    essence: "The striking blue pigment of Clitoria ternatea is more than visual spectacle - it is a marker of potent anthocyanin content. This flower has been used in Ayurvedic and Southeast Asian traditions for centuries to enhance cognitive function and promote tranquillity.\n\nBlue Butterfly Pea use"
   },
   {
     id: "black-turmeric",
@@ -357,7 +358,6 @@ export default function ProductPage() {
       }
 
       if (foundProduct) {
-        const useFallbackCopy = fb?.id === "shakti-peya" || fb?.id === "chandra-rasa" || fb?.id === "black-turmeric" || fb?.id === "hibiscus" || fb?.id === "rose" || fb?.id === "blue-butterfly-pea";
         const parseUsage = (val: unknown): UsageDetail[] => {
           if (typeof val === "string") try { val = JSON.parse(val); } catch { return []; }
           if (Array.isArray(val)) return val.map((v) => {
@@ -370,48 +370,48 @@ export default function ProductPage() {
           return [];
         };
         const usageDetails = parseUsage(foundProduct.usageDetails);
+        const normalizedImage = normalizeImagePath(foundProduct.image) || fb?.image || "";
+        const normalizedHover = normalizeImagePath(foundProduct.hoverImage) || fb?.hoverImage || "";
         setProduct({
           id: foundProduct.slug,
-          name: fb?.name || foundProduct.name,
-          subtitle: fb?.subtitle || foundProduct.subtitle || "",
-          category: useFallbackCopy ? fb?.category || "" : (foundProduct.category?.name || fb?.category || ""),
-          price: fb?.price || parseFloat(String(foundProduct.price || 0)) || 0,
-          format: fb?.format || foundProduct.format || "",
-          image: fb ? fb.image : (foundProduct.image || ""),
-          description: useFallbackCopy ? fb?.description || "" : (foundProduct.description || fb?.description || ""),
-          benefits: useFallbackCopy && fb?.id === "shakti-peya" ? "" : (fb?.benefits || foundProduct.benefits || ""),
-          aroma: useFallbackCopy ? fb?.aroma || "" : (foundProduct.aroma || fb?.aroma || ""),
-          suitedTo: useFallbackCopy ? fb?.suitedTo || "" : (foundProduct.suitedTo || fb?.suitedTo || ""),
-          keyIngredients: useFallbackCopy ? fb?.keyIngredients || "" : (foundProduct.keyIngredients || fb?.keyIngredients || ""),
-          howToUse: useFallbackCopy ? fb?.howToUse || "" : (foundProduct.howToUse || fb?.howToUse || ""),
-          essenceTitle: useFallbackCopy ? fb?.essenceTitle || "" : (foundProduct.essenceTitle || fb?.essenceTitle || ""),
-          essence: useFallbackCopy ? fb?.essence || "" : (foundProduct.essence || fb?.essence || ""),
-          usageDetails: useFallbackCopy ? (fb?.usageDetails || []) : (usageDetails.length > 0 ? usageDetails : (fb?.usageDetails || [])),
-          hoverImage: foundProduct.hoverImage || fb?.hoverImage || "",
+          name: foundProduct.name || fb?.name || "",
+          subtitle: foundProduct.subtitle || fb?.subtitle || "",
+          category: foundProduct.category?.name || fb?.category || "",
+          price: parseFloat(String(foundProduct.price || 0)) || fb?.price || 0,
+          format: foundProduct.format || fb?.format || "",
+          image: normalizedImage,
+          description: foundProduct.description || fb?.description || "",
+          benefits: foundProduct.benefits || fb?.benefits || "",
+          aroma: foundProduct.aroma || fb?.aroma || "",
+          suitedTo: foundProduct.suitedTo || fb?.suitedTo || "",
+          keyIngredients: foundProduct.keyIngredients || fb?.keyIngredients || "",
+          howToUse: foundProduct.howToUse || fb?.howToUse || "",
+          essenceTitle: foundProduct.essenceTitle || fb?.essenceTitle || "",
+          essence: foundProduct.essence || fb?.essence || "",
+          usageDetails: usageDetails.length > 0 ? usageDetails : (fb?.usageDetails || []),
+          hoverImage: normalizedHover,
         });
       } else if (fb) {
-        setProduct(fb.id === "shakti-peya" ? { ...fb, benefits: "" } : fb);
+        setProduct(fb);
       } else {
         setNotFound(true);
       }
 
       const pRes = await api.get<ApiProduct[]>("/products");
       if (pRes.status && pRes.data?.length) {
-        const fbMap = new Map(fallbackProducts.map(f => [f.id, f]));
         const merged: Product[] = pRes.data.map((p) => {
-          const f = fbMap.get(p.slug);
-          const def = fallbackProducts[0];
+          const f = fallbackProducts.find(fb => fb.id === p.slug);
           return {
             id: p.slug,
-            name: f?.name || p.name,
-            subtitle: f?.subtitle || p.subtitle || "",
+            name: p.name || f?.name || "",
+            subtitle: p.subtitle || f?.subtitle || "",
             category: p.category?.name || f?.category || "",
-            price: f?.price || parseFloat(String(p.price || 0)) || 0,
-            format: f?.format || p.format || "",
-            image: f ? f.image : (p.image || def.image),
-            hoverImage: f ? f.hoverImage : (p.hoverImage || ""),
+            price: parseFloat(String(p.price || 0)) || f?.price || 0,
+            format: p.format || f?.format || "",
+            image: normalizeImagePath(p.image) || f?.image || "",
+            hoverImage: normalizeImagePath(p.hoverImage) || f?.hoverImage || "",
             description: p.description || f?.description || "",
-            benefits: f?.benefits || p.benefits || "",
+            benefits: p.benefits || f?.benefits || "",
             aroma: f?.aroma || "", suitedTo: f?.suitedTo || "",
             keyIngredients: f?.keyIngredients || "", howToUse: f?.howToUse || "",
             essenceTitle: f?.essenceTitle || "", essence: f?.essence || "",
@@ -487,20 +487,9 @@ export default function ProductPage() {
       <div className="px-0 pb-16 pt-32 md:pt-44 lg:pt-52">
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Breadcrumb */}
-          {/* <div className="mb-8">
-            <div className="flex items-center gap-2 text-xs tracking-[0.2em] text-[#5A554E]">
-              <Link href="/" className="hover:text-[#2C2A26]">HOME</Link>
-              <span>/</span>
-              <Link href="/shop" className="hover:text-[#2C2A26]">SHOP</Link>
-              <span>/</span>
-              <span className="text-[#2C2A26]">{product.name}</span>
-            </div>
-          </div> */}
-
           <div className="grid lg:grid-cols-2 gap-0 lg:gap-16">
 
-            {/* ── Hero Product Image with Gallery ─────────────────────────── */}
+            {/* "" Hero Product Image with Gallery """"""""""""""""""""""""""" */}
             <div>
               <div className="relative aspect-square bg-white overflow-hidden">
                 <ProductImage
@@ -532,7 +521,7 @@ export default function ProductPage() {
               )}
             </div>
 
-            {/* ── Product Info ───────────────────────────────────────────── */}
+            {/* "" Product Info """"""""""""""""""""""""""""""""""""""""""""" */}
             <div>
               <p className="text-[#A48662] text-xs tracking-[0.3em] uppercase mb-3">{product.category}</p>
               <h1 className="text-[#2C2A26] text-4xl md:text-5xl font-light mb-2" style={{ fontFamily: "var(--font-serif)" }}>
@@ -623,10 +612,10 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* ── Product Detail Story ───────────────────────────────────────── */}
+          {/* "" Product Detail Story """"""""""""""""""""""""""""""""""""""""" */}
           <div className="mt-24 border-y border-[#E5DCCF]">
 
-            {/* Panel 1 — Image left, text right */}
+            {/* Panel 1 " Image left, text right */}
             <section className="grid border-b border-[#E5DCCF] lg:grid-cols-2">
               <div className={storyContainerClass}>
                 <ProductImage
@@ -674,7 +663,7 @@ export default function ProductPage() {
               </div>
             </section>
 
-            {/* Panel 2 — Text left, image right */}
+            {/* Panel 2 " Text left, image right */}
             <section className="grid lg:grid-cols-2">
               <div className="flex items-center px-6 py-14 md:px-14 lg:px-20">
                 <div className="max-w-xl">
@@ -716,8 +705,8 @@ export default function ProductPage() {
 
           </div>
 
-          {/* ── Botanical Highlights / Essence ────────────────────────────── */}
-          {/* ── You may also like ─────────────────────────────────────────── */}
+          {/* Botanical Highlights / Essence */}
+          {/* "" You may also like """"""""""""""""""""""""""""""""""""""""""" */}
           {relatedProducts.length > 0 && (
             <div className="mt-24 mb-16">
               <h2 className="text-[#2C2A26] text-2xl md:text-3xl font-light mb-10 text-center" style={{ fontFamily: "var(--font-serif)" }}>
@@ -736,6 +725,7 @@ export default function ProductPage() {
                         <ProductImage src={hoveredRelated === related.id && related.hoverImage ? related.hoverImage : related.image} alt={related.name} fill className="object-contain" />
                       </div>
                       <h3 className="text-[#2C2A26] text-sm md:text-lg font-light leading-tight" style={{ fontFamily: "var(--font-serif)" }}>{related.name}</h3>
+                      {related.description && <p className="mx-auto mt-2 text-xs md:text-sm leading-relaxed text-[#8A847C]">{related.description}</p>}
                       <p className="text-[#A48662] text-xs md:text-base mt-1 mb-3">{formatPrice(related.price, currency, exchangeRate)}</p>
                     </Link>
                     <button
@@ -745,14 +735,13 @@ export default function ProductPage() {
                         setTimeout(() => setToast(null), 2000);
                         openCart();
                       }}
-                      className="w-full bg-[#262420] text-[#F9F7F3] px-3 py-2 text-[10px] md:text-xs tracking-[0.15em] hover:bg-black transition-all duration-300 cursor-pointer"
+                      className="bg-[#262420] text-[#F9F7F3] px-8 py-2 text-[10px] md:text-xs tracking-[0.15em] hover:bg-black transition-all duration-300 cursor-pointer"
                     >
                       Add To Cart
                     </button>
                   </div>
                 ))}
               </div>
-
               {/* Desktop: Carousel with arrows */}
               <div className="hidden lg:block relative -mx-4 sm:-mx-6 lg:-mx-8">
                 <button onClick={() => setRelatedSlide(Math.max(0, relatedSlide - 1))} disabled={relatedSlide === 0} className="absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer border border-gray-200">
@@ -762,7 +751,7 @@ export default function ProductPage() {
                   <ChevronRight size={20} className="text-[#2C2A26]" />
                 </button>
                 <div className="overflow-hidden">
-                  <div className="flex gap-5 transition-transform duration-500" style={{ transform: `translateX(-${relatedSlide * 25}%)` }}>
+                  <div className="flex gap-5 transition-transform duration-500" style={{ transform: "translateX(-" + (relatedSlide * 25) + "%)" }}>
                     {relatedProducts.map((related) => (
                       <div key={related.id} className="group text-center flex flex-col min-w-[calc(25%-15px)]"
                         onMouseEnter={() => setHoveredRelated(related.id)}
@@ -773,6 +762,7 @@ export default function ProductPage() {
                             <ProductImage src={hoveredRelated === related.id && related.hoverImage ? related.hoverImage : related.image} alt={related.name} fill className="object-contain" />
                           </div>
                           <h3 className="text-[#2C2A26] text-xl font-light" style={{ fontFamily: "var(--font-serif)" }}>{related.name}</h3>
+                          {related.description && <p className="mx-auto mt-2 text-sm leading-relaxed text-[#8A847C]">{related.description}</p>}
                           <p className="text-[#A48662] text-base mt-1 mb-4">{formatPrice(related.price, currency, exchangeRate)}</p>
                         </Link>
                         <button
@@ -782,7 +772,7 @@ export default function ProductPage() {
                             setTimeout(() => setToast(null), 2000);
                             openCart();
                           }}
-                          className="w-[calc(100%-24px)] mx-3 bg-[#262420] text-[#F9F7F3] px-5 py-2 text-xs tracking-[0.15em] hover:bg-black transition-all duration-300 cursor-pointer"
+                          className="bg-[#262420] text-[#F9F7F3] px-8 py-2 text-xs tracking-[0.15em] hover:bg-black transition-all duration-300 cursor-pointer"
                         >
                           Add To Cart
                         </button>

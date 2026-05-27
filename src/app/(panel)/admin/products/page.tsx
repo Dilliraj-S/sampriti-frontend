@@ -6,6 +6,7 @@ import { getSettings, formatPrice } from "@/services/settings";
 import ImageUpload from "@/app/components/admin/ImageUpload";
 import { toast } from "sonner";
 import { saveSectionAssignments, removeSectionAssignments, getSectionAssignments } from "@/app/components/landing/sectionStorage";
+import { normalizeImagePath } from "@/app/utils/normalizeImagePath";
 
 interface Product {
   id: number; name: string; categoryId: number; price: number; stock: number; status: string;
@@ -18,7 +19,6 @@ interface Product {
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Product | null>(null);
@@ -26,16 +26,15 @@ export default function ProductsPage() {
   const [currency, setCurrency] = useState("INR");
   const [exchangeRate, setExchangeRate] = useState(85);
   const [formData, setFormData] = useState<any>({
-    name: "", slug: "", subtitle: "", categoryId: "", price: "", stock: "",
+    name: "", slug: "", subtitle: "", price: "", stock: "",
     description: "", image: "", hoverImage: "", essenceTitle: "", essence: "",
     keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", homepageSection: "",
   });
 
   const load = async () => {
     setLoading(true);
-    const [pRes, cRes, sRes] = await Promise.all([api.get<Product[]>("/products"), api.get<any[]>("/categories"), getSettings()]);
+    const [pRes, sRes] = await Promise.all([api.get<Product[]>("/products"), getSettings()]);
     if (pRes.status) setProducts(pRes.data || []);
-    if (cRes.status) setCategories(cRes.data || []);
     if (sRes?.currency) setCurrency(sRes.currency);
     if (sRes?.exchange_rate) setExchangeRate(parseFloat(sRes.exchange_rate));
     setLoading(false);
@@ -52,14 +51,14 @@ export default function ProductsPage() {
     if (!Array.isArray(usageArr)) usageArr = [];
     const assignments = getSectionAssignments();
     const sectionFromStorage = assignments[String(p.id)] || assignments[p.slug] || "";
-    setFormData({ ...p, usageDetails: usageArr, categoryId: p.categoryId?.toString() || "", price: p.price?.toString() || "", stock: p.stock?.toString() || "", homepageSection: sectionFromStorage || p.homepageSection || "" });
+    setFormData({ ...p, usageDetails: usageArr, price: p.price?.toString() || "", stock: p.stock?.toString() || "", homepageSection: sectionFromStorage || p.homepageSection || "", image: normalizeImagePath(p.image), hoverImage: normalizeImagePath(p.hoverImage) });
     setShowForm(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const usageDetails = Array.isArray(formData.usageDetails) ? formData.usageDetails.filter((u: any) => u.title || u.desc) : null;
-    const payload = { ...formData, homepageSection: formData.homepageSection || null, usageDetails, price: parseFloat(formData.price) || 0, stock: parseInt(formData.stock) || 0, categoryId: formData.categoryId ? parseInt(formData.categoryId) : null };
+    const payload = { ...formData, homepageSection: formData.homepageSection || null, usageDetails, price: parseFloat(formData.price) || 0, stock: parseInt(formData.stock) || 0, categoryId: null };
     const res = editing ? await api.put("/products/" + editing.id, payload) : await api.post("/products", payload);
     if (res.status) {
       setShowForm(false);
@@ -69,6 +68,7 @@ export default function ProductsPage() {
       const savedId = saved?.id || res.data?.id || editing?.id;
       const savedSlug = saved?.slug || res.data?.slug || editing?.slug || formData.slug;
       saveSectionAssignments([savedId, savedSlug, formData.slug], formData.homepageSection || "");
+      if (!editing) localStorage.setItem("sampriti-new-arrival-slug", savedSlug);
     } else toast.error(res.message || "Failed to save product");
   };
 
@@ -100,7 +100,7 @@ export default function ProductsPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Slug</label><input type="text" value={formData.slug} onChange={e => setFormData({...formData, slug: e.target.value})} placeholder="Auto-generated from name" className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
-                <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Category</label><select value={formData.categoryId} onChange={e => setFormData({...formData, categoryId: e.target.value})} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 bg-white text-black"> <option value="">Select Category</option>{categories.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></div>
+                <div></div>
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Price ($)</label><input type="number" step="0.01" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
@@ -169,12 +169,11 @@ export default function ProductsPage() {
           <div className="relative"><Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" /><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search products..." className="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 w-52 text-black" /></div>
         </div>
         <table className="w-full text-sm">
-          <thead><tr className="bg-gray-50/60">{["Product", "Category", "Price", "Stock", "Status", "Actions"].map(h => <th key={h} className="text-left px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">{h}</th>)}</tr></thead>
+          <thead><tr className="bg-gray-50/60">{["Product", "Price", "Stock", "Status", "Actions"].map(h => <th key={h} className="text-left px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">{h}</th>)}</tr></thead>
           <tbody className="divide-y divide-gray-50">
             {filtered.map(p => (
               <tr key={p.id} className="hover:bg-gray-50/50 transition-colors">
                 <td className="px-6 py-4"><div className="flex items-center gap-3"><div className="w-9 h-9 bg-green-50 rounded-xl flex items-center justify-center"><Package size={16} className="text-green-500" /></div><span className="font-medium text-gray-800">{p.name}</span></div></td>
-                <td className="px-6 py-4 text-gray-500">{p.category?.name || "—"}</td>
                 <td className="px-6 py-4 font-semibold text-gray-800">{formatPrice(Number(p.price), currency, exchangeRate)}</td>
                 <td className="px-6 py-4 text-gray-600">{p.stock}</td>
                 <td className="px-6 py-4"><span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${p.status === "active" ? "bg-green-50 text-green-700" : p.status === "out_of_stock" ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-700"}`}>{p.status === "active" ? "Active" : p.status === "out_of_stock" ? "Out of Stock" : "Low Stock"}</span></td>
