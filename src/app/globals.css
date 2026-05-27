@@ -1,0 +1,87 @@
+/* Sampriti Botanicals — Dark Botanical Luxury Theme */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --color-forest: #0F1A0F;
+  --color-grove: #1A2B1A;
+  --color-moss: #243824;
+  --color-sage: #5A8A52;
+  --color-sage-lt: #8AB882;
+  --color-gold: #C4923A;
+  --color-gold-lt: #E8C87A;
+  --color-ivory: #F8F4ED;
+  --color-cream: #EDE8DF;
+  --color-parchment: #D6CFC3;
+  --color-bark: #2C1F0E;
+
+  --font-serif: 'Inter', system-ui, sans-serif;
+  --font-sans: 'DM Sans', sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: #ffffff;
+  color: #2C2A26;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* ── Global Typography Cascade ─────────────────────────────────────────────
+   Inter (Sampriti logo font) for all headings & body text.
+   This applies sitewide without editing individual files.
+──────────────────────────────────────────────────────────────────────────── */
+
+/* Force Inter on ALL heading elements */
+h1, h2, h3, h4, h5, h6,
+h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
+h1.font-serif, h2.font-serif, h3.font-serif, h4.font-serif, h5.font-serif, h6.font-serif,
+[class*="font-serif"]:is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-heading), 'Inter', system-ui, sans-serif !important;
+}
+
+/* Force Inter on ALL paragraph / body text elements */
+p, li, blockquote, label, td, th {
+  font-family: var(--font-body), 'Inter', system-ui, sans-serif !important;
+}
+
+/* Utility override classes */
+.font-heading, .font-heading * {
+  font-family: var(--font-heading), 'Inter', system-ui, sans-serif !important;
+}
+
+.font-body {
+  font-family: var(--font-body), 'Inter', system-ui, sans-serif !important;
+}
+
+/* Allow explicit font-serif class on non-heading elements */
+:is(span, div, a).font-serif {
+  font-family: var(--font-serif), 'Inter', system-ui, sans-serif !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-forest);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-moss);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sage);
+}
