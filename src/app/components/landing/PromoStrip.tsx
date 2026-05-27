@@ -24,7 +24,10 @@ export default function PromoStrip() {
         ]);
         const bannerActive = bRes.status ? bRes.data?.find((b: any) => b.location === "announcement_bar" && b.status === "active") : null;
         if (bannerActive) { setBanner(bannerActive); return; }
-        if (pRes.status && pRes.data) setLatestProduct(pRes.data);
+        if (pRes.status && pRes.data) {
+          const newArrivalSlug = localStorage.getItem("sampriti-new-arrival-slug");
+          if (pRes.data.slug === newArrivalSlug) setLatestProduct(pRes.data);
+        }
         if (cRes.status) {
           const ac = cRes.data?.find((c: any) => c.status === "active");
           if (ac) setCoupon(ac);

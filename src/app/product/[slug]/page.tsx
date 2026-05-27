@@ -10,6 +10,7 @@ import Footer from "@/app/components/landing/Footer";
 import { useCartStore } from "@/app/components/landing/cartStore";
 import { api } from "@/services/api.client";
 import { formatPrice, getSettings } from "@/services/settings";
+import { normalizeImagePath } from "@/app/utils/normalizeImagePath";
 import ProductImage from "@/app/components/landing/ProductImage";
 
 const productGallery: Record<string, string[]> = {
@@ -357,7 +358,6 @@ export default function ProductPage() {
       }
 
       if (foundProduct) {
-        const useFallbackCopy = fb?.id === "shakti-peya" || fb?.id === "chandra-rasa" || fb?.id === "black-turmeric" || fb?.id === "hibiscus" || fb?.id === "rose" || fb?.id === "blue-butterfly-pea";
         const parseUsage = (val: unknown): UsageDetail[] => {
           if (typeof val === "string") try { val = JSON.parse(val); } catch { return []; }
           if (Array.isArray(val)) return val.map((v) => {
@@ -370,48 +370,48 @@ export default function ProductPage() {
           return [];
         };
         const usageDetails = parseUsage(foundProduct.usageDetails);
+        const normalizedImage = normalizeImagePath(foundProduct.image) || fb?.image || "";
+        const normalizedHover = normalizeImagePath(foundProduct.hoverImage) || fb?.hoverImage || "";
         setProduct({
           id: foundProduct.slug,
-          name: fb?.name || foundProduct.name,
-          subtitle: fb?.subtitle || foundProduct.subtitle || "",
-          category: useFallbackCopy ? fb?.category || "" : (foundProduct.category?.name || fb?.category || ""),
-          price: fb?.price || parseFloat(String(foundProduct.price || 0)) || 0,
-          format: fb?.format || foundProduct.format || "",
-          image: fb ? fb.image : (foundProduct.image || ""),
-          description: useFallbackCopy ? fb?.description || "" : (foundProduct.description || fb?.description || ""),
-          benefits: useFallbackCopy && fb?.id === "shakti-peya" ? "" : (fb?.benefits || foundProduct.benefits || ""),
-          aroma: useFallbackCopy ? fb?.aroma || "" : (foundProduct.aroma || fb?.aroma || ""),
-          suitedTo: useFallbackCopy ? fb?.suitedTo || "" : (foundProduct.suitedTo || fb?.suitedTo || ""),
-          keyIngredients: useFallbackCopy ? fb?.keyIngredients || "" : (foundProduct.keyIngredients || fb?.keyIngredients || ""),
-          howToUse: useFallbackCopy ? fb?.howToUse || "" : (foundProduct.howToUse || fb?.howToUse || ""),
-          essenceTitle: useFallbackCopy ? fb?.essenceTitle || "" : (foundProduct.essenceTitle || fb?.essenceTitle || ""),
-          essence: useFallbackCopy ? fb?.essence || "" : (foundProduct.essence || fb?.essence || ""),
-          usageDetails: useFallbackCopy ? (fb?.usageDetails || []) : (usageDetails.length > 0 ? usageDetails : (fb?.usageDetails || [])),
-          hoverImage: foundProduct.hoverImage || fb?.hoverImage || "",
+          name: foundProduct.name || fb?.name || "",
+          subtitle: foundProduct.subtitle || fb?.subtitle || "",
+          category: foundProduct.category?.name || fb?.category || "",
+          price: parseFloat(String(foundProduct.price || 0)) || fb?.price || 0,
+          format: foundProduct.format || fb?.format || "",
+          image: normalizedImage,
+          description: foundProduct.description || fb?.description || "",
+          benefits: foundProduct.benefits || fb?.benefits || "",
+          aroma: foundProduct.aroma || fb?.aroma || "",
+          suitedTo: foundProduct.suitedTo || fb?.suitedTo || "",
+          keyIngredients: foundProduct.keyIngredients || fb?.keyIngredients || "",
+          howToUse: foundProduct.howToUse || fb?.howToUse || "",
+          essenceTitle: foundProduct.essenceTitle || fb?.essenceTitle || "",
+          essence: foundProduct.essence || fb?.essence || "",
+          usageDetails: usageDetails.length > 0 ? usageDetails : (fb?.usageDetails || []),
+          hoverImage: normalizedHover,
         });
       } else if (fb) {
-        setProduct(fb.id === "shakti-peya" ? { ...fb, benefits: "" } : fb);
+        setProduct(fb);
       } else {
         setNotFound(true);
       }
 
       const pRes = await api.get<ApiProduct[]>("/products");
       if (pRes.status && pRes.data?.length) {
-        const fbMap = new Map(fallbackProducts.map(f => [f.id, f]));
         const merged: Product[] = pRes.data.map((p) => {
-          const f = fbMap.get(p.slug);
-          const def = fallbackProducts[0];
+          const f = fallbackProducts.find(fb => fb.id === p.slug);
           return {
             id: p.slug,
-            name: f?.name || p.name,
-            subtitle: f?.subtitle || p.subtitle || "",
+            name: p.name || f?.name || "",
+            subtitle: p.subtitle || f?.subtitle || "",
             category: p.category?.name || f?.category || "",
-            price: f?.price || parseFloat(String(p.price || 0)) || 0,
-            format: f?.format || p.format || "",
-            image: f ? f.image : (p.image || def.image),
-            hoverImage: f ? f.hoverImage : (p.hoverImage || ""),
+            price: parseFloat(String(p.price || 0)) || f?.price || 0,
+            format: p.format || f?.format || "",
+            image: normalizeImagePath(p.image) || f?.image || "",
+            hoverImage: normalizeImagePath(p.hoverImage) || f?.hoverImage || "",
             description: p.description || f?.description || "",
-            benefits: f?.benefits || p.benefits || "",
+            benefits: p.benefits || f?.benefits || "",
             aroma: f?.aroma || "", suitedTo: f?.suitedTo || "",
             keyIngredients: f?.keyIngredients || "", howToUse: f?.howToUse || "",
             essenceTitle: f?.essenceTitle || "", essence: f?.essence || "",

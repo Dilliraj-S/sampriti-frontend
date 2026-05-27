@@ -11,6 +11,7 @@ import ProductImage from "@/app/components/landing/ProductImage";
 import { useCartStore } from "@/app/components/landing/cartStore";
 import { api } from "@/services/api.client";
 import { formatPrice, getSettings } from "@/services/settings";
+import { normalizeImagePath } from "@/app/utils/normalizeImagePath";
 import { getSectionAssignments } from "@/app/components/landing/sectionStorage";
 
 type ApiProduct = {
@@ -131,8 +132,8 @@ export default function CategoryPage() {
       name: product.name,
       subtitle: product.subtitle || "",
       price: parseFloat(String(product.price || 0)) || 0,
-      image: product.image || "",
-      hoverImage: product.hoverImage || "",
+      image: normalizeImagePath(product.image) || "",
+      hoverImage: normalizeImagePath(product.hoverImage) || "",
       createdAt: product.createdAt,
     }));
   const displayProducts = [...fallbackDisplayProducts, ...selectedSectionProducts];

@@ -9,6 +9,7 @@ import { api } from "@/services/api.client";
 import { formatPrice, getSettings } from "@/services/settings";
 import ProductImage from "@/app/components/landing/ProductImage";
 import { getSectionAssignments } from "@/app/components/landing/sectionStorage";
+import { normalizeImagePath } from "@/app/utils/normalizeImagePath";
 
 type ApiProduct = {
   id: number;
@@ -97,14 +98,14 @@ export default function SignatureRituals() {
           return {
             id: p.slug,
             productId: p.id,
-            name: fb ? fb.name : p.name,
-            subtitle: fb ? fb.subtitle : (p.subtitle || ""),
+            name: p.name || fb?.name || "",
+            subtitle: p.subtitle || fb?.subtitle || "",
             category: p.category?.name || fb?.category || "",
-            benefits: fb ? fb.benefits : (p.benefits || ""),
-            format: fb ? fb.format : (p.format || ""),
-            price: fb ? fb.price : (parseFloat(String(p.price || 0)) || 0),
-            image: fb ? fb.image : (imageFallback?.image || p.image || ""),
-            hoverImage: fb ? fb.hoverImage : (imageFallback?.hoverImage || p.hoverImage || ""),
+            benefits: p.benefits || fb?.benefits || "",
+            format: p.format || fb?.format || "",
+            price: parseFloat(String(p.price || 0)) || fb?.price || 0,
+            image: imageFallback?.image || normalizeImagePath(p.image) || fb?.image || "",
+            hoverImage: imageFallback?.hoverImage || normalizeImagePath(p.hoverImage) || fb?.hoverImage || "",
             description: p.description || fb?.description || "",
             homepageSection: section,
             createdAt: p.createdAt,

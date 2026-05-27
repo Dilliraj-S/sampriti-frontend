@@ -12,6 +12,7 @@ import ProductImage from "@/app/components/landing/ProductImage";
 import { useCartStore } from "@/app/components/landing/cartStore";
 import { api } from "@/services/api.client";
 import { formatPrice, getSettings } from "@/services/settings";
+import { normalizeImagePath } from "@/app/utils/normalizeImagePath";
 
 const fallbackProducts = [
   { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png" },
@@ -66,16 +67,15 @@ export default function ShopPage() {
       if (settings?.currency) setCurrency(settings.currency);
       if (settings?.exchange_rate) setExchangeRate(parseFloat(settings.exchange_rate));
       if (pRes.status && pRes.data?.length) {
-        const fbMap = new Map(fallbackProducts.map(f => [f.id, f]));
         const merged = pRes.data.map((p: any) => {
-          const fb = fbMap.get(p.slug);
+          const fb = fallbackProducts.find(f => f.id === p.slug);
           return {
             id: p.slug, name: p.name, subtitle: p.subtitle || "",
             benefits: p.benefits || fb?.benefits || "",
             format: p.format || fb?.format || "",
             price: parseFloat(p.price) || fb?.price || 0,
-            image: fb ? fb.image : (p.image || ""),
-            hoverImage: fb ? fb.hoverImage : (p.hoverImage || ""),
+            image: normalizeImagePath(p.image) || fb?.image || "",
+            hoverImage: normalizeImagePath(p.hoverImage) || fb?.hoverImage || "",
             createdAt: p.createdAt,
           };
         });
