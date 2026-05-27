@@ -196,7 +196,7 @@ export default function SignatureRituals() {
                   />
                 </div>
               </Link>
-              <div className="min-h-[176px] text-center">
+              <div className="text-center">
                 <h3 className="mb-1 text-[#2C2A26] text-[20px] font-normal tracking-[0.16em]" style={{ fontFamily: "var(--font-sans)" }}>{product.name} | {product.subtitle}</h3>
                 <p className="mb-6 text-[#6F6A64] text-base">{product.benefits}</p>
                 <p className="mb-8 text-[#6F6A64] text-base">{product.format}</p>
@@ -269,10 +269,10 @@ export default function SignatureRituals() {
                     sizes="33vw"
                   />
                 </div>
-                <div className="min-h-[152px] text-center">
+                <div className="text-center">
                   <h3 className="text-[#2C2A26] text-[19px] font-normal tracking-[0.12em]" style={{ fontFamily: "var(--font-sans)" }}>Black Turmeric</h3>
                   <p className="mt-1 text-[15px] italic tracking-[0.08em] text-[#6F6A64]">Curcuma Caesia</p>
-                  <p className="mx-auto mt-3 max-w-[560px] text-[15px] leading-relaxed text-[#8A847C]">A rare Kaya Kalpa agent for profound recovery and cellular longevity.</p>
+                  <p className="mx-auto mt-3 text-[15px] leading-relaxed text-[#8A847C]">A rare Kaya Kalpa agent for profound recovery and cellular longevity.</p>
                   <p className="mt-4 text-[#2C2A26] text-xl font-light">{formatPrice(45, currency, exchangeRate)}</p>
                 </div>
               </Link>
@@ -302,10 +302,10 @@ export default function SignatureRituals() {
               )}
               <div className="relative">
                 {slide > 0 && (
-                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.max(0, slide - 1) }))} className="absolute left-0 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronLeft size={26} strokeWidth={1.8} /></button>
+                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.max(0, slide - 1) }))} className="absolute -left-8 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronLeft size={26} strokeWidth={1.8} /></button>
                 )}
                 {slide < maxSlide && (
-                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.min(maxSlide, slide + 1) }))} className="absolute right-0 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronRight size={26} strokeWidth={1.8} /></button>
+                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.min(maxSlide, slide + 1) }))} className="absolute -right-8 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronRight size={26} strokeWidth={1.8} /></button>
                 )}
                 <div className="hidden md:grid md:grid-cols-3 gap-8">
                   {visible.map((product) => (
@@ -329,10 +329,10 @@ export default function SignatureRituals() {
                             />
                           )}
                         </div>
-                        <div className="min-h-[152px] text-center">
+                        <div className="text-center">
                           <h3 className="text-[#2C2A26] text-[19px] font-normal tracking-[0.12em]" style={{ fontFamily: "var(--font-sans)" }}>{product.name}</h3>
                           <p className="mt-1 text-[15px] italic tracking-[0.08em] text-[#6F6A64]">{product.subtitle}</p>
-                          <p className="mx-auto mt-3 max-w-[560px] text-[15px] leading-relaxed text-[#8A847C]">{product.description}</p>
+                          <p className="mx-auto mt-3 text-[15px] leading-relaxed text-[#8A847C]">{product.description}</p>
                           <p className="mt-4 text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
                         </div>
                       </Link>
@@ -362,10 +362,10 @@ export default function SignatureRituals() {
                             />
                           )}
                         </div>
-                        <div className="min-h-[152px] text-center">
+                        <div className="text-center">
                           <h3 className="text-[#2C2A26] text-[19px] font-normal tracking-[0.12em]" style={{ fontFamily: "var(--font-sans)" }}>{product.name}</h3>
                           <p className="mt-1 text-[15px] italic tracking-[0.08em] text-[#6F6A64]">{product.subtitle}</p>
-                          <p className="mx-auto mt-3 max-w-[560px] text-[15px] leading-relaxed text-[#8A847C]">{product.description}</p>
+                          <p className="mx-auto mt-3 text-[15px] leading-relaxed text-[#8A847C]">{product.description}</p>
                           <p className="mt-4 text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
                         </div>
                       </Link>

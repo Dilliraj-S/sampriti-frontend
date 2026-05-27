@@ -222,13 +222,13 @@ export default function ShopPage() {
                   transition: { ...fadeUp.show.transition, delay: index * 0.08 },
                 },
               }}
-              className="group flex min-h-[520px] flex-col"
+              className="group flex flex-col"
             >
               <Link href={`/product/${product.id}`}>
                 {renderProductImages(product)}
               </Link>
 
-              <div className="min-h-[150px] flex-1 text-center">
+              <div className="flex-1 text-center">
                 <h3
                   className="mb-1 mt-3 text-[#2C2A26] text-[19px] font-normal tracking-[0.14em]"
                   style={{ fontFamily: "var(--font-sans)" }}
@@ -257,7 +257,7 @@ export default function ShopPage() {
             type="button"
             aria-label="Previous products"
             onClick={() => slideProducts("back")}
-            className="absolute left-5 top-[32%] z-10 hidden h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-[#F8F7F5] md:left-8 md:flex"
+            className="absolute -left-6 top-[32%] z-10 hidden h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-[#F8F7F5] md:-left-8 md:flex"
           >
             <ChevronLeft size={26} strokeWidth={1.8} />
           </button>
@@ -267,7 +267,7 @@ export default function ShopPage() {
             type="button"
             aria-label="Next products"
             onClick={() => slideProducts("forward")}
-            className="absolute right-5 top-[32%] z-10 hidden h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-[#F8F7F5] md:right-8 md:flex"
+            className="absolute -right-6 top-[32%] z-10 hidden h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-[#F8F7F5] md:-right-8 md:flex"
           >
             <ChevronRight size={26} strokeWidth={1.8} />
           </button>
@@ -293,14 +293,14 @@ export default function ShopPage() {
                   transition: { ...fadeUp.show.transition, delay: index * 0.08 },
                 },
               }}
-              className="group flex min-h-[520px] flex-col"
+              className="group flex flex-col"
             >
               <Link href={`/product/${product.id}`}>
                 {renderProductImages(product)}
               </Link>
 
               {/* Product Info */}
-              <div className="min-h-[150px] flex-1 text-center">
+              <div className="flex-1 text-center">
                 <h3
                   className="mb-1 mt-3 text-[#2C2A26] text-[19px] font-normal tracking-[0.14em]"
                   style={{ fontFamily: "var(--font-sans)" }}
