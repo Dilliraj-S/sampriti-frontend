@@ -203,7 +203,7 @@ export default function SignatureRituals() {
                 <p className="mb-8 text-[#6F6A64] text-base">{product.format}</p>
                 <p className="text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
               </div>
-              <button onClick={() => handleAddToCart(product)} className="mt-3 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
+              <button onClick={() => handleAddToCart(product)} className="mt-3 mx-auto flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
             </motion.div>
           ))}
         </div>
