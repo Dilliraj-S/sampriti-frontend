@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import Navbar from "@/app/components/landing/Navbar";
 import Footer from "@/app/components/landing/Footer";
@@ -84,15 +83,6 @@ const sections: SectionData[] = [
     ],
   },
 ];
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
-  },
-};
 
 function ParallaxImage({ src, alt }: { src: string; alt: string }) {
   return (
@@ -190,12 +180,7 @@ export default function TheHousePage() {
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.48)_0%,rgba(0,0,0,0.24)_42%,rgba(0,0,0,0.78)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.42)_100%)]" />
 
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          className="relative z-10 flex min-h-screen items-center justify-center px-6 pt-24 text-center"
-        >
+        <div className="relative z-10 flex min-h-screen items-center justify-center px-6 pt-24 text-center">
           <div className="max-w-3xl">
             <p
               className="mb-5 text-xs uppercase tracking-[0.42em]"
@@ -218,24 +203,18 @@ export default function TheHousePage() {
             <button
               type="button"
               onClick={scrollToStory}
-              className="inline-flex items-center justify-center px-9 py-4 text-xs uppercase tracking-[0.24em] transition-all duration-500 hover:scale-105 hover:opacity-90"
-              style={{ fontFamily: "var(--font-sans)", fontWeight: 600, background: "#262420", color: "#F9F7F3" }}
+              className="inline-flex min-h-16 items-center justify-center border-2 border-white px-7 text-sm font-semibold text-white transition-colors duration-300 hover:bg-white hover:text-black"
+              style={{ fontFamily: "var(--font-sans)" }}
             >
               Discover The House
             </button>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       <section ref={storyRef} className="scroll-mt-20 pb-24 pt-44 md:pb-36 md:pt-52">
         <div className="w-full">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            className="mb-20 text-center md:mb-28"
-          >
+          <div className="mb-20 text-center md:mb-28">
             <span
               className="mb-6 block text-xs uppercase tracking-[0.4em]"
               style={{ fontFamily: "var(--font-sans)", color: "#A48662" }}
@@ -248,7 +227,7 @@ export default function TheHousePage() {
             >
               Explore the foundations of our practice
             </h2>
-          </motion.div>
+          </div>
 
           <div className="w-full">
             {sections.map((section, index) => (

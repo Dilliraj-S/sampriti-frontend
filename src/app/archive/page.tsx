@@ -34,8 +34,8 @@ export default function ArchivePage() {
           </p>
           <a
             href="#all-articles"
-            className="inline-flex items-center justify-center bg-[#262420] px-8 py-4 text-white text-[0.68rem] uppercase tracking-[0.28em] transition-colors duration-300 hover:bg-[#3A342D]"
-            style={{ fontFamily: "var(--font-sans)", fontWeight: 600 }}
+            className="inline-flex min-h-16 items-center justify-center border-2 border-white px-7 text-sm font-semibold text-white transition-colors duration-300 hover:bg-white hover:text-black"
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Explore All Articles
           </a>

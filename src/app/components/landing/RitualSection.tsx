@@ -1,25 +1,10 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, Variants } from "framer-motion";
+
 
 export default function RitualSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [0, 1, 1, 0.6]);
-
-  const containerVariants: Variants = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.22, delayChildren: 0.15 } },
-  };
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 28 },
-    show: { opacity: 1, y: 0, transition: { duration: 1.0, ease: [0.22, 1, 0.36, 1] } },
-  };
-
   return (
     <section
-      ref={ref}
       className="relative w-full overflow-hidden"
       style={{ background: "#000000", height: "calc(100dvh - 3cm)" }}
     >
@@ -52,13 +37,7 @@ export default function RitualSection() {
         className="relative z-10 flex flex-col justify-between h-full px-6 md:px-14 py-10 md:py-30 max-w-7xl mx-auto w-full"
       >
         {/* TOP: The Vessel label — no gap, no rule below it */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9 }}
-          className="flex items-center gap-4"
-        >
+        <div className="flex items-center gap-4">
           <div className="h-px w-12" style={{ background: "#A48662" }} />
           <p
             className="text-xs tracking-[0.4em] uppercase"
@@ -66,29 +45,20 @@ export default function RitualSection() {
           >
             The Vessel
           </p>
-        </motion.div>
+        </div>
 
         {/* BOTTOM: Quote + body copy */}
-        <motion.div
-          style={{ opacity }}
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          className="max-w-4xl"
-        >
-          <motion.blockquote
-            variants={itemVariants}
+        <div className="max-w-4xl">
+          <blockquote
             className="text-3xl md:text-5xl lg:text-6xl font-light leading-[1.15] mb-6"
             style={{ fontFamily: "var(--font-serif)", color: "#FFFFFF" }}
           >
             "This is not consumption.
             <br />
             <span style={{ color: "rgba(255,255,255,0.7)" }}>This is ritual."</span>
-          </motion.blockquote>
+          </blockquote>
 
-          <motion.p
-            variants={itemVariants}
+          <p
             className="text-sm md:text-base leading-relaxed max-w-2xl mb-6"
             style={{ color: "rgba(255,255,255,0.8)", fontFamily: "var(--font-sans)", fontWeight: 300 }}
           >
@@ -96,19 +66,18 @@ export default function RitualSection() {
             wisdom — Himalayan ridges, coastal plains, temple gardens, and rain-soaked forests of
             the South. Our foundational philosophy is built on more than just texts; it is a
             synthesis of ancestral field knowledge and the rigorous observation of plant intelligence.
-          </motion.p>
+          </p>
 
-          <motion.p
-            variants={itemVariants}
+          <p
             className="text-sm md:text-base leading-relaxed max-w-2xl mb-10"
             style={{ color: "rgba(255,255,255,0.7)", fontFamily: "var(--font-sans)", fontWeight: 300 }}
           >
             In our tradition, health is defined not merely as the absence of illness, but as the
             active presence of luminous balance. To honour the biological form through refined
             ritual is, for us, the ultimate act of devotion.
-          </motion.p>
+          </p>
 
-          <motion.div variants={itemVariants} className="flex items-center gap-4">
+          <div className="flex items-center gap-4">
             <div className="h-px w-8" style={{ background: "#A48662", opacity: 0.6 }} />
             <p
               className="text-xs tracking-widest uppercase"
@@ -116,8 +85,8 @@ export default function RitualSection() {
             >
               — The House of Sampriti
             </p>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

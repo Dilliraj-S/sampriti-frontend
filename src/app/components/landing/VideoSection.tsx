@@ -2,13 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-
-const fadeInSlow = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 1.0 } },
-};
-
 export default function VideoSection() {
   const sectionRef = useRef(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -61,12 +54,7 @@ export default function VideoSection() {
       className="bg-white py-8 md:py-10"
     >
       <div className="grid min-h-[445px] grid-cols-1 items-stretch gap-12 md:min-h-[calc(100vh-10rem)] md:pl-12 lg:grid-cols-[0.55fr_1.45fr] lg:gap-16 lg:pl-20">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          variants={fadeInSlow}
-          viewport={{ once: true }}
-          className="max-w-xl pt-16 pl-6 pr-6 md:pt-24 md:pr-0 lg:pl-2"
+        <div className="max-w-xl pt-16 pl-6 pr-6 md:pt-24 md:pr-0 lg:pl-2"
         >
           <h2 className="text-[#2C2A26] text-2xl md:text-3xl font-light tracking-[0.18em]" style={{ fontFamily: "var(--font-sans)" }}>
             The Intelligence of Ancient Botanicals
@@ -81,14 +69,9 @@ export default function VideoSection() {
           >
             Discover The House
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          variants={fadeInSlow}
-          viewport={{ once: true }}
-          className="relative h-full min-h-[300px] overflow-hidden md:min-h-[400px]"
+        <div className="relative h-full min-h-[300px] overflow-hidden md:min-h-[400px]"
         >
           <video
             ref={videoRef}
@@ -134,7 +117,7 @@ export default function VideoSection() {
               )}
             </button>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

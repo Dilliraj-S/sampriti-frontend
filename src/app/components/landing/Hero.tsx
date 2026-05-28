@@ -2,22 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
 
-const fadeInSlow = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 1.2 } },
-};
-
-const fadeInDelay = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 1.0, delay: 0.3 } },
-};
-
-const fadeInDelay2 = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 1.0, delay: 0.6 } },
-};
 
 export default function Hero() {
   const ref = useRef(null);
@@ -55,14 +40,6 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, [heroBanners.length]);
   
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -113,10 +90,7 @@ export default function Hero() {
   return (
     <section ref={ref} className="relative w-full min-h-screen bg-[#F6F1E8] flex flex-col overflow-hidden">
       {/* Video Background - Cinematic */}
-      <motion.div 
-        className="absolute inset-0 w-full h-full"
-        style={{ y, scale }}
-      >
+      <div className="absolute inset-0 w-full h-full">
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
@@ -129,36 +103,23 @@ export default function Hero() {
         </video>
         <div className="absolute inset-0 bg-black/20" />
         {heroBanners.map((banner, i) => (
-          <motion.div
+          <div
             key={banner.id || i}
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${banner.image})` }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: i === currentBanner ? 1 : 0 }}
-            transition={{ duration: 1.2 }}
+            style={{ backgroundImage: `url(${banner.image})`, opacity: i === currentBanner ? 1 : 0, transition: "opacity 1.2s" }}
           />
         ))}
-      </motion.div>
+      </div>
 
       {/* Hero Content */}
       <div className="relative z-10 flex-1 flex items-end justify-center px-6 pb-32 md:pb-[74px]">
-        <motion.div
-          variants={fadeInSlow}
-          initial="hidden"
-          animate="show"
-          className="w-full max-w-[900px] text-center"
-        >
+        <div className="w-full max-w-[900px] text-center">
           {heroBanners.length > 0 ? (
-            <motion.div
-              key={currentBanner}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
+            <div key={currentBanner}>
               <p className="mb-3 text-[clamp(0.6rem,1.5vw,0.75rem)] tracking-[0.1em] text-white/90" style={{ fontFamily: "var(--font-heading)" }}>
                 {heroBanners[currentBanner]?.title || "Rooted In"}
               </p>
-            </motion.div>
+            </div>
           ) : (
             <p className="mb-3 text-[clamp(0.6rem,1.5vw,0.75rem)] tracking-[0.1em] text-white" style={{ fontFamily: "var(--font-heading)" }}>
               Rooted In
@@ -172,25 +133,22 @@ export default function Hero() {
             {heroBanners.length > 0 ? "Discover Our Collection" : "Living Herbal Lineages"}
           </h1>
 
-          <motion.p
-            variants={fadeInDelay}
-            initial="hidden"
-            animate="show"
+          <p
             className="mx-auto mb-6 text-center text-[clamp(0.85rem,1.5vw,1.05rem)] font-[400] leading-[1.6] text-white/90 max-w-[600px]"
             style={{ fontFamily: "var(--font-body)", textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}
           >
             A botanical house of ritual science and disciplined formulation, guided by the quiet intelligence of the earth.
-          </motion.p>
+          </p>
 
-          <motion.div variants={fadeInDelay2} initial="hidden" animate="show">
+          <div>
             <Link
               href="/shop"
               className="inline-flex min-h-16 items-center justify-center border-2 border-white px-7 text-sm font-semibold text-white transition-colors duration-300 hover:bg-white hover:text-black"
             >
               Discover the collection
             </Link>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
       

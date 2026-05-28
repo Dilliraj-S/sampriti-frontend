@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/app/components/landing/Navbar";
@@ -65,6 +66,30 @@ const categorySectionMap: Record<string, string> = {
 
 const carouselOnlyCategories = new Set(["skincare", "fragrance", "ceremony", "atmospheric"]);
 
+const heroCategoryImages: Record<string, string> = {
+  infusions: "/Assets/art of infusion.webp",
+  skincare: "/assests/images/skincare.webp",
+  fragrance: "/assests/images/fragrance.webp",
+  ceremony: "/assests/images/Caremony.webp",
+  atmospheric: "/assests/images/atmospheric.webp",
+};
+
+const heroMobileImages: Record<string, string> = {
+  infusions: "/assests/images/Minfusion.webp",
+  skincare: "/assests/images/Mskincare.webp",
+  fragrance: "/assests/images/MFragrance.webp",
+  ceremony: "/assests/images/MCaremony.webp",
+  atmospheric: "/assests/images/Matmospheric.webp",
+};
+
+const heroSubtitles: Record<string, string> = {
+  infusions: "High-functioning botanical infusions for vitality and balance",
+  skincare: "Botanical formulations for radiant skin and holistic care",
+  fragrance: "Natural fragrances crafted from ancestral botanicals",
+  ceremony: "Sacred tools for ritual and meditative practice",
+  atmospheric: "Botanical elements to transform your living space",
+};
+
 const fallbackProducts: Record<string, { name: string; subtitle: string; price: number; image: string; hoverImage: string; description?: string }> = {
   "shakti-peya": { name: "Shakti Peya", subtitle: "Energy Elixir", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png", description: "Shakti Peya is designed to support sustained vitality, circulation, digestion, and metabolic balance." },
   "chandra-rasa": { name: "Chandra Rasa", subtitle: "Sleep Potion", price: 54, image: "/Assets/Chandra rasa product hd.webp", hoverImage: "/Assets/chandra rasa hover.webp", description: "A lunar-calming adaptogenic brew formulation for restful sleep and nervous system balance." },
@@ -91,6 +116,16 @@ const fadeInSlow = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, tr
 export default function CategoryPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const heroRef = useRef<HTMLDivElement>(null);
+  const productsRef = useRef<HTMLDivElement>(null);
+  const scrollToProducts = () => {
+    productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  const heroBg = heroCategoryImages[slug];
+  const mobileHeroBg = heroMobileImages[slug];
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
   const [currency, setCurrency] = useState("INR");
   const [exchangeRate, setExchangeRate] = useState(85);
   const addItem = useCartStore((s) => s.addItem);
@@ -182,7 +217,7 @@ export default function CategoryPage() {
             src={p.image}
             alt={p.name}
             fill
-            className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply ${hoveredProduct === slugKey && p.hoverImage ? "opacity-0" : "opacity-100"}`}
+            className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === slugKey && p.hoverImage ? "opacity-0" : "opacity-100"}`}
             sizes={isFeatured ? "(max-width: 1024px) 100vw, 50vw" : "33vw"}
           />
           {p.hoverImage && (
@@ -190,7 +225,7 @@ export default function CategoryPage() {
               src={p.hoverImage}
               alt={p.name}
               fill
-              className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply ${hoveredProduct === slugKey ? "opacity-100" : "opacity-0"}`}
+              className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === slugKey ? "opacity-100" : "opacity-0"}`}
               sizes={isFeatured ? "(max-width: 1024px) 100vw, 50vw" : "33vw"}
             />
           )}
@@ -208,16 +243,36 @@ export default function CategoryPage() {
 
   return (
     <main className="bg-white min-h-screen" style={{ fontFamily: "var(--font-sans)" }}>
-      <Navbar forceScrolled={true} />
-      <div className="px-6 pt-32 pb-20 md:pt-44 md:px-12 lg:px-20">
+      <Navbar />
+      {heroBg && (
+        <section ref={heroRef} className="relative min-h-screen w-full overflow-hidden bg-black">
+          <motion.div className="absolute inset-0 w-full h-full" style={{ y: bgY, scale: bgScale }}>
+            <Image src={heroBg} alt={title} fill priority className="hidden md:block object-cover object-center" sizes="100vw" />
+            <Image src={mobileHeroBg} alt={title} fill priority className="block md:hidden object-cover object-center" sizes="100vw" />
+          </motion.div>
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.24) 42%, rgba(0,0,0,0.78) 100%)" }} />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.42)_100%)]" />
+          <div className="relative z-10 flex min-h-screen flex-col items-center justify-end px-6 pb-20 text-center">
+            <div className="max-w-3xl">
+              <p className="mb-5 text-xs uppercase tracking-[0.42em]" style={{ color: "#C9A76A" }}>{title}</p>
+              <h1 className="mb-5 text-4xl font-light leading-tight md:text-6xl lg:text-7xl" style={{ fontFamily: "var(--font-serif)", color: "#FFFFFF" }}>{title}</h1>
+              <p className="mx-auto mb-8 max-w-2xl text-sm leading-relaxed md:text-lg" style={{ fontWeight: 300, color: "rgba(255,255,255,0.82)" }}>{heroSubtitles[slug]}</p>
+              <div>
+                <button type="button" onClick={scrollToProducts} className="inline-flex min-h-16 max-sm:min-h-12 items-center justify-center border-2 border-white px-7 max-sm:px-5 text-sm max-sm:text-xs font-semibold text-white transition-colors duration-300 hover:bg-white hover:text-black cursor-pointer">Explore The Collection</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+      <section ref={productsRef} className="scroll-mt-20 px-6 pt-32 pb-20 md:pt-44 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-[#2C2A26] text-3xl md:text-5xl font-light text-center mb-16 md:mb-20" style={{ fontFamily: "var(--font-serif)" }}>{title}</h1>
+          {!heroBg && <h1 className="text-[#2C2A26] text-3xl md:text-5xl font-light text-center mb-16 md:mb-20" style={{ fontFamily: "var(--font-serif)" }}>{title}</h1>}
 
           {displayProducts.length === 0 && <p className="text-center text-[#8A847C]">Products coming soon.</p>}
 
           {/* 3-product categories: all in one row */}
           {isThreeProductCategory && !isCarouselOnlyCategory && (
-            <div className="grid grid-cols-1 gap-10 md:relative md:left-1/2 md:w-screen md:-translate-x-1/2 md:grid-cols-3 md:gap-16">
+            <div className="grid grid-cols-1 gap-10 md:relative md:left-1/2 md:w-screen md:-translate-x-1/2 md:grid-cols-3 md:gap-16 px-6 md:px-12 lg:px-20">
               {displayProducts.map((p) => renderProductCard(p, p.slug, false))}
             </div>
           )}
@@ -228,16 +283,25 @@ export default function CategoryPage() {
               {featuredProducts.map((p) => {
                 const slugKey = p.slug;
                 return (
-                  <motion.div key={slugKey} variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="group">
+                    <motion.div key={slugKey} variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="group">
                     <Link href={`/product/${slugKey}`} className="block">
                       <div className="relative mb-4 flex aspect-[1.9/1] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct(slugKey)} onMouseLeave={() => setHoveredProduct(null)}>
                         <ProductImage
-                          src={hoveredProduct === slugKey && p.hoverImage ? p.hoverImage : p.image}
+                          src={p.image}
                           alt={p.name}
                           fill
-                          className="object-contain transition-opacity duration-500 mix-blend-multiply"
+                          className={`object-contain transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === slugKey && p.hoverImage ? "opacity-0" : "opacity-100"}`}
                           sizes="(max-width: 1024px) 100vw, 50vw"
                         />
+                        {p.hoverImage && (
+                          <ProductImage
+                            src={p.hoverImage}
+                            alt={p.name}
+                            fill
+                            className={`object-contain transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === slugKey ? "opacity-100" : "opacity-0"}`}
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                          />
+                        )}
                       </div>
                     </Link>
                     <div className="text-center">
@@ -267,7 +331,7 @@ export default function CategoryPage() {
                             src={p.image}
                             alt={p.name}
                             fill
-                            className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply ${hoveredProduct === slugKey && p.hoverImage ? "opacity-0" : "opacity-100"}`}
+                            className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === slugKey && p.hoverImage ? "opacity-0" : "opacity-100"}`}
                             sizes="100vw"
                           />
                           {p.hoverImage && (
@@ -275,7 +339,7 @@ export default function CategoryPage() {
                               src={p.hoverImage}
                               alt={p.name}
                               fill
-                              className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply ${hoveredProduct === slugKey ? "opacity-100" : "opacity-0"}`}
+                              className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === slugKey ? "opacity-100" : "opacity-0"}`}
                               sizes="100vw"
                             />
                           )}
@@ -297,16 +361,16 @@ export default function CategoryPage() {
               {botanicalProducts.length > visibleProductCount && (
                 <div className="relative left-1/2 hidden w-screen -translate-x-1/2 pb-4 md:block">
                   {canScrollBack && (
-                    <button type="button" onClick={() => scrollBotanicals("back")} className="absolute -left-3 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 flex">
+                    <button type="button" onClick={() => scrollBotanicals("back")} className="absolute left-3 md:left-9 lg:left-16 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 flex">
                       <ChevronLeft size={26} strokeWidth={1.8} />
                     </button>
                   )}
                   {canScrollForward && (
-                    <button type="button" onClick={() => scrollBotanicals("forward")} className="absolute -right-3 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 flex">
+                    <button type="button" onClick={() => scrollBotanicals("forward")} className="absolute right-3 md:right-9 lg:right-16 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 flex">
                       <ChevronRight size={26} strokeWidth={1.8} />
                     </button>
                   )}
-                  <motion.div key={botanicalSlide} initial={{ opacity: 0.85, x: canScrollBack ? 18 : -18 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className={`hidden md:grid ${desktopGridClass} gap-16`}>
+                  <motion.div key={botanicalSlide} initial={{ opacity: 0.85, x: canScrollBack ? 18 : -18 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className={`hidden md:grid ${desktopGridClass} gap-16 px-6 md:px-12 lg:px-20`}>
                     {visibleBotanicalProducts.map((p) => {
                       const slugKey = p.slug;
                       return renderProductCard(p, slugKey, false);
@@ -317,7 +381,7 @@ export default function CategoryPage() {
 
               {/* Desktop: single row when no carousel is needed */}
               {botanicalProducts.length > 0 && botanicalProducts.length <= visibleProductCount && (
-                <div className={`relative left-1/2 hidden w-screen -translate-x-1/2 md:grid ${desktopGridClass} gap-16`}>
+                <div className={`relative left-1/2 hidden w-screen -translate-x-1/2 md:grid ${desktopGridClass} gap-16 px-6 md:px-12 lg:px-20`}>
                   {botanicalProducts.map((p) => {
                     const slugKey = p.slug;
                     return renderProductCard(p, slugKey, false);
@@ -327,7 +391,7 @@ export default function CategoryPage() {
             </div>
           )}
         </div>
-      </div>
+      </section>
       <Footer />
     </main>
   );

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const steps = [
   {
@@ -129,13 +128,7 @@ export default function JourneyTimeline() {
       aria-label="Our process"
     >
       {/* ── Section heading ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="mx-auto mb-10 max-w-3xl px-6 text-center md:mb-14"
-      >
+      <div className="mx-auto mb-10 max-w-3xl px-6 text-center md:mb-14">
         <p
           className="mb-4 text-xs uppercase tracking-[0.4em]"
           style={{ color: "#A48662", fontFamily: "var(--font-sans)" }}
@@ -155,7 +148,7 @@ export default function JourneyTimeline() {
           Follow the quiet journey from living landscapes and seasonal harvests to
           the calibrated ritual held in each vessel.
         </p>
-      </motion.div>
+      </div>
 
       {/* ════════════════════════════════ DESKTOP ════════════════════════════════ */}
       <div
@@ -168,23 +161,14 @@ export default function JourneyTimeline() {
 
           {/* LEFT — image: 680px tall, object-cover object-center (same as your working old code) */}
           <div style={{ position: "relative", overflow: "hidden", background: "#1a1816", height: "680px" }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={imgKey}
-                className="absolute inset-0"
-                initial={{ opacity: 0, scale: 1.04 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.97 }}
-                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              >
+            <div className="absolute inset-0">
                 <img
                   src={step.image}
                   alt={step.title}
                   className="w-full h-full"
                   style={{ objectFit: "cover", objectPosition: "center" }}
                 />
-              </motion.div>
-            </AnimatePresence>
+            </div>
 
             <div
               className="absolute inset-0 pointer-events-none"
@@ -196,14 +180,7 @@ export default function JourneyTimeline() {
 
             {/* Image overlay: tag + title + location */}
             <div className="absolute bottom-0 left-0 right-0" style={{ padding: "28px 32px" }}>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={active}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.4, delay: 0.12 }}
-                >
+              <div>
                   <span
                     style={{
                       display: "inline-block",
@@ -245,11 +222,9 @@ export default function JourneyTimeline() {
                       {step.location}
                     </span>
                   </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+              </div>
           </div>
-
+        </div>
           {/* RIGHT — content */}
           <div
             style={{
@@ -269,14 +244,7 @@ export default function JourneyTimeline() {
                 overflowY: "auto",
               }}
             >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={active}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-                >
+              <div>
                   <p
                     style={{
                       fontSize: "10px",
@@ -347,8 +315,7 @@ export default function JourneyTimeline() {
                       {step.quote}
                     </p>
                   </div>
-                </motion.div>
-              </AnimatePresence>
+              </div>
             </div>
 
             {/* Prev / progress / Next */}
@@ -366,10 +333,8 @@ export default function JourneyTimeline() {
                 ← Prev
               </button>
               <div style={{ flex: 1, height: "1px", background: "rgba(164,134,98,0.22)", position: "relative" }}>
-                <motion.div
-                  style={{ height: "100%", background: "#A48662", position: "absolute", left: 0, top: 0 }}
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
+                <div
+                  style={{ height: "100%", background: "#A48662", position: "absolute", left: 0, top: 0, width: `${progress}%` }}
                 />
               </div>
               <button
@@ -444,23 +409,22 @@ export default function JourneyTimeline() {
 
         {/* Image — 75svh with object-cover object-center (same logic as old working code) */}
         <div className="relative overflow-hidden" style={{ height: "75svh" }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={imgKey}
-              className="absolute inset-0"
-              initial={{ opacity: 0, scale: 1.04 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <img
-                src={step.image}
-                alt={step.title}
-                className="w-full h-full"
-                style={{ objectFit: "cover", objectPosition: "center" }}
-              />
-            </motion.div>
-          </AnimatePresence>
+          <div className="absolute inset-0">
+            <img
+              src={step.image}
+              alt={step.title}
+              className="w-full h-full"
+              style={{ objectFit: "cover", objectPosition: "center" }}
+            />
+          </div>
+
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.06) 55%, transparent 100%)",
+            }}
+          />
 
           <div
             className="absolute inset-0 pointer-events-none"
@@ -506,14 +470,7 @@ export default function JourneyTimeline() {
 
           {/* Image bottom overlay */}
           <div className="absolute bottom-6 left-5 right-5">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.38, delay: 0.08 }}
-              >
+            <div>
                 <span
                   style={{
                     display: "inline-block",
@@ -541,9 +498,8 @@ export default function JourneyTimeline() {
                 >
                   {step.title}
                 </h3>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+              </div>
+            </div>
         </div>
 
         {/* Scrollable nav pills */}
@@ -583,14 +539,7 @@ export default function JourneyTimeline() {
 
         {/* Text content */}
         <div style={{ padding: "28px 24px" }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-            >
+          <div>
               <p
                 style={{
                   fontSize: "10px",
@@ -655,8 +604,7 @@ export default function JourneyTimeline() {
                   {step.quote}
                 </p>
               </div>
-            </motion.div>
-          </AnimatePresence>
+            </div>
         </div>
 
         {/* Mobile nav footer */}
@@ -665,10 +613,8 @@ export default function JourneyTimeline() {
             ← Prev
           </button>
           <div style={{ flex: 1, height: "1px", background: "rgba(164,134,98,0.22)", position: "relative" }}>
-            <motion.div
-              style={{ height: "100%", background: "#A48662", position: "absolute", left: 0, top: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.4 }}
+            <div
+              style={{ height: "100%", background: "#A48662", position: "absolute", left: 0, top: 0, width: `${progress}%` }}
             />
           </div>
           <button

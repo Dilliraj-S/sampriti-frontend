@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCartStore } from "@/app/components/landing/cartStore";
@@ -65,8 +65,6 @@ const productImageFallbacks = new Map([
 ]);
 
 const categoryPageSections = new Set(["infusions", "skincare", "fragrance", "ceremony", "atmosphere"]);
-
-const fadeInSlow = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 1.0 } } };
 
 export default function SignatureRituals() {
   const [products, setProducts] = useState<RitualProduct[]>(fallbackProducts);
@@ -177,23 +175,32 @@ export default function SignatureRituals() {
   return (
     <section id="shop" className="bg-white py-24 md:py-32 px-6 md:px-12 lg:px-20">
       <div className="max-w-6xl mx-auto">
-        <motion.div variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-16 md:mb-20">
           <h2 className="text-[#2C2A26] text-3xl md:text-4xl lg:text-5xl font-light" style={{ fontFamily: "var(--font-serif)" }}>Signature Rituals</h2>
           <p className="text-[#8A847C] mt-6 text-base md:text-lg leading-relaxed max-w-4xl mx-auto md:whitespace-nowrap">A collection of precisely composed formulations honoring the body&apos;s essential cycles: activation and restoration.</p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 mb-20">
           {featuredProducts.map((product) => (
-            <motion.div key={product.id} variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="group">
+            <div key={product.id} className="group">
               <Link href={`/product/${product.id}`} className="block">
                 <div className="relative mb-4 flex aspect-[1.9/1] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct(product.id)} onMouseLeave={() => setHoveredProduct(null)}>
                   <ProductImage
-                    src={hoveredProduct === product.id && product.hoverImage ? product.hoverImage : product.image}
+                    src={product.image}
                     alt={product.name}
                     fill
-                    className="object-contain transition-opacity duration-500 mix-blend-multiply"
+                    className={`object-contain transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === product.id && product.hoverImage ? "opacity-0" : "opacity-100"}`}
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
+                  {product.hoverImage && (
+                    <ProductImage
+                      src={product.hoverImage}
+                      alt={product.name}
+                      fill
+                      className={`object-contain transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === product.id ? "opacity-100" : "opacity-0"}`}
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  )}
                 </div>
               </Link>
               <div className="text-center">
@@ -203,12 +210,12 @@ export default function SignatureRituals() {
                 <p className="text-[#2C2A26] text-xl font-light">{formatPrice(product.price, currency, exchangeRate)}</p>
               </div>
               <button onClick={() => handleAddToCart(product)} className="mt-3 flex h-12 w-full items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Black Turmeric Video */}
-        <motion.div variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="relative left-1/2 -translate-x-1/2 w-screen mb-20">
+        <div className="relative left-1/2 -translate-x-1/2 w-screen mb-20">
           <div className="flex flex-col md:flex-row md:items-stretch">
             <div className="relative min-h-[300px] overflow-hidden md:min-h-[400px] md:w-[58%]">
               <video
@@ -251,21 +258,21 @@ export default function SignatureRituals() {
                 </button>
               </div>
             </div>
-            <div className="flex flex-col justify-center px-6 py-10 md:py-0 md:pl-12 md:pr-12 lg:pl-20 lg:pr-20 md:w-[42%]">
+            <div className="group flex flex-col justify-center px-6 py-10 md:py-0 md:pl-12 md:pr-12 lg:pl-20 lg:pr-20 md:w-[42%]">
               <Link href="/product/black-turmeric" className="block">
                 <div className="relative mb-3 flex h-[310px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct("black-turmeric")} onMouseLeave={() => setHoveredProduct(null)}>
                   <ProductImage
                     src="/Assets/black turmeric hd.webp"
                     alt="Black Turmeric"
                     fill
-                    className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply ${hoveredProduct === "black-turmeric" ? "opacity-0" : "opacity-100"}`}
+                    className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === "black-turmeric" ? "opacity-0" : "opacity-100"}`}
                     sizes="33vw"
                   />
                   <ProductImage
                     src="/Assets/black turmeric hover.webp"
                     alt="Black Turmeric"
                     fill
-                    className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply ${hoveredProduct === "black-turmeric" ? "opacity-100" : "opacity-0"}`}
+                    className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === "black-turmeric" ? "opacity-100" : "opacity-0"}`}
                     sizes="33vw"
                   />
                 </div>
@@ -279,12 +286,12 @@ export default function SignatureRituals() {
               <button onClick={() => { addItem({ id: "black-turmeric", name: "Black Turmeric", price: 45, quantity: 1, image: "/Assets/black turmeric hd.webp" }); openCart(); }} className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer">Add To Cart</button>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mt-10 md:mt-12 mb-16 md:mb-20">
+        <div className="text-center mt-10 md:mt-12 mb-16 md:mb-20">
           <h2 className="text-[#2C2A26] text-3xl md:text-4xl lg:text-5xl font-light" style={{ fontFamily: "var(--font-serif)" }}>Materia Botanica</h2>
           <p className="mx-auto mt-5 max-w-3xl text-base md:text-lg leading-relaxed text-[#8A847C]">A collection of high-functioning botanical infusions, each chosen for its unique therapeutic profile and ancestral significance.</p>
-        </motion.div>
+        </div>
 
         {sectionOrder.map((sectionKey) => {
           const sectionProducts = groupedBySection[sectionKey];
@@ -296,18 +303,18 @@ export default function SignatureRituals() {
           return (
             <div key={sectionKey} className="mb-16 last:mb-0">
               {label && (
-                <motion.div variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-10">
+                <div className="text-center mb-10">
                   <h3 className="text-[#2C2A26] text-2xl md:text-3xl font-light tracking-[0.08em]" style={{ fontFamily: "var(--font-serif)" }}>{label}</h3>
-                </motion.div>
+                </div>
               )}
               <div className="relative md:left-1/2 md:w-screen md:-translate-x-1/2">
                 {slide > 0 && (
-                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.max(0, slide - 1) }))} className="absolute -left-3 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronLeft size={26} strokeWidth={1.8} /></button>
+                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.max(0, slide - 1) }))} className="absolute left-3 md:left-9 lg:left-16 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronLeft size={26} strokeWidth={1.8} /></button>
                 )}
                 {slide < maxSlide && (
-                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.min(maxSlide, slide + 1) }))} className="absolute -right-3 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronRight size={26} strokeWidth={1.8} /></button>
+                  <button type="button" onClick={() => setSectionSlides((prev) => ({ ...prev, [sectionKey]: Math.min(maxSlide, slide + 1) }))} className="absolute right-3 md:right-9 lg:right-16 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 hidden md:flex"><ChevronRight size={26} strokeWidth={1.8} /></button>
                 )}
-                <div className="hidden md:grid md:grid-cols-3 gap-16">
+                <div className="hidden md:grid md:grid-cols-3 gap-16 px-6 md:px-12 lg:px-20">
                   {visible.map((product) => (
                     <div key={product.id} className="group flex min-w-0 flex-col justify-between">
                       <Link href={`/product/${product.id}`} className="block">
@@ -316,7 +323,7 @@ export default function SignatureRituals() {
                             src={product.image}
                             alt={product.name}
                             fill
-                            className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply ${hoveredProduct === product.id && product.hoverImage ? "opacity-0" : "opacity-100"}`}
+                            className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === product.id && product.hoverImage ? "opacity-0" : "opacity-100"}`}
                             sizes="33vw"
                           />
                           {product.hoverImage && (
@@ -324,7 +331,7 @@ export default function SignatureRituals() {
                               src={product.hoverImage}
                               alt={product.name}
                               fill
-                              className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply ${hoveredProduct === product.id ? "opacity-100" : "opacity-0"}`}
+                              className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === product.id ? "opacity-100" : "opacity-0"}`}
                               sizes="33vw"
                             />
                           )}
@@ -342,14 +349,14 @@ export default function SignatureRituals() {
                 </div>
                 <div className="grid grid-cols-1 gap-10 md:hidden">
                   {sectionProducts.map((product) => (
-                    <motion.div key={product.id} variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="group flex min-w-0 flex-col justify-between">
+                    <div key={product.id} className="group flex min-w-0 flex-col justify-between">
                       <Link href={`/product/${product.id}`} className="block">
                         <div className="relative mb-3 flex h-[310px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct(product.id)} onMouseLeave={() => setHoveredProduct(null)}>
                           <ProductImage
                             src={product.image}
                             alt={product.name}
                             fill
-                            className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply ${hoveredProduct === product.id && product.hoverImage ? "opacity-0" : "opacity-100"}`}
+                            className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === product.id && product.hoverImage ? "opacity-0" : "opacity-100"}`}
                             sizes="100vw"
                           />
                           {product.hoverImage && (
@@ -357,7 +364,7 @@ export default function SignatureRituals() {
                               src={product.hoverImage}
                               alt={product.name}
                               fill
-                              className={`object-contain p-0 transition-opacity duration-500 mix-blend-multiply ${hoveredProduct === product.id ? "opacity-100" : "opacity-0"}`}
+                              className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === product.id ? "opacity-100" : "opacity-0"}`}
                               sizes="100vw"
                             />
                           )}
@@ -370,7 +377,7 @@ export default function SignatureRituals() {
                         </div>
                       </Link>
                       <button onClick={() => handleAddToCart(product)} className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer">Add To Cart</button>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>

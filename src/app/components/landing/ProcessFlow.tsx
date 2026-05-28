@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+
 
 const processSteps = [
   {
@@ -86,17 +86,8 @@ const processSteps = [
 ];
 
 export default function ProcessFlow() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const lineWidth = useTransform(scrollYProgress, [0.1, 0.8], ["0%", "100%"]);
-
   return (
     <section
-      ref={sectionRef}
       className="py-24 md:py-36 relative overflow-hidden"
       style={{ background: "#FFFFFF" }}
     >
@@ -228,12 +219,7 @@ export default function ProcessFlow() {
 
       {/* ── Section header ── */}
       <div className="px-6 md:px-14 mb-16 md:mb-20 max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9 }}
-        >
+        <div>
           <div className="flex items-center gap-4 mb-5">
             <div className="h-px w-12" style={{ background: "#2B2925" }} />
             <p
@@ -249,23 +235,11 @@ export default function ProcessFlow() {
           >
             From Living Plant<br className="hidden md:block" /> to Ritual
           </h2>
-        </motion.div>
+        </div>
       </div>
 
       {/* ── DESKTOP ── */}
       <div className="hidden md:block px-14 max-w-7xl mx-auto">
-
-        {/* Scroll-driven progress line */}
-        <div className="relative" style={{ height: "1px", marginBottom: "0" }}>
-          <div
-            className="absolute inset-0"
-            style={{ background: "rgba(44,41,37,0.12)" }}
-          />
-          <motion.div
-            className="absolute left-0 top-0 h-full origin-left"
-            style={{ background: "#2B2925", width: lineWidth }}
-          />
-        </div>
 
         {/* Steps grid */}
         <div
@@ -275,13 +249,9 @@ export default function ProcessFlow() {
           }}
         >
           {processSteps.map((step, i) => (
-            <motion.div
+            <div
               key={step.stage}
               className="process-step flex flex-col items-center"
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.65, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
             >
               {/* Vertical drop connector */}
               <div className="process-connector" />
@@ -353,7 +323,7 @@ export default function ProcessFlow() {
               >
                 {step.description}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
@@ -361,12 +331,8 @@ export default function ProcessFlow() {
       {/* ── MOBILE — vertical stack ── */}
       <div className="md:hidden px-6 space-y-0 max-w-2xl mx-auto">
         {processSteps.map((step, i) => (
-          <motion.div
+          <div
             key={step.stage}
-            initial={{ opacity: 0, x: -16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: i * 0.07 }}
             className="flex items-start gap-5 py-6"
             style={{
               borderBottom: i < processSteps.length - 1
@@ -440,7 +406,7 @@ export default function ProcessFlow() {
                 {step.description}
               </p>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

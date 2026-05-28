@@ -494,13 +494,13 @@ export default function ProductPage() {
 
             {/* "" Hero Product Image with Gallery """"""""""""""""""""""""""" */}
             <div>
-              <div className="relative aspect-square bg-white overflow-hidden">
+              <div className="group relative aspect-square bg-white overflow-hidden">
                 <ProductImage
                   src={galleryImages[galleryIndex]}
                   alt={product.name}
                   fill
                   priority
-                  className={heroImgClass}
+                  className={`${heroImgClass} group-hover:scale-[1.03] transition-all duration-500`}
                 />
               </div>
               {galleryImages.length > 1 && (
@@ -722,7 +722,7 @@ export default function ProductPage() {
                   >
                     <Link href={`/product/${related.id}`} className="block">
                       <div className="relative aspect-square bg-white mb-3 overflow-hidden">
-                        <ProductImage src={hoveredRelated === related.id && related.hoverImage ? related.hoverImage : related.image} alt={related.name} fill className="object-contain" />
+                        <ProductImage src={hoveredRelated === related.id && related.hoverImage ? related.hoverImage : related.image} alt={related.name} fill className="object-contain transition-all duration-500 group-hover:scale-[1.03]" />
                       </div>
                       <h3 className="text-[#2C2A26] text-sm md:text-lg font-light leading-tight" style={{ fontFamily: "var(--font-serif)" }}>{related.name}</h3>
                       {related.description && <p className="mx-auto mt-2 text-xs md:text-sm leading-relaxed text-[#8A847C]">{related.description}</p>}
@@ -759,7 +759,7 @@ export default function ProductPage() {
                       >
                         <Link href={`/product/${related.id}`} className="block">
                           <div className="relative aspect-square bg-white mb-4 overflow-hidden">
-                            <ProductImage src={hoveredRelated === related.id && related.hoverImage ? related.hoverImage : related.image} alt={related.name} fill className="object-contain" />
+                            <ProductImage src={hoveredRelated === related.id && related.hoverImage ? related.hoverImage : related.image} alt={related.name} fill className="object-contain transition-all duration-500 group-hover:scale-[1.03]" />
                           </div>
                           <h3 className="text-[#2C2A26] text-xl font-light" style={{ fontFamily: "var(--font-serif)" }}>{related.name}</h3>
                           {related.description && <p className="mx-auto mt-2 text-sm leading-relaxed text-[#8A847C]">{related.description}</p>}

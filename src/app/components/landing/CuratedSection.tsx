@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+
 import Link from "next/link";
 import { useCartStore } from "@/app/components/landing/cartStore";
 import { useState, useEffect } from "react";
@@ -52,8 +52,6 @@ const fallbackBySection: Record<string, { id: string; name: string; subtitle: st
   ],
 };
 
-const fadeInUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.8 } } };
-
 export default function CuratedSection({ section, title, description }: CuratedSectionProps) {
   const [products, setProducts] = useState<(typeof fallbackBySection)[string]>(fallbackBySection[section] || []);
   const [currency, setCurrency] = useState("INR");
@@ -94,21 +92,21 @@ export default function CuratedSection({ section, title, description }: CuratedS
   return (
     <section className="bg-white py-24 md:py-32 px-6 md:px-12 lg:px-20">
       <div className="max-w-6xl mx-auto">
-        <motion.div variants={fadeInUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-16 md:mb-20">
           <h2 className="text-[#2C2A26] text-3xl md:text-4xl lg:text-5xl font-light" style={{ fontFamily: "var(--font-serif)" }}>{title}</h2>
           {description && <p className="mx-auto mt-5 max-w-3xl text-base md:text-lg leading-relaxed text-[#8A847C]">{description}</p>}
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
           {products.map((product) => (
-            <motion.div key={product.id} variants={fadeInUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="group flex min-w-0 flex-col justify-between">
+            <div key={product.id} className="group flex min-w-0 flex-col justify-between">
               <Link href={`/product/${product.id}`} className="block">
                 <div className="relative mb-3 flex h-[310px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct(product.id)} onMouseLeave={() => setHoveredProduct(null)}>
                   <ProductImage
                     src={hoveredProduct === product.id && product.hoverImage ? product.hoverImage : product.image}
                     alt={product.name}
                     fill
-                    className="object-contain p-0 transition-opacity duration-500 mix-blend-multiply"
+                    className="object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03]"
                     sizes="33vw"
                   />
                 </div>
@@ -120,7 +118,7 @@ export default function CuratedSection({ section, title, description }: CuratedS
                 </div>
               </Link>
               <button onClick={() => { addItem({ id: product.id, name: product.name, price: product.price, quantity: 1, image: product.image }); openCart(); }} className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-all duration-300 cursor-pointer">Add To Cart</button>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

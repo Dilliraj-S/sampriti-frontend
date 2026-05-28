@@ -105,10 +105,11 @@ export default function ShopPage() {
 
   const getImageClasses = (productId: string, isHover: boolean) => {
     const isImmersive = productId === "shakti-peya" || productId === "chandra-rasa";
+    const base = "absolute inset-0 w-full h-full transition-all duration-500 group-hover:scale-[1.03]";
     if (isImmersive && isHover) {
-      return "absolute inset-0 w-full h-full object-cover object-center scale-100 transition-all duration-500";
+      return `${base} object-cover object-center scale-100`;
     }
-    return "absolute inset-0 w-full h-full object-contain object-center scale-100 transition-all duration-500";
+    return `${base} object-contain object-center scale-100`;
   };
 
   const renderProductImages = (product: (typeof products)[0]) => (

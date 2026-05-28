@@ -1,24 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+
 import { archiveArticles, ArchiveArticle } from "./archiveData";
 import { useEffect, useState } from "react";
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 36 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.72, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] },
-  }),
-};
-
-const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] } },
-  exit: { opacity: 0, y: -16, transition: { duration: 0.38, ease: "easeIn" } },
-};
 
 function ArticleCard({
   article,
@@ -88,28 +73,17 @@ function ArticleCard({
   );
 
   return (
-    <motion.article
-      custom={index}
-      variants={fadeUp}
-      initial="hidden"
-      animate="show"
-      className={`group px-6 md:px-0 ${linked ? "cursor-pointer" : ""}`}
+    <article className={`group px-6 md:px-0 ${linked ? "cursor-pointer" : ""}`}
     >
       {linked ? <Link href={article.href} className="block">{content}</Link> : content}
-    </motion.article>
+    </article>
   );
 }
 
 function ArchivePreview({ customArticles }: { customArticles?: ArchiveArticle[] }) {
   const arts = customArticles || archiveArticles;
   return (
-    <motion.div
-      variants={sectionVariants}
-      initial="hidden"
-      animate="show"
-      exit="exit"
-      className="w-full"
-    >
+    <div className="w-full">
       <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
         <p
           className="mb-4 text-[#A48662] text-[0.6rem] tracking-[0.45em] uppercase"
@@ -138,12 +112,7 @@ function ArchivePreview({ customArticles }: { customArticles?: ArchiveArticle[] 
           />
         ))}
 
-        <motion.article
-          custom={2}
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          className="flex h-fit flex-col self-start border border-b-0 border-[#A48662]/15 bg-[#A48662]/[0.045] p-7 pb-[1cm] md:p-8 md:pb-[1cm]"
+        <article className="flex h-fit flex-col self-start border border-b-0 border-[#A48662]/15 bg-[#A48662]/[0.045] p-7 pb-[1cm] md:p-8 md:pb-[1cm]"
         >
           <div>
             <p
@@ -169,26 +138,21 @@ function ArchivePreview({ customArticles }: { customArticles?: ArchiveArticle[] 
           </div>
           <Link
             href="/archive"
-            className="mt-[1.8cm] inline-flex items-center justify-center bg-[#262420] px-6 py-4 text-center text-white text-[0.65rem] tracking-[0.26em] uppercase transition-colors duration-300 hover:bg-[#3A342D] cursor-pointer"
-            style={{ fontFamily: "var(--font-sans)", fontWeight: 500 }}
+            className="mt-[1.8cm] inline-flex min-h-16 items-center justify-center border-2 border-[#262420] px-7 text-sm font-semibold text-[#262420] transition-colors duration-300 hover:bg-[#262420] hover:text-white cursor-pointer"
+            style={{ fontFamily: "var(--font-sans)" }}
           >
             Explore All Articles {"\u2192"}
           </Link>
-        </motion.article>
+        </article>
       </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 function ArchiveHeader() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.82 }}
-      className="mb-10 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between"
+    <div className="mb-10 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between"
     >
       <div>
         <p
@@ -210,26 +174,20 @@ function ArchiveHeader() {
       >
         Essays, botanical profiles, and ancestral wisdom - drawn from living traditions.
       </p>
-    </motion.div>
+    </div>
   );
 }
 
 function ArticleGrid({ customArticles }: { customArticles?: ArchiveArticle[] }) {
   const arts = customArticles || archiveArticles;
   return (
-    <motion.div
-      variants={sectionVariants}
-      initial="hidden"
-      animate="show"
-      exit="exit"
-      className="w-full"
-    >
+    <div className="w-full">
       <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
         {arts.map((article, i) => (
           <ArticleCard key={article.href} article={article} index={i} large />
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -287,17 +245,11 @@ export default function Archive({
       <div className="w-full px-6 md:px-8 lg:px-10">
         {expanded && showHeader && <ArchiveHeader />}
 
-        <AnimatePresence mode="wait">
-          {!expanded ? (
-            <motion.div key="preview" layout>
-              <ArchivePreview customArticles={articles} />
-            </motion.div>
-          ) : (
-            <motion.div key="grid" layout>
-              <ArticleGrid customArticles={articles} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {!expanded ? (
+          <ArchivePreview customArticles={articles} />
+        ) : (
+          <ArticleGrid customArticles={articles} />
+        )}
       </div>
     </section>
   );
