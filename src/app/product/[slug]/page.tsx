@@ -370,18 +370,19 @@ export default function ProductPage() {
           return [];
         };
         const usageDetails = parseUsage(foundProduct.usageDetails);
+        const isOldSiteProduct = fb && (foundProduct.slug === "shakti-peya" || foundProduct.slug === "chandra-rasa" || foundProduct.slug === "hibiscus" || foundProduct.slug === "rose" || foundProduct.slug === "blue-butterfly-pea" || foundProduct.slug === "black-turmeric");
         const normalizedImage = normalizeImagePath(foundProduct.image) || fb?.image || "";
         const normalizedHover = normalizeImagePath(foundProduct.hoverImage) || fb?.hoverImage || "";
         setProduct({
           id: foundProduct.slug,
-          name: foundProduct.name || fb?.name || "",
-          subtitle: foundProduct.subtitle || fb?.subtitle || "",
+          name: isOldSiteProduct ? fb.name : (foundProduct.name || fb?.name || ""),
+          subtitle: isOldSiteProduct ? fb.subtitle : (foundProduct.subtitle || fb?.subtitle || ""),
           category: foundProduct.category?.name || fb?.category || "",
           price: parseFloat(String(foundProduct.price || 0)) || fb?.price || 0,
-          format: foundProduct.format || fb?.format || "",
+          format: isOldSiteProduct ? fb.format : (foundProduct.format || fb?.format || ""),
           image: normalizedImage,
           description: foundProduct.description || fb?.description || "",
-          benefits: foundProduct.benefits || fb?.benefits || "",
+          benefits: isOldSiteProduct ? fb.benefits : (foundProduct.benefits || fb?.benefits || ""),
           aroma: foundProduct.aroma || fb?.aroma || "",
           suitedTo: foundProduct.suitedTo || fb?.suitedTo || "",
           keyIngredients: foundProduct.keyIngredients || fb?.keyIngredients || "",

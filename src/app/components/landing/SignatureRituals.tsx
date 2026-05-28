@@ -49,9 +49,9 @@ const fallbackProducts = [
   { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", category: "Activation", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png" },
   { id: "chandra-rasa", name: "Chandra Rasa", subtitle: "Sleep Potion", category: "Calm", benefits: "Calm · Settling · Restorative", format: "9 Test Tube Kit", price: 54, image: "/Assets/Chandra rasa product hd.webp", hoverImage: "/Assets/chandra rasa hover.webp" },
   { id: "shotharaha", name: "Shotharaha", subtitle: "Dual Black Recovery", category: "Restorative", benefits: "", format: "", description: "", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png" },
-  { id: "rose", name: "Rose", subtitle: "Rosa Damascena", category: "Floral", benefits: "", format: "", description: "A delicate floral essence to soothe the heart.", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", category: "Antioxidant", benefits: "", format: "", description: "A vibrant botanical infusion rich in antioxidants.", price: 42, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
-  { id: "blue-butterfly-pea", name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", category: "Azure", benefits: "", format: "", description: "A brilliant blue infusion to enhance cognitive function.", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
+  { id: "rose", name: "Rose", subtitle: "Rosa Damascena", category: "Floral", benefits: "", format: "", description: "A delicate floral essence to soothe the heart and refine natural radiance.", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
+  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", category: "Antioxidant", benefits: "", format: "", description: "A vibrant botanical infusion rich in antioxidants for cardiovascular resilience.", price: 42, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
+  { id: "blue-butterfly-pea", name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", category: "Azure", benefits: "", format: "", description: "A brilliant blue infusion to enhance cognitive function and reduce stress.", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
   { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
   { id: "kanti", name: "Kanti", subtitle: "Red Radiance", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
   { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
@@ -95,18 +95,19 @@ export default function SignatureRituals() {
           const imageFallback = productImageFallbacks.get(p.slug);
           const hasBackendSection = Object.prototype.hasOwnProperty.call(p, "homepageSection");
           const section = hasBackendSection ? (p.homepageSection || "") : (assignments[String(p.id)] || assignments[p.slug] || "");
+          const isOldSiteProduct = fb && (p.slug === "shakti-peya" || p.slug === "chandra-rasa" || p.slug === "hibiscus" || p.slug === "rose" || p.slug === "blue-butterfly-pea" || p.slug === "black-turmeric");
           return {
             id: p.slug,
             productId: p.id,
-            name: p.name || fb?.name || "",
-            subtitle: p.subtitle || fb?.subtitle || "",
+            name: isOldSiteProduct ? fb.name : (p.name || fb?.name || ""),
+            subtitle: isOldSiteProduct ? fb.subtitle : (p.subtitle || fb?.subtitle || ""),
             category: p.category?.name || fb?.category || "",
-            benefits: p.benefits || fb?.benefits || "",
-            format: p.format || fb?.format || "",
+            benefits: isOldSiteProduct ? fb.benefits : (p.benefits || fb?.benefits || ""),
+            format: isOldSiteProduct ? fb.format : (p.format || fb?.format || ""),
             price: parseFloat(String(p.price || 0)) || fb?.price || 0,
+            description: isOldSiteProduct ? fb.description : (p.description || fb?.description || ""),
             image: imageFallback?.image || normalizeImagePath(p.image) || fb?.image || "",
             hoverImage: imageFallback?.hoverImage || normalizeImagePath(p.hoverImage) || fb?.hoverImage || "",
-            description: p.description || fb?.description || "",
             homepageSection: section,
             createdAt: p.createdAt,
             updatedAt: p.updatedAt || p.createdAt,
