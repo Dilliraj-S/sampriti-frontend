@@ -41,13 +41,17 @@ export default function PromoStrip() {
   if (banner) {
     return (
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
-        <div className="relative max-w-[260px] sm:max-w-sm rounded-xl sm:rounded-2xl bg-white p-3 sm:p-6 shadow-xl sm:shadow-2xl text-center border border-gray-100">
-          <button onClick={() => setDismissed(true)} className="absolute -right-1.5 -top-1.5 sm:-right-2 sm:-top-2 flex h-5 w-5 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 transition-colors">
+        <div className="relative max-w-[260px] sm:max-w-sm min-h-[140px] rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl overflow-hidden border border-gray-100"
+          style={banner.image ? { backgroundImage: `url(${banner.image})`, backgroundSize: "cover", backgroundPosition: "center" } : {}}>
+          <div className="absolute inset-0 bg-black/40" />
+          <button onClick={() => setDismissed(true)} className="absolute right-1.5 top-1.5 z-10 flex h-5 w-5 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/80 hover:bg-white transition-colors">
             <X size={12} className="sm:size-4" />
           </button>
-          <Tag size={18} className="sm:size-6 mx-auto mb-2 sm:mb-3 text-[#A48662]" />
-          <h3 className="text-sm sm:text-lg font-semibold text-[#2C2A26] mb-0.5 sm:mb-1">{banner.title}</h3>
-          {banner.description && <p className="text-[10px] sm:text-xs text-[#6F6A64]">{banner.description}</p>}
+          <div className="relative z-10 flex flex-col items-center justify-center min-h-[140px] p-3 sm:p-6 text-center">
+            <Tag size={18} className="sm:size-6 mb-2 text-white" />
+            <h3 className="text-sm sm:text-lg font-semibold text-white mb-0.5 sm:mb-1 drop-shadow-sm">{banner.title}</h3>
+            {banner.description && <p className="text-[10px] sm:text-xs text-white/90 drop-shadow-sm">{banner.description}</p>}
+          </div>
         </div>
       </div>
     );

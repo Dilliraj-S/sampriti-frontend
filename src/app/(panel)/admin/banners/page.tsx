@@ -6,8 +6,8 @@ import ImageUpload from "@/app/components/admin/ImageUpload";
 
 interface Banner { id: number; title: string; location: string; image: string; startDate: string; endDate: string; status: string; }
 
-const locations = ["homepage_hero", "category_banner", "homepage_section", "announcement_bar", "popup_banner"];
-const locLabels: Record<string, string> = { homepage_hero: "Homepage Hero", category_banner: "Category Banner", homepage_section: "Homepage Section", announcement_bar: "Announcement Bar", popup_banner: "Popup Banner" };
+const locations = ["homepage_hero", "homepage_section", "announcement_bar", "popup_banner"];
+const locLabels: Record<string, string> = { homepage_hero: "Homepage Hero", homepage_section: "Homepage Section", announcement_bar: "Announcement Bar", popup_banner: "Popup Banner" };
 
 export default function BannersPage() {
   const [banners, setBanners] = useState<Banner[]>([]);

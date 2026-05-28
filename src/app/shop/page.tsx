@@ -52,18 +52,12 @@ export default function ShopPage() {
   const [products, setProducts] = useState(fallbackProducts);
   const [currency, setCurrency] = useState("INR");
   const [exchangeRate, setExchangeRate] = useState(85);
-  const [categoryBanners, setCategoryBanners] = useState<any[]>([]);
-
   useEffect(() => {
     (async () => {
-      const [pRes, settings, bRes] = await Promise.all([
+      const [pRes, settings] = await Promise.all([
         api.get<any[]>("/products"),
         getSettings().catch(() => ({ currency: "INR", exchange_rate: "85" })),
-        fetch((process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/admin") + "/banners").then(r => r.json()).catch(() => ({ status: false }))
       ]);
-      if (bRes.status) {
-        setCategoryBanners(bRes.data?.filter((b: any) => b.location === "category_banner" && b.status === "active") || []);
-      }
       if (settings?.currency) setCurrency(settings.currency);
       if (settings?.exchange_rate) setExchangeRate(parseFloat(settings.exchange_rate));
       if (pRes.status && pRes.data?.length) {
@@ -182,30 +176,7 @@ export default function ShopPage() {
         </div>
       </motion.div>
 
-      {/* Category Banners */}
-      {categoryBanners.length > 0 && (
-        <div className="px-6 md:px-12 lg:px-20 mt-8 mb-12">
-          {categoryBanners.map((banner) => (
-            <div
-              key={banner.id}
-              className="relative h-40 md:h-56 w-full overflow-hidden rounded-xl bg-gray-100"
-            >
-              {banner.image && (
-                <img
-                  src={banner.image}
-                  alt={banner.title}
-                  className="w-full h-full object-cover"
-                />
-              )}
-              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                <h2 className="text-white text-2xl md:text-3xl font-light tracking-wider">
-                  {banner.title}
-                </h2>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+
 
       {/* PRODUCT PRESENTATION */}
       <div id="shop-products" className="relative scroll-mt-24 px-6 pt-20 md:px-12 lg:px-20 pb-24">

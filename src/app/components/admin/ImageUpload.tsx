@@ -11,14 +11,17 @@ interface Props {
 
 export default function ImageUpload({ value, onChange, label }: Props) {
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setError("");
     setUploading(true);
     const url = await uploadApi.upload(file);
-    if (url) onChange(url);
+    if (url) { onChange(url); if (fileRef.current) fileRef.current.value = ""; }
+    else setError("Upload failed — try a different image or paste the URL directly");
     setUploading(false);
   };
 
@@ -34,6 +37,7 @@ export default function ImageUpload({ value, onChange, label }: Props) {
         {value && <button type="button" onClick={() => onChange("")} className="p-2 text-gray-400 hover:text-red-500"><X size={16} /></button>}
       </div>
       {value && <img src={value} alt="preview" className="mt-2 h-16 w-16 object-cover rounded-lg border border-gray-200" />}
+      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
     </div>
   );
 }

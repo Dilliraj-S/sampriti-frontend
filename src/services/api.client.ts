@@ -41,9 +41,10 @@ export const uploadApi = {
     formData.append('file', file);
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
-      const res = await fetch(API_BASE + '/upload', { method: 'POST', body: formData, signal: controller.signal });
+      const timeout = setTimeout(() => controller.abort(), 30000);
+      const res = await fetch(API_BASE + '/upload', { method: 'POST', body: formData, signal: controller.signal, credentials: 'include' });
       clearTimeout(timeout);
+      if (!res.ok) { const e = await res.json().catch(() => ({})); console.error('Upload failed:', e.message || res.statusText); return null; }
       const json = await res.json();
       if (json.status) return API_BASE.replace('/api/admin', '') + json.data.url;
     } catch (err: any) {

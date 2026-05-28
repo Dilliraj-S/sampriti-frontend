@@ -11,16 +11,18 @@ interface Props {
 
 export default function GalleryUpload({ images, onChange, label }: Props) {
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setError("");
     setUploading(true);
     const url = await uploadApi.upload(file);
-    if (url) onChange([...images, url]);
+    if (url) { onChange([...images, url]); if (fileRef.current) fileRef.current.value = ""; }
+    else setError("Upload failed — try a different image or paste the URL directly");
     setUploading(false);
-    if (fileRef.current) fileRef.current.value = "";
   };
 
   const removeImage = (index: number) => {
@@ -42,6 +44,7 @@ export default function GalleryUpload({ images, onChange, label }: Props) {
         </button>
       </div>
       <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} hidden />
+      {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
     </div>
   );
 }
