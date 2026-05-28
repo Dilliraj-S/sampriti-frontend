@@ -65,7 +65,7 @@ export default function CartDrawer() {
               <div>
                 <div className="mb-1 w-[90px]">
                     <Image
-                      src="/Assets/sampriti-logo-transparent.png"
+                      src="/Assets/sampriti-logo-transparent.webp"
                       alt="Sampriti"
                       width={590}
                       height={128}

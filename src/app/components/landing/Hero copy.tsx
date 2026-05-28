@@ -13,7 +13,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 const PRODUCTS = [
   {
     id: "shakti-peya",
-    src: "/images/products/shakti-peya-tubes.png",   // sampriti__14_.png
+    src: "/images/products/shakti-peya-tubes.webp",   // sampriti__14_.webp
     alt: "Shakti Peya — Sampriti Botanicals",
     label: "Shakti Peya",
     latin: "Herba Vita",
@@ -23,7 +23,7 @@ const PRODUCTS = [
   },
   {
     id: "rose",
-    src: "/images/products/rose-jar.png",            // sampriti_rose_1.png
+    src: "/images/products/rose-jar.webp",            // sampriti_rose_1.webp
     alt: "Rose — Sampriti Botanicals",
     label: "Rosa Centifolia",
     latin: "Rosa Centifolia",
@@ -33,7 +33,7 @@ const PRODUCTS = [
   },
   {
     id: "hibiscus",
-    src: "/images/products/hibiscus-jar.png",        // Sanpriti_Hibiscus_zoom_out.png
+    src: "/images/products/hibiscus-jar.webp",        // Sanpriti_Hibiscus_zoom_out.webp
     alt: "Hibiscus — Sampriti Botanicals",
     label: "Hibiscus",
     latin: "Hibiscus Rosa-sinensis",
@@ -43,7 +43,7 @@ const PRODUCTS = [
   },
   {
     id: "butterfly-pea",
-    src: "/images/products/butterfly-pea-jar.png",   // Sampriti_Butterfly_Pea_Zoom_out.png
+    src: "/images/products/butterfly-pea-jar.webp",   // Sampriti_Butterfly_Pea_Zoom_out.webp
     alt: "Blue Butterfly Pea — Sampriti Botanicals",
     label: "Butterfly Pea",
     latin: "Clitoria Ternatea",
@@ -53,7 +53,7 @@ const PRODUCTS = [
   },
   {
     id: "black-turmeric",
-    src: "/images/products/black-turmeric-jar.png",  // Sampriti_Black_Turmeric_Zoom_out.png
+    src: "/images/products/black-turmeric-jar.webp",  // Sampriti_Black_Turmeric_Zoom_out.webp
     alt: "Black Turmeric — Sampriti Botanicals",
     label: "Black Turmeric",
     latin: "Curcuma Caesia",
@@ -545,11 +545,11 @@ export default function Hero() {
   PRODUCT IMAGE FILENAMES — copy to /public/images/products/
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  shakti-peya-tubes.png    ← rename from: sampriti__14_.png
-  rose-jar.png             ← rename from: sampriti_rose_1.png
-  hibiscus-jar.png         ← rename from: Sanpriti_Hibiscus_zoom_out.png
-  butterfly-pea-jar.png    ← rename from: Sampriti_Butterfly_Pea_Zoom_out.png
-  black-turmeric-jar.png   ← rename from: Sampriti_Black_Turmeric_Zoom_out.png
+  shakti-peya-tubes.webp    ← rename from: sampriti__14_.webp
+  rose-jar.webp             ← rename from: sampriti_rose_1.webp
+  hibiscus-jar.webp         ← rename from: Sanpriti_Hibiscus_zoom_out.webp
+  butterfly-pea-jar.webp    ← rename from: Sampriti_Butterfly_Pea_Zoom_out.webp
+  black-turmeric-jar.webp   ← rename from: Sampriti_Black_Turmeric_Zoom_out.webp
 
   WHY mix-blend-mode: screen WORKS FOR WHITE-BG JARS:
   screen blend formula: result = 1 - (1-src)*(1-bg)

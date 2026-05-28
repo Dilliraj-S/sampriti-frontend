@@ -46,16 +46,16 @@ type RitualProduct = {
 };
 
 const fallbackProducts = [
-  { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", category: "Activation", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png" },
+  { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", category: "Activation", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.webp", hoverImage: "/Assets/shakti peya hover.webp" },
   { id: "chandra-rasa", name: "Chandra Rasa", subtitle: "Sleep Potion", category: "Calm", benefits: "Calm · Settling · Restorative", format: "9 Test Tube Kit", price: 54, image: "/Assets/Chandra rasa product hd.webp", hoverImage: "/Assets/chandra rasa hover.webp" },
-  { id: "shotharaha", name: "Shotharaha", subtitle: "Dual Black Recovery", category: "Restorative", benefits: "", format: "", description: "", price: 54, image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png" },
+  { id: "shotharaha", name: "Shotharaha", subtitle: "Dual Black Recovery", category: "Restorative", benefits: "", format: "", description: "", price: 54, image: "/Assets/shakti peya product hd.webp", hoverImage: "/Assets/shakti peya hover.webp" },
   { id: "rose", name: "Rose", subtitle: "Rosa Damascena", category: "Floral", benefits: "", format: "", description: "A delicate floral essence to soothe the heart and refine natural radiance.", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", category: "Antioxidant", benefits: "", format: "", description: "A vibrant botanical infusion rich in antioxidants for cardiovascular resilience.", price: 42, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
+  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", category: "Antioxidant", benefits: "", format: "", description: "A vibrant botanical infusion rich in antioxidants for cardiovascular resilience.", price: 42, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp" },
   { id: "blue-butterfly-pea", name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", category: "Azure", benefits: "", format: "", description: "A brilliant blue infusion to enhance cognitive function and reduce stress.", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
+  { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp" },
   { id: "kanti", name: "Kanti", subtitle: "Red Radiance", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
   { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", category: "Fragrance", benefits: "", format: "", description: "", price: 54, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png" },
+  { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", category: "Fragrance", benefits: "", format: "", description: "", price: 54, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp" },
   { id: "jawa", name: "Jawa", subtitle: "Embers", category: "Fragrance", benefits: "", format: "", description: "", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
   { id: "kha", name: "Kha", subtitle: "The Zero Point", category: "Fragrance", benefits: "", format: "", description: "", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
 ];

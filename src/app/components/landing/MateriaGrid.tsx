@@ -17,8 +17,8 @@ const products = [
     latin: "Rosa-Sinensis",
     benefit: "Antioxidant-rich for cardiovascular resilience",
     price: 42,
-    image: "/Assets/hibiscus new.png",
-    hoverImage: "/Assets/hibiscus hover.png",
+    image: "/Assets/hibiscus new.webp",
+    hoverImage: "/Assets/hibiscus hover.webp",
   },
   {
     id: "rose",
@@ -54,8 +54,8 @@ const products = [
     latin: "Stone",
     benefit: "Sacred ceremonial grounding stone",
     price: 36,
-    image: "/Assets/hibiscus hd.png",
-    hoverImage: "/Assets/hibiscus hover.png",
+    image: "/Assets/hibiscus hd.webp",
+    hoverImage: "/Assets/hibiscus hover.webp",
   },
   {
     id: "rakta-chandanam",
@@ -81,8 +81,8 @@ const products = [
     latin: "The First Rain",
     benefit: "First rain fragrance captured in botanical form",
     price: 54,
-    image: "/Assets/hibiscus hd.png",
-    hoverImage: "/Assets/hibiscus hover.png",
+    image: "/Assets/hibiscus hd.webp",
+    hoverImage: "/Assets/hibiscus hover.webp",
   },
   {
     id: "jawa",
@@ -108,8 +108,8 @@ const products = [
     latin: "",
     benefit: "Pure sandalwood for ambient purification",
     price: 28,
-    image: "/Assets/hibiscus hd.png",
-    hoverImage: "/Assets/hibiscus hover.png",
+    image: "/Assets/hibiscus hd.webp",
+    hoverImage: "/Assets/hibiscus hover.webp",
   },
   {
     id: "deodar-discs",

@@ -45,7 +45,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-6 w-[200px]">
               <Image
-                src="/Assets/sampriti-logo-transparent.png"
+                src="/Assets/sampriti-logo-transparent.webp"
                 alt="Sampriti"
                 width={590}
                 height={128}

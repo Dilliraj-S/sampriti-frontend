@@ -11,7 +11,7 @@ const steps = [
     description:
       "Our Hibiscus is defined by the thin air and intense solar radiation of the Western Ghats. Harvested from the same contours where Siddha lineages first codified the science of rejuvenation.",
     quote: "A botanical of rare clarity — refined by altitude and the silence of the peaks.",
-    image: "/Assets/img 2.avif",
+    image: "/Assets/img 2.webp",
     tag: "Hibiscus · Rosa-Sinensis",
   },
   {
@@ -22,7 +22,7 @@ const steps = [
     description:
       "Every infusion represents the culmination of ancient wisdom and modern craftsmanship. A ritual in itself, crafted to bring balance and vitality to your daily practice.",
     quote: "This is not consumption. This is devotion made drinkable.",
-    image: "/Assets/pexels-rahibyaqubov-14989568.jpg",
+    image: "/Assets/pexels-rahibyaqubov-14989568.webp",
     tag: "Crafted with Love",
   },
   {
@@ -33,7 +33,7 @@ const steps = [
     description:
       "Where Siddha sages once meditated on the subtle intelligence of plants. Here, we source herbs that carry the vibration of ancient silence — the foundation of all our botanical preparations.",
     quote: "The foundation of all our botanical preparations.",
-    image: "/Assets/pexels-2160239255-36617477.jpg",
+    image: "/Assets/pexels-2160239255-36617477.webp",
     tag: "Siddha Heritage",
   },
   {
@@ -44,7 +44,7 @@ const steps = [
     description:
       "Sourced from the mist-shrouded Eastern Ghats — a landscape of ancient biodiversity and vertical forests. Our Cardamom carries a singular aromatic profile, nurtured by a micro-climate undisturbed for centuries.",
     quote: "Small-batch dried and cold-pressed within 72 hours of harvest.",
-    image: "/Assets/pexels-frostydog-10369138.jpg",
+    image: "/Assets/pexels-frostydog-10369138.webp",
     tag: "Cardamom · Elettaria Cardamomum",
   },
   {
@@ -55,7 +55,7 @@ const steps = [
     description:
       "Sourced from the ancient, mineral-rich foothills of the Aravalli Range. Intense desiccating heat meeting hidden springs creates a Stress-Potency bloom of rare concentration.",
     quote: "Each formulation is a precise calibration — nothing added that does not serve.",
-    image: "/Assets/img 3.avif",
+    image: "/Assets/img 3.webp",
     tag: "Rose · Rosa Damascena",
   },
   {
@@ -66,7 +66,7 @@ const steps = [
     description:
       "Our Southern partners operate on a timeline of seasons, not markets. No synthetics. No interference. Only the raw integrity of the plant, crafted in small batches.",
     quote: "This is not consumption. This is devotion made drinkable.",
-    image: "/Assets/img 4.avif",
+    image: "/Assets/img 4.webp",
     tag: "Wildcrafted · Small Batch",
   },
   {
@@ -77,7 +77,7 @@ const steps = [
     description:
       "A precise calibration of light and material designed for botanical longevity. Glass, cork, and recycled fibre — chosen deliberately because the integrity of the formula is only as strong as the vessel that holds it.",
     quote: "The integrity of the formula is only as strong as the vessel that holds it.",
-    image: "/Assets/pomelli-image (42).png",
+    image: "/Assets/pomelli-image (42).webp",
     tag: "Sustainable Packaging",
   },
 ];

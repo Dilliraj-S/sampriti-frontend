@@ -57,7 +57,7 @@ export default function AboutPage() {
             className="relative aspect-[4/5] bg-[#A48662]/10"
           >
             <Image
-              src="/Assets/distillation.jpg"
+              src="/Assets/distillation.webp"
               alt="Art of distillation"
               fill
               className="object-cover"

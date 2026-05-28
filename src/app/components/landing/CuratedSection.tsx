@@ -34,20 +34,20 @@ const fallbackBySection: Record<string, { id: string; name: string; subtitle: st
     { id: "black-turmeric", name: "Black Turmeric", subtitle: "Curcuma Caesia", price: 45, image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp", description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity." },
   ],
   influence: [
-    { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", price: 48, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "A potent botanical formulation for rejuvenation." },
+    { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", price: 48, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "A potent botanical formulation for rejuvenation." },
   ],
   skincare: [
     { id: "kanti", name: "Kanti", subtitle: "Red Radiance", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "A radiant botanical essence for skin vitality." },
     { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "A potent concentrate for cellular vitality." },
   ],
   fragrance: [
-    { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", price: 54, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "First rain fragrance captured in botanical form." },
+    { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", price: 54, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "First rain fragrance captured in botanical form." },
     { id: "jawa", name: "Jawa", subtitle: "Embers", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "Warm ember fragrance for deep atmosphere." },
     { id: "kha", name: "Kha", subtitle: "The Zero Point", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "Zero point fragrance of stillness." },
   ],
   atmosphere: [
     { id: "sandalwood-shavings", name: "Sandalwood Shavings", subtitle: "Mysore Sandalwood", price: 38, image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp", description: "Pure sandalwood for ambient purification." },
-    { id: "deodar-discs", name: "Deodar Discs", subtitle: "Cedar of the Gods", price: 32, image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", description: "Himalayan cedar discs for sacred space." },
+    { id: "deodar-discs", name: "Deodar Discs", subtitle: "Cedar of the Gods", price: 32, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "Himalayan cedar discs for sacred space." },
     { id: "black-sambrani", name: "Black Sambrani", subtitle: "Sacred Resin", price: 36, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "Traditional resin for deep meditative smoke." },
   ],
 };

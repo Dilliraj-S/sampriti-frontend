@@ -58,7 +58,7 @@ function NavbarLogo({ scrolled }: { scrolled: boolean }) {
       aria-label="Sampriti"
     >
       <Image
-        src="/Assets/sampriti-logo-transparent.png"
+        src="/Assets/sampriti-logo-transparent.webp"
         alt="Sampriti"
         width={590}
         height={128}
@@ -341,7 +341,7 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
               >
                 <div className="w-[100px]">
                   <Image
-                    src="/Assets/sampriti-logo-transparent.png"
+                    src="/Assets/sampriti-logo-transparent.webp"
                     alt="Sampriti"
                     width={590}
                     height={128}
@@ -415,7 +415,7 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
                 <div>
                   <div className="mb-1 w-[100px]">
                     <Image
-                      src="/Assets/sampriti-logo-transparent.png"
+                      src="/Assets/sampriti-logo-transparent.webp"
                       alt="Sampriti"
                       width={590}
                       height={128}

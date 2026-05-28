@@ -15,7 +15,7 @@ const articles = [
     category: "Botanical Profile",
     title: "The Crimson Catalyst: Hibiscus in Practice",
     excerpt: "Hibiscus (Japa) is a high-functioning botanical characterized by its dense concentration of anthocyanins and organic acids.",
-    image: "/Assets/hibiscus hd.png"
+    image: "/Assets/hibiscus hd.webp"
   },
   {
     category: "Siddha Wisdom",

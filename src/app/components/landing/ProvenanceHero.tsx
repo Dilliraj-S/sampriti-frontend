@@ -14,7 +14,7 @@ export default function ProvenanceHero() {
       {/* Background image */}
       <div className="absolute inset-0 w-full h-full">
         <img
-          src="/Assets/provenance hero.jpg"
+          src="/Assets/provenance hero.webp"
           alt="Provenance hero"
           className="w-full h-full object-cover object-center"
         />

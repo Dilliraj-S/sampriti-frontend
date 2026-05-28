@@ -14,22 +14,22 @@ import { normalizeImagePath } from "@/app/utils/normalizeImagePath";
 import ProductImage from "@/app/components/landing/ProductImage";
 
 const productGallery: Record<string, string[]> = {
-  "shakti-peya": ["/Assets/shakti peya.avif", "/Assets/shakti peya product hd.png", "/Assets/shakti peya product display.png", "/Assets/shakti peya product clean.png", "/Assets/shakti peya product 1.png", "/Assets/shakti peya hover.png"],
-  "chandra-rasa": ["/Assets/chandra rasa.avif", "/Assets/Chandra rasa product hd.webp", "/Assets/Chandra rasa product display.webp", "/Assets/Chandra rasa product clean.webp", "/Assets/Chandra rasa product 1.webp", "/Assets/chandra rasa hover.webp"],
-  "shotharaha": ["/Assets/shakti peya product hd.png", "/Assets/shakti peya hover.png"],
-  "rose": ["/Assets/rose hd.webp", "/Assets/rose new.webp", "/Assets/rose display.webp", "/Assets/rose clean.webp", "/Assets/Rose hover.webp", "/Assets/Sampriti Rose zoom out.png"],
-  "hibiscus": ["/Assets/hibiscus hd.png", "/Assets/hibiscus new.png", "/Assets/hibiscus display.png", "/Assets/hibiscus clean.png", "/Assets/hibiscus hover.png"],
+  "shakti-peya": ["/Assets/shakti peya.webp", "/Assets/shakti peya product hd.webp", "/Assets/shakti peya product display.webp", "/Assets/shakti peya product clean.webp", "/Assets/shakti peya product 1.webp", "/Assets/shakti peya hover.webp"],
+  "chandra-rasa": ["/Assets/chandra rasa.webp", "/Assets/Chandra rasa product hd.webp", "/Assets/Chandra rasa product display.webp", "/Assets/Chandra rasa product clean.webp", "/Assets/Chandra rasa product 1.webp", "/Assets/chandra rasa hover.webp"],
+  "shotharaha": ["/Assets/shakti peya product hd.webp", "/Assets/shakti peya hover.webp"],
+  "rose": ["/Assets/rose hd.webp", "/Assets/rose new.webp", "/Assets/rose display.webp", "/Assets/rose clean.webp", "/Assets/Rose hover.webp", "/Assets/Sampriti Rose zoom out.webp"],
+  "hibiscus": ["/Assets/hibiscus hd.webp", "/Assets/hibiscus new.webp", "/Assets/hibiscus display.webp", "/Assets/hibiscus clean.webp", "/Assets/hibiscus hover.webp"],
   "blue-butterfly-pea": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea new.webp", "/Assets/blue butterfly pea display.webp", "/Assets/blue butterfly pea clean.webp", "/Assets/blue butterfly pea hover.webp"],
-  "vatari": ["/Assets/hibiscus hd.png", "/Assets/hibiscus hover.png"],
+  "vatari": ["/Assets/hibiscus hd.webp", "/Assets/hibiscus hover.webp"],
   "kanti": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
   "blue-ojas": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
-  "the-sahane": ["/Assets/hibiscus hd.png", "/Assets/hibiscus hover.png"],
+  "the-sahane": ["/Assets/hibiscus hd.webp", "/Assets/hibiscus hover.webp"],
   "rakta-chandanam": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
   "shveta-chandanam": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
-  "parjanya": ["/Assets/hibiscus hd.png", "/Assets/hibiscus hover.png"],
+  "parjanya": ["/Assets/hibiscus hd.webp", "/Assets/hibiscus hover.webp"],
   "jawa": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
   "kha": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
-  "sandalwood-shavings": ["/Assets/hibiscus hd.png", "/Assets/hibiscus hover.png"],
+  "sandalwood-shavings": ["/Assets/hibiscus hd.webp", "/Assets/hibiscus hover.webp"],
   "deodar-discs": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
   "black-sambrani": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
 };
@@ -88,7 +88,7 @@ const fallbackProducts: Product[] = [
     id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir",
     category: "Sampriti Botanicals",
     price: 54, format: "9 Test Tube Kit",
-    image: "/Assets/shakti peya.avif", hoverImage: "/Assets/shakti peya hover.png",
+    image: "/Assets/shakti peya.webp", hoverImage: "/Assets/shakti peya hover.webp",
     benefits: "Activation · Anti-Aging · Radiance",
     description: "Shakti Peya is designed to support sustained vitality, circulation, digestion, and metabolic balance. The formulation encourages steady energy, warmth, and resilience - without sharp stimulation or depletion.",
     aroma: "Warming, herbaceous, grounding",
@@ -109,7 +109,7 @@ const fallbackProducts: Product[] = [
     subtitle: "Sleep Potion",
     category: "Sampriti Botanicals",
     price: 54, format: "9 Test Tube Kit",
-    image: "/Assets/chandra rasa.avif", hoverImage: "/Assets/chandra rasa hover.webp",
+    image: "/Assets/chandra rasa.webp", hoverImage: "/Assets/chandra rasa hover.webp",
     benefits: "Calm · Settling · Restorative",
     description: "This botanical sequence provides comprehensive support for the parasympathetic nervous system, aiding in the reduction of cognitive noise and the stabilization of the stress response through adaptogenic modulation. It assists the body in establishing a consistent nighttime recovery cycle, supporting deeper sleep quality and the natural cellular repair processes essential for long-term neurological health.",
     aroma: "Calming, earthy, settling",
@@ -128,7 +128,7 @@ const fallbackProducts: Product[] = [
     subtitle: "Rosa-Sinensis",
     category: "Sampriti Botanicals",
     price: 42,
-    image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", benefits: "",
+    image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", benefits: "",
     description: "A vibrant infusion of sun-drenched petals, known for its high antioxidant content and ability to support natural collagen production. This botanical essence revitalises the skin's appearance, lending a youthful radiance.",
     aroma: "Tart, floral, refreshing",
     suitedTo: "Those seeking cardiovascular support, radiant skin, and antioxidant protection",
@@ -191,7 +191,7 @@ const fallbackProducts: Product[] = [
     name: "Shotharaha", subtitle: "Dual Black Recovery",
     category: "Restorative Infusion",
     price: 54, format: "9 Test Tube Kit",
-    image: "/Assets/shakti peya product hd.png", hoverImage: "/Assets/shakti peya hover.png", benefits: "",
+    image: "/Assets/shakti peya product hd.webp", hoverImage: "/Assets/shakti peya hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -200,7 +200,7 @@ const fallbackProducts: Product[] = [
     name: "Vatari", subtitle: "Botanical Botox",
     category: "Skincare Ritual",
     price: 48, format: "Botanical Profile",
-    image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", benefits: "",
+    image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -227,7 +227,7 @@ const fallbackProducts: Product[] = [
     name: "The Sahane", subtitle: "Stone",
     category: "Ceremony",
     price: 36, format: "",
-    image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", benefits: "",
+    image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -254,7 +254,7 @@ const fallbackProducts: Product[] = [
     name: "Parjanya", subtitle: "The First Rain",
     category: "Fragrance",
     price: 54, format: "Botanical Profile",
-    image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", benefits: "",
+    image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -281,7 +281,7 @@ const fallbackProducts: Product[] = [
     name: "Sandalwood Shavings", subtitle: "",
     category: "Atmospheric",
     price: 28, format: "",
-    image: "/Assets/hibiscus hd.png", hoverImage: "/Assets/hibiscus hover.png", benefits: "",
+    image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -324,7 +324,9 @@ export default function ProductPage() {
   const [hoveredRelated, setHoveredRelated] = useState<string | null>(null);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [thumbSlide, setThumbSlide] = useState(0);
-  const galleryImages = product ? (product.galleryImages?.length ? product.galleryImages : (productGallery[slug] || [product.image])) : [""];
+  const rawG = product?.galleryImages;
+  const parsedG = Array.isArray(rawG) ? rawG : (typeof rawG === "string" ? (() => { try { return JSON.parse(rawG); } catch { return []; } })() : []);
+  const galleryImages = product ? (parsedG.length ? parsedG : (productGallery[slug] || [product.image])) : [""];
   const maxThumbSlide = Math.max(0, galleryImages.length - 4);
 
   useEffect(() => {
@@ -392,7 +394,7 @@ export default function ProductPage() {
           essence: foundProduct.essence || fb?.essence || "",
           usageDetails: usageDetails.length > 0 ? usageDetails : (fb?.usageDetails || []),
           hoverImage: normalizedHover,
-          galleryImages: foundProduct.galleryImages || fb?.galleryImages || [],
+          galleryImages: (() => { const g = foundProduct.galleryImages; if (Array.isArray(g)) return g; if (typeof g === "string") try { return JSON.parse(g); } catch {} return fb?.galleryImages || []; })(),
         });
       } else if (fb) {
         setProduct(fb);
@@ -419,7 +421,7 @@ export default function ProductPage() {
             keyIngredients: f?.keyIngredients || "", howToUse: f?.howToUse || "",
             essenceTitle: f?.essenceTitle || "", essence: f?.essence || "",
             usageDetails: f?.usageDetails || [],
-            galleryImages: p.galleryImages || f?.galleryImages || [],
+            galleryImages: (() => { const g = p.galleryImages; if (Array.isArray(g)) return g; if (typeof g === "string") try { return JSON.parse(g); } catch {} return f?.galleryImages || []; })(),
             createdAt: p.createdAt,
           };
         });
@@ -513,7 +515,7 @@ export default function ProductPage() {
                   </button>
                   <div className="overflow-hidden bg-white">
                     <div className="flex gap-3 transition-transform duration-400" style={{ transform: `translateX(-${thumbSlide * 25}%)` }}>
-                      {galleryImages.map((img, i) => (
+                      {galleryImages.map((img: string, i: number) => (
                         <button key={i} onClick={() => setGalleryIndex(i)} className={`relative flex-shrink-0 w-[calc(25%-9px)] aspect-square rounded-lg overflow-hidden border bg-white transition-all cursor-pointer ${i === galleryIndex ? "border-[#A48662] ring-1 ring-[#A48662]" : "border-gray-200 hover:border-gray-400"}`}>
                           <ProductImage src={img} alt={`${product.name} view ${i + 1}`} fill className="object-cover" />
                         </button>

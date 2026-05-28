@@ -18,19 +18,19 @@ const items = [
     title: "Conscious Scaling",
     description: "Botanical Profile",
     body: "We prioritise the integrity of the soil over the speed of the market. Growth is measured in the wellbeing of the land. Every botanical is wildcrafted from its native terroir, honored in season.",
-    image: "/Assets/forest girl.png"
+    image: "/Assets/forest girl.webp"
   },
   {
     title: "The Vessel",
     description: "Siddha Wisdom",
     body: "We choose glass, cork, and paper. Our goal is to leave no footprint—only a legacy that nourishes the earth. Packaging designed for longevity.",
-    image: "/Assets/distillation.jpg"
+    image: "/Assets/distillation.webp"
   },
   {
     title: "Super Health",
     description: "Moon Rhythms",
     body: "We translate the 4,000-year-old Siddha traditions into daily rituals. Wellness that transcends geography and time.",
-    image: "/Assets/art of infusion.jpg"
+    image: "/Assets/art of infusion.webp"
   },
 ];
 
