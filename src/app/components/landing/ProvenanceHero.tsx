@@ -57,7 +57,7 @@ export default function ProvenanceHero() {
 
       {/* Content */}
       <motion.div
-        className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-14 pb-20 md:pb-28"
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-14 pb-20 md:pb-28 pt-24 md:pt-32"
         style={{ y: textY, opacity }}
         variants={containerVariants}
         initial="hidden"

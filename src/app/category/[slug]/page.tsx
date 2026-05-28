@@ -24,6 +24,7 @@ type ApiProduct = {
   hoverImage?: string;
   homepageSection?: string | null;
   category?: { name?: string; slug?: string };
+  description?: string;
   createdAt?: string;
 };
 
@@ -114,13 +115,23 @@ export default function CategoryPage() {
   const productSlugs = categoryProductMap[slug] || [];
   const selectedSection = categorySectionMap[slug] || slug;
   const title = categoryTitles[slug] || slug.charAt(0).toUpperCase() + slug.slice(1);
+  const fallbackSlugSet = new Set(productSlugs);
   const fallbackDisplayProducts: DisplayProduct[] = productSlugs
     .map((productSlug) => {
-      const product = fallbackProducts[productSlug];
-      return product ? { slug: productSlug, ...product } : null;
+      const fb = fallbackProducts[productSlug];
+      if (!fb) return null;
+      const api = apiProducts.find((p) => p.slug === productSlug);
+      return {
+        slug: productSlug,
+        name: api?.name || fb.name,
+        subtitle: api?.subtitle || fb.subtitle || "",
+        price: parseFloat(String(api?.price || 0)) || fb.price || 0,
+        image: normalizeImagePath(api?.image || "") || fb.image || "",
+        hoverImage: normalizeImagePath(api?.hoverImage || "") || fb.hoverImage || "",
+        description: api?.description || fb.description || "",
+      };
     })
     .filter(Boolean) as DisplayProduct[];
-  const fallbackSlugSet = new Set(fallbackDisplayProducts.map((product) => product.slug));
   const selectedSectionProducts: DisplayProduct[] = apiProducts
     .filter((product) => {
       const assignedSection = product.homepageSection || sectionAssignments[String(product.id)] || sectionAssignments[product.slug] || "";

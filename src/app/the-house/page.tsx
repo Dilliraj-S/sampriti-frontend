@@ -99,12 +99,10 @@ function ParallaxImage({ src, alt }: { src: string; alt: string }) {
     <div
       className="relative h-[560px] w-full overflow-hidden md:h-[720px] lg:h-[82vw] lg:max-h-[920px] lg:min-h-[760px]"
     >
-      <Image
+      <img
         src={src}
         alt={alt}
-        fill
-        className="object-cover"
-        sizes="(max-width: 1024px) 100vw, 50vw"
+        className="w-full h-full object-cover"
       />
     </div>
   );
@@ -182,7 +180,7 @@ export default function TheHousePage() {
 
       <section className="relative min-h-screen w-full overflow-hidden bg-black">
         <Image
-          src="/Assets/The house.png"
+          src="/Assets/The house 1.webp"
           alt="The House of Sampriti"
           fill
           priority

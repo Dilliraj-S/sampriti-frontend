@@ -93,19 +93,17 @@ export default function SignatureRituals() {
         const merged = pRes.data.map((p: ApiProduct) => {
           const fb = fbMap.get(p.slug);
           const imageFallback = productImageFallbacks.get(p.slug);
-          const hasBackendSection = Object.prototype.hasOwnProperty.call(p, "homepageSection");
-          const section = hasBackendSection ? (p.homepageSection || "") : (assignments[String(p.id)] || assignments[p.slug] || "");
-          const isOldSiteProduct = fb && (p.slug === "shakti-peya" || p.slug === "chandra-rasa" || p.slug === "hibiscus" || p.slug === "rose" || p.slug === "blue-butterfly-pea" || p.slug === "black-turmeric");
+          const section = p.homepageSection ? p.homepageSection : (assignments[String(p.id)] || assignments[p.slug] || "");
           return {
             id: p.slug,
             productId: p.id,
-            name: isOldSiteProduct ? fb.name : (p.name || fb?.name || ""),
-            subtitle: isOldSiteProduct ? fb.subtitle : (p.subtitle || fb?.subtitle || ""),
+            name: p.name || fb?.name || "",
+            subtitle: p.subtitle || fb?.subtitle || "",
             category: p.category?.name || fb?.category || "",
-            benefits: isOldSiteProduct ? fb.benefits : (p.benefits || fb?.benefits || ""),
-            format: isOldSiteProduct ? fb.format : (p.format || fb?.format || ""),
+            benefits: p.benefits || fb?.benefits || "",
+            format: p.format || fb?.format || "",
             price: parseFloat(String(p.price || 0)) || fb?.price || 0,
-            description: isOldSiteProduct ? fb.description : (p.description || fb?.description || ""),
+            description: p.description || fb?.description || "",
             image: imageFallback?.image || normalizeImagePath(p.image) || fb?.image || "",
             hoverImage: imageFallback?.hoverImage || normalizeImagePath(p.hoverImage) || fb?.hoverImage || "",
             homepageSection: section,

@@ -79,9 +79,9 @@ export default function CuratedSection({ section, title, description }: CuratedS
               name: p.name,
               subtitle: p.subtitle || "",
               price: parseFloat(String(p.price || 0)) || 0,
-              image: fb?.image || p.image || "",
-              hoverImage: fb?.hoverImage || p.hoverImage || "",
-              description: fb?.description || p.description || "",
+              image: p.image || fb?.image || "",
+              hoverImage: p.hoverImage || fb?.hoverImage || "",
+              description: p.description || fb?.description || "",
             };
           });
         if (filtered.length) setProducts(filtered);

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { api } from "@/services/api.client";
 import { getSettings, formatPrice } from "@/services/settings";
 import ImageUpload from "@/app/components/admin/ImageUpload";
+import GalleryUpload from "@/app/components/admin/GalleryUpload";
 import { toast } from "sonner";
 import { saveSectionAssignments, removeSectionAssignments, getSectionAssignments } from "@/app/components/landing/sectionStorage";
 import { normalizeImagePath } from "@/app/utils/normalizeImagePath";
@@ -12,7 +13,7 @@ interface Product {
   id: number; name: string; categoryId: number; price: number; stock: number; status: string;
   slug: string; subtitle: string; description: string; image: string; hoverImage: string;
   essenceTitle: string; essence: string; keyIngredients: string; howToUse: string; usageDetails: any;
-  aroma: string; suitedTo: string; benefits: string; format: string; homepageSection: string;
+  aroma: string; suitedTo: string; benefits: string; format: string; homepageSection: string; galleryImages?: string[];
   category?: { id: number; name: string; slug: string };
   createdAt: string;
 }
@@ -28,7 +29,7 @@ export default function ProductsPage() {
   const [formData, setFormData] = useState<any>({
     name: "", slug: "", subtitle: "", price: "", stock: "",
     description: "", image: "", hoverImage: "", essenceTitle: "", essence: "",
-    keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", homepageSection: "",
+    keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", homepageSection: "", galleryImages: [],
   });
 
   const load = async () => {
@@ -43,7 +44,7 @@ export default function ProductsPage() {
 
   useEffect(() => { load(); }, []);
 
-  const openAdd = () => { setEditing(null); setFormData({ name: "", slug: "", subtitle: "", categoryId: "", price: "", stock: "", description: "", image: "", hoverImage: "", essenceTitle: "", essence: "", keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", homepageSection: "" }); setShowForm(true); };
+  const openAdd = () => { setEditing(null); setFormData({ name: "", slug: "", subtitle: "", categoryId: "", price: "", stock: "", description: "", image: "", hoverImage: "", essenceTitle: "", essence: "", keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", homepageSection: "", galleryImages: [] }); setShowForm(true); };
   const openEdit = (p: Product) => {
     setEditing(p);
     let usageArr = p.usageDetails;
@@ -51,7 +52,8 @@ export default function ProductsPage() {
     if (!Array.isArray(usageArr)) usageArr = [];
     const assignments = getSectionAssignments();
     const sectionFromStorage = assignments[String(p.id)] || assignments[p.slug] || "";
-    setFormData({ ...p, usageDetails: usageArr, price: p.price?.toString() || "", stock: p.stock?.toString() || "", homepageSection: sectionFromStorage || p.homepageSection || "", image: normalizeImagePath(p.image), hoverImage: normalizeImagePath(p.hoverImage) });
+    const gallery = Array.isArray(p.galleryImages) ? p.galleryImages : (typeof p.galleryImages === "string" ? JSON.parse(p.galleryImages) : []);
+    setFormData({ ...p, usageDetails: usageArr, price: p.price?.toString() || "", stock: p.stock?.toString() || "", homepageSection: sectionFromStorage || p.homepageSection || "", image: normalizeImagePath(p.image), hoverImage: normalizeImagePath(p.hoverImage), galleryImages: gallery });
     setShowForm(true);
   };
 
@@ -69,7 +71,10 @@ export default function ProductsPage() {
       const savedSlug = saved?.slug || res.data?.slug || editing?.slug || formData.slug;
       saveSectionAssignments([savedId, savedSlug, formData.slug], formData.homepageSection || "");
       if (!editing) localStorage.setItem("sampriti-new-arrival-slug", savedSlug);
-    } else toast.error(res.message || "Failed to save product");
+    } else {
+      const msg = res.message || "";
+      toast.error(msg.includes("not found") ? `${msg} — Refresh the page and try again.` : msg || "Failed to save product");
+    }
   };
 
   const handleDelete = async (id: number, slug: string) => {
@@ -106,7 +111,7 @@ export default function ProductsPage() {
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Price ($)</label><input type="number" step="0.01" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Stock</label><input type="number" value={formData.stock} onChange={e => setFormData({...formData, stock: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Format</label><input type="text" value={formData.format} onChange={e => setFormData({...formData, format: e.target.value})} placeholder="e.g. 35g powder" className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
-                <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Homepage Section</label><select value={formData.homepageSection} onChange={e => setFormData({...formData, homepageSection: e.target.value})} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 bg-white text-black"> <option value="">None</option><option value="home">Home</option><option value="infusions">Infusions</option><option value="skincare">Skincare</option><option value="fragrance">Fragrance</option><option value="ceremony">Ceremony</option><option value="atmosphere">Atmosphere</option></select></div>
+                <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Homepage Section</label><select value={formData.homepageSection} onChange={e => setFormData({...formData, homepageSection: e.target.value})} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 bg-white text-black"> <option value="">Home</option><option value="infusions">Infusions</option><option value="skincare">Skincare</option><option value="fragrance">Fragrance</option><option value="ceremony">Ceremony</option><option value="atmosphere">Atmosphere</option></select></div>
               </div>
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Description</label><textarea value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={3} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 resize-none text-black" /></div>
               <div className="grid grid-cols-2 gap-4">
@@ -143,6 +148,7 @@ export default function ProductsPage() {
                 <ImageUpload label="Main Image" value={formData.image} onChange={v => setFormData({...formData, image: v})} />
                 <ImageUpload label="Hover Image" value={formData.hoverImage} onChange={v => setFormData({...formData, hoverImage: v})} />
               </div>
+              <GalleryUpload label="Gallery Images (shown below the main image on product page)" images={formData.galleryImages || []} onChange={urls => setFormData({...formData, galleryImages: urls})} />
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => setShowForm(false)} className="flex-1 px-4 py-2.5 border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors">Cancel</button>
                 <button type="submit" className="flex-1 px-4 py-2.5 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors">{editing ? "Update" : "Add"} Product</button>

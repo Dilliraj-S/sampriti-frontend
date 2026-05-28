@@ -57,6 +57,7 @@ type Product = {
   usageDetails: UsageDetail[];
   essenceTitle: string;
   essence: string;
+  galleryImages?: string[];
   createdAt?: string;
 };
 
@@ -78,6 +79,7 @@ type ApiProduct = {
   usageDetails?: unknown;
   essenceTitle?: string;
   essence?: string;
+  galleryImages?: string[];
   createdAt?: string;
 };
 
@@ -322,7 +324,7 @@ export default function ProductPage() {
   const [hoveredRelated, setHoveredRelated] = useState<string | null>(null);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [thumbSlide, setThumbSlide] = useState(0);
-  const galleryImages = product ? (productGallery[slug] || [product.image]) : [""];
+  const galleryImages = product ? (product.galleryImages?.length ? product.galleryImages : (productGallery[slug] || [product.image])) : [""];
   const maxThumbSlide = Math.max(0, galleryImages.length - 4);
 
   useEffect(() => {
@@ -370,19 +372,18 @@ export default function ProductPage() {
           return [];
         };
         const usageDetails = parseUsage(foundProduct.usageDetails);
-        const isOldSiteProduct = fb && (foundProduct.slug === "shakti-peya" || foundProduct.slug === "chandra-rasa" || foundProduct.slug === "hibiscus" || foundProduct.slug === "rose" || foundProduct.slug === "blue-butterfly-pea" || foundProduct.slug === "black-turmeric");
         const normalizedImage = normalizeImagePath(foundProduct.image) || fb?.image || "";
         const normalizedHover = normalizeImagePath(foundProduct.hoverImage) || fb?.hoverImage || "";
         setProduct({
           id: foundProduct.slug,
-          name: isOldSiteProduct ? fb.name : (foundProduct.name || fb?.name || ""),
-          subtitle: isOldSiteProduct ? fb.subtitle : (foundProduct.subtitle || fb?.subtitle || ""),
+          name: foundProduct.name || fb?.name || "",
+          subtitle: foundProduct.subtitle || fb?.subtitle || "",
           category: foundProduct.category?.name || fb?.category || "",
           price: parseFloat(String(foundProduct.price || 0)) || fb?.price || 0,
-          format: isOldSiteProduct ? fb.format : (foundProduct.format || fb?.format || ""),
+          format: foundProduct.format || fb?.format || "",
           image: normalizedImage,
           description: foundProduct.description || fb?.description || "",
-          benefits: isOldSiteProduct ? fb.benefits : (foundProduct.benefits || fb?.benefits || ""),
+          benefits: foundProduct.benefits || fb?.benefits || "",
           aroma: foundProduct.aroma || fb?.aroma || "",
           suitedTo: foundProduct.suitedTo || fb?.suitedTo || "",
           keyIngredients: foundProduct.keyIngredients || fb?.keyIngredients || "",
@@ -391,6 +392,7 @@ export default function ProductPage() {
           essence: foundProduct.essence || fb?.essence || "",
           usageDetails: usageDetails.length > 0 ? usageDetails : (fb?.usageDetails || []),
           hoverImage: normalizedHover,
+          galleryImages: foundProduct.galleryImages || fb?.galleryImages || [],
         });
       } else if (fb) {
         setProduct(fb);
@@ -417,6 +419,7 @@ export default function ProductPage() {
             keyIngredients: f?.keyIngredients || "", howToUse: f?.howToUse || "",
             essenceTitle: f?.essenceTitle || "", essence: f?.essence || "",
             usageDetails: f?.usageDetails || [],
+            galleryImages: p.galleryImages || f?.galleryImages || [],
             createdAt: p.createdAt,
           };
         });
@@ -433,7 +436,6 @@ export default function ProductPage() {
 
   const immersiveProducts = ["shakti-peya", "chandra-rasa"];
   const isImmersive = product ? immersiveProducts.includes(product.id) : false;
-  const isShaktiPeya = product?.id === "shakti-peya";
   const heroImgClass = isImmersive
     ? "object-cover md:object-contain md:p-8"
     : "object-contain p-2 md:object-contain md:p-8";
@@ -529,10 +531,7 @@ export default function ProductPage() {
                 {product.name}
               </h1>
               <p className="text-[#5A554E] text-lg mb-6">{product.subtitle}</p>
-              {isShaktiPeya && product.description && (
-                <p className="text-[#5A554E] leading-relaxed mb-6">{product.description}</p>
-              )}
-              {!isShaktiPeya && product.benefits && (
+              {product.benefits && (
                 <p className="text-[#5A554E] text-lg mb-6">{product.benefits}</p>
               )}
               {product.format && (
@@ -640,7 +639,7 @@ export default function ProductPage() {
                     {product.essenceTitle}
                   </h2>
                   <p className="leading-[1.85] text-[#5A554E]">
-                    {product.description}
+                    {product.essence}
                   </p>
                   <div className="mt-8 border-t border-[#E5DCCF]">
                     <div className="grid gap-2 border-b border-[#E5DCCF] py-4 md:grid-cols-[140px_1fr]">
