@@ -76,6 +76,7 @@ function NavbarLogo({ scrolled }: { scrolled: boolean }) {
 
 export default function Navbar({ forceScrolled = false }: NavbarProps) {
   const [scrolled, setScrolled] = useState(forceScrolled);
+  const [hovered, setHovered] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [currentAccount, setCurrentAccount] = useState<Account | null>(null);
@@ -94,7 +95,7 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
   const visibleCartCount = currentAccount ? cartCount : 0;
   const visibleCartTotal = currentAccount ? cartTotal : 0;
   const visibleCartItems = currentAccount ? items : [];
-  const headerIsLight = scrolled;
+  const headerIsLight = scrolled || hovered;
 
   useEffect(() => {
     const refreshAccount = () => {
@@ -165,8 +166,10 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
   return (
     <>
       <nav
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         className={`fixed top-0 left-0 w-full z-[9999] transition-all duration-500 ${
-          scrolled
+          headerIsLight
             ? "bg-[#FFFFFF]/95 backdrop-blur-md shadow-sm py-4"
             : "bg-gradient-to-b from-black/45 via-black/20 to-transparent py-6 text-white"
         }`}
@@ -174,7 +177,7 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
         <div className="relative max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex flex-col items-start lg:items-center">
             <Link href="/" className="mb-0 max-w-[55%] shrink-0 sm:max-w-[60%] lg:mb-6 lg:max-w-none">
-              <NavbarLogo scrolled={scrolled} />
+              <NavbarLogo scrolled={headerIsLight} />
             </Link>
 
             {/* Desktop nav */}

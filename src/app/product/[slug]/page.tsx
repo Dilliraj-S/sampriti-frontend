@@ -432,7 +432,7 @@ export default function ProductPage() {
   }, [slug]);
 
   const relatedProducts = product ? allProducts.filter(p => p.id !== product.id) : [];
-  const maxRelatedSlide = Math.max(0, relatedProducts.length - 4);
+  const maxRelatedSlide = Math.max(0, relatedProducts.length - 3);
 
   const immersiveProducts = ["shakti-peya", "chandra-rasa"];
   const isImmersive = product ? immersiveProducts.includes(product.id) : false;
@@ -751,9 +751,9 @@ export default function ProductPage() {
                   <ChevronRight size={20} className="text-[#2C2A26]" />
                 </button>
                 <div className="overflow-hidden">
-                  <div className="flex gap-5 transition-transform duration-500" style={{ transform: "translateX(-" + (relatedSlide * 25) + "%)" }}>
+                  <div className="flex gap-5 transition-transform duration-500" style={{ transform: "translateX(-" + (relatedSlide * 33.333) + "%)" }}>
                     {relatedProducts.map((related) => (
-                      <div key={related.id} className="group text-center flex flex-col min-w-[calc(25%-15px)]"
+                      <div key={related.id} className="group text-center flex flex-col min-w-[calc(33.333%-15px)]"
                         onMouseEnter={() => setHoveredRelated(related.id)}
                         onMouseLeave={() => setHoveredRelated(null)}
                       >
@@ -772,7 +772,7 @@ export default function ProductPage() {
                             setTimeout(() => setToast(null), 2000);
                             openCart();
                           }}
-                          className="bg-[#262420] text-[#F9F7F3] px-8 py-2 text-xs tracking-[0.15em] hover:bg-black transition-all duration-300 cursor-pointer"
+                          className="mt-auto flex h-12 items-center justify-center bg-[#333333] text-[#F9F7F3] px-8 text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer"
                         >
                           Add To Cart
                         </button>
