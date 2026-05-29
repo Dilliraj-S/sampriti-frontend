@@ -438,15 +438,19 @@ export default function ProductPage() {
 
   const immersiveProducts = ["shakti-peya", "chandra-rasa"];
   const isImmersive = product ? immersiveProducts.includes(product.id) : false;
+  const containedProducts = ["hibiscus", "rose", "blue-butterfly-pea", "black-turmeric"];
+  const isContained = product ? containedProducts.includes(product.id) : false;
   const heroImgClass = isImmersive
     ? "object-cover md:object-contain md:p-8"
     : "object-contain p-2 md:object-contain md:p-8";
   const storyImgClass = isImmersive
-    ? "object-cover md:object-contain md:p-14 lg:p-16"
-    : "object-contain p-4 md:object-contain md:p-14 lg:p-16";
-  const storyContainerClass = isImmersive
-  ? "relative overflow-hidden min-h-[340px] sm:min-h-[420px] md:min-h-[520px] bg-transparent md:bg-white"
-  : "relative overflow-hidden min-h-[380px] md:min-h-[520px] bg-transparent md:bg-white";
+    ? "object-cover w-full h-full"
+    : isContained
+      ? "object-contain p-4 md:object-cover md:w-full md:h-full"
+      : "object-contain p-4 md:object-cover md:w-full md:h-full";
+  const storyContainerClass = isContained
+    ? "relative overflow-hidden min-h-[340px] sm:min-h-[420px] md:min-h-[520px] md:bg-white md:border md:border-[#E5DCCF]"
+    : "relative overflow-hidden min-h-[340px] sm:min-h-[420px] md:min-h-[520px]";
 
   if (loading) {
     return (
@@ -524,6 +528,7 @@ export default function ProductPage() {
                   </div>
                 </div>
               )}
+
             </div>
 
             {/* "" Product Info """"""""""""""""""""""""""""""""""""""""""""" */}
@@ -553,48 +558,6 @@ export default function ProductPage() {
                 </button>
               </div>
 
-              {/* Tabs */}
-              <div className="border-t border-[#E5DCCF]">
-                <div className="flex gap-4 md:gap-8 border-b border-[#E5DCCF]">
-                  {["description", "ingredients", "howToUse"].map((tab) => (
-                    <button key={tab} onClick={() => setActiveTab(tab)}
-                      className={`py-4 text-[10px] md:text-xs tracking-[0.15em] md:tracking-[0.2em] uppercase cursor-pointer ${activeTab === tab ? "text-[#A48662] border-b-2 border-[#A48662]" : "text-[#5A554E] hover:text-[#2C2A26]"}`}>
-                      {tab === "howToUse" ? "Servings" : tab === "ingredients" ? "Ingredients" : tab}
-                    </button>
-                  ))}
-                </div>
-                <div className="py-6">
-                  {activeTab === "description" && (
-                    <div className="space-y-4">
-                      <p className="text-[#5A554E] leading-relaxed">{product.description}</p>
-                      {product.benefits && <p className="text-[#5A554E]"><strong>Benefits:</strong> {product.benefits}</p>}
-                      <p className="text-[#5A554E]"><strong>Aroma:</strong> {product.aroma}</p>
-                      <p className="text-[#5A554E]"><strong>Suited to:</strong> {product.suitedTo}</p>
-                    </div>
-                  )}
-                  {activeTab === "ingredients" && (
-                    <div className="space-y-4">
-                      <p className="text-[#5A554E] leading-relaxed"><strong>Key ingredients:</strong> {product.keyIngredients}</p>
-                    </div>
-                  )}
-                  {activeTab === "howToUse" && (
-                    <div className="space-y-4">
-                      <p className="text-[#5A554E] leading-relaxed whitespace-pre-line">{product.howToUse}</p>
-                      {product.usageDetails?.length > 0 && (
-                        <div className="pt-4 border-t border-[#E5DCCF] space-y-3">
-                    {product.usageDetails.map((item: UsageDetail, i: number) => (
-                            <div key={item.label} className="flex gap-2">
-                              <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-[#2C2A26] min-w-[100px]">{item.label}:</span>
-                              <span className="text-sm text-[#5A554E]">{item.value}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-
               {/* Additional Info */}
               <div className="mt-8 pt-8 border-t border-[#E5DCCF] space-y-4">
                 <div className="flex items-center gap-3 text-[#5A554E] text-sm">
@@ -614,14 +577,79 @@ export default function ProductPage() {
             </div>
           </div>
 
+          {/* "" Product Tabs — Full Width """"""""""""""""""""""""""""""""""" */}
+          <div className="mt-16 border-t border-[#E5DCCF]">
+            <div className="grid grid-cols-3">
+              {["description", "ingredients", "howToUse"].map((tab) => (
+                <button key={tab} onClick={() => setActiveTab(tab)}
+                  className={`relative py-5 text-[11px] md:text-xs tracking-[0.2em] uppercase cursor-pointer text-center transition-colors duration-300 ${activeTab === tab ? "text-[#2C2A26]" : "text-[#9A958E] hover:text-[#5A554E]"}`}>
+                  {tab === "howToUse" ? "Servings" : tab === "ingredients" ? "Ingredients" : tab}
+                  {activeTab === tab && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[1.5px] bg-[#A48662]" />}
+                </button>
+              ))}
+            </div>
+            <div className="py-10 md:py-12">
+              {activeTab === "description" && (
+                <div className="space-y-10">
+                  <p className="text-[#5A554E] text-[15px] md:text-base leading-[1.9] md:leading-[1.95]">
+                    {product.description}
+                  </p>
+                  <div className="border-t border-[#E5DCCF] pt-10">
+                    <p className="text-[#5A554E] text-[15px] md:text-base leading-[1.9] md:leading-[1.95]">
+                      Our commitment to the earth is as deep as our commitment to your wellness. All Sampriti products are housed in recyclable glass test tubes with biodegradable cork stoppers. Our outer packaging is made from 100% post-consumer recycled paper and printed with soy-based inks. Please reuse or recycle thoughtfully.
+                    </p>
+                  </div>
+                  <div className="border-t border-[#E5DCCF]">
+                    <div className="grid grid-cols-[110px_1fr] md:grid-cols-[130px_1fr] gap-3 py-5 border-b border-[#E5DCCF]">
+                      <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#2C2A26]">Aroma</span>
+                      <span className="text-sm md:text-[15px] text-[#5A554E] leading-relaxed">{product.aroma}</span>
+                    </div>
+                    <div className="grid grid-cols-[110px_1fr] md:grid-cols-[130px_1fr] gap-3 py-5 border-b border-[#E5DCCF]">
+                      <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#2C2A26]">Suited to</span>
+                      <span className="text-sm md:text-[15px] text-[#5A554E] leading-relaxed">{product.suitedTo}</span>
+                    </div>
+                    <div className="grid grid-cols-[110px_1fr] md:grid-cols-[130px_1fr] gap-3 py-5">
+                      <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#2C2A26]">Key ingredients</span>
+                      <span className="text-sm md:text-[15px] text-[#5A554E] leading-relaxed">{product.keyIngredients}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeTab === "ingredients" && (
+                <div className="space-y-6">
+                  <p className="text-[#5A554E] text-[15px] md:text-base leading-[1.9] md:leading-[1.95]">
+                    {product.keyIngredients}
+                  </p>
+                </div>
+              )}
+              {activeTab === "howToUse" && (
+                <div className="space-y-10">
+                  <p className="text-[#5A554E] text-[15px] md:text-base leading-[1.9] md:leading-[1.95] whitespace-pre-line">
+                    {product.howToUse}
+                  </p>
+                  {product.usageDetails?.length > 0 && (
+                    <div className="border-t border-[#E5DCCF]">
+                      {product.usageDetails.map((item: UsageDetail, idx: number) => (
+                        <div key={item.label} className={`grid grid-cols-[110px_1fr] md:grid-cols-[130px_1fr] gap-3 py-5 ${idx < product.usageDetails.length - 1 ? "border-b border-[#E5DCCF]" : ""}`}>
+                          <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#2C2A26]">{item.label}</span>
+                          <span className="text-sm md:text-[15px] text-[#5A554E] leading-relaxed">{item.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* "" Product Detail Story """"""""""""""""""""""""""""""""""""""""" */}
-          <div className="mt-24 border-y border-[#E5DCCF]">
+          <div className={`mt-24 border-y ${isContained ? "md:border-y-0" : ""} border-[#E5DCCF]`}>
 
             {/* Panel 1 " Image left, text right */}
-            <section className="grid border-b border-[#E5DCCF] lg:grid-cols-2">
+            <section className="grid lg:grid-cols-2">
               <div className={storyContainerClass}>
                 <ProductImage
-                  src={product.image}
+                  src={galleryImages[0]}
                   alt={`${product.name} ritual formulation`}
                   fill
                   priority
@@ -695,7 +723,7 @@ export default function ProductPage() {
               </div>
               <div className={storyContainerClass}>
                 <ProductImage
-                  src={product.image}
+                  src={galleryImages[0]}
                   alt={`${product.name} preparation ritual`}
                   fill
                   priority

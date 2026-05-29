@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
 export default function VideoSection() {
   const sectionRef = useRef(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -63,12 +62,12 @@ export default function VideoSection() {
             Emerging from India&apos;s diverse herbal traditions and regional pharmacopoeias, our formulations draw from centuries of botanical wisdom practiced,and perfected across generations.
             Each blend honours the intelligence of classical herbal alchemy, cultivating vitality and balance through ritual and sustained practice.
           </p>
-          <Link
+          <a
             href="/the-house"
             className="mt-14 inline-flex h-14 items-center justify-center border border-[#2C2A26] px-8 text-[#2C2A26] text-sm font-medium transition-colors duration-300 hover:bg-[#2C2A26] hover:text-white"
           >
             Discover The House
-          </Link>
+          </a>
         </div>
 
         <div className="relative h-full min-h-[300px] overflow-hidden md:min-h-[400px]"

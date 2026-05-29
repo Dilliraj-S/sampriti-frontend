@@ -67,7 +67,8 @@ const categorySectionMap: Record<string, string> = {
 const carouselOnlyCategories = new Set(["skincare", "fragrance", "ceremony", "atmospheric"]);
 
 const heroCategoryImages: Record<string, string> = {
-  infusions: "/Assets/art of infusion.webp",
+  // infusions: "/Assets/art of infusion.webp",
+  infusions: "/assests/images/infusion1.webp",
   skincare: "/assests/images/skincare.webp",
   fragrance: "/assests/images/fragrance.webp",
   ceremony: "/assests/images/Caremony.webp",

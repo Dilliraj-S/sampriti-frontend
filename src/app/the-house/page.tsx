@@ -237,6 +237,35 @@ export default function TheHousePage() {
         </div>
       </section>
 
+      <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
+        <Image
+          src="/Assets/house bottom banner.webp"
+          alt="Explore The House"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="relative z-10 flex h-full flex-col items-center justify-end px-6 pb-20 text-center">
+          <div className="max-w-3xl">
+            <h2 className="mb-5 text-4xl font-light leading-tight text-white md:text-6xl lg:text-7xl" style={{ fontFamily: "var(--font-serif)" }}>
+              The House of Sampriti
+            </h2>
+            <p className="mx-auto mb-8 max-w-2xl text-sm leading-relaxed text-white/80 md:text-lg" style={{ fontWeight: 300 }}>
+              Honouring the biological form through refined ritual is the ultimate act of devotion.
+            </p>
+            <button
+              type="button"
+              onClick={() => { window.location.href = "/"; }}
+              className="inline-flex min-h-16 items-center justify-center border-2 border-white px-7 text-sm font-semibold text-white transition-colors duration-300 hover:bg-white hover:text-black"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              Explore The Collection
+            </button>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   );

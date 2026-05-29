@@ -218,6 +218,32 @@ export default function SignatureRituals() {
         <div className="relative left-1/2 -translate-x-1/2 w-screen mb-20">
           <div className="flex flex-col md:flex-row md:items-stretch">
             <div className="relative min-h-[300px] overflow-hidden md:min-h-[400px] md:w-[58%]">
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent z-10" />
+              <div className="absolute inset-y-0 left-0 z-20 flex items-center max-w-[55%] px-6 md:px-12 lg:px-16">
+                <div>
+                  <p className="text-[#C4A882] text-[10px] md:text-[11px] uppercase tracking-[0.28em] mb-3">Kaya Kalpa — Cellular Rejuvenation</p>
+                  <h2 className="text-white text-xl md:text-3xl font-light mb-1" style={{ fontFamily: "var(--font-serif)" }}>
+                    Black Turmeric
+                  </h2>
+                  <p className="text-white/70 text-xs md:text-sm mb-4">Curcuma Caesia</p>
+                  <p className="text-white/80 text-xs md:text-sm leading-[1.7] max-w-sm">
+                    A rare Kaya Kalpa agent for profound recovery and cellular longevity. Revered for its exceptional anti-inflammatory and rejuvenative properties.
+                  </p>
+                  <div className="mt-4 space-y-1.5">
+                    <p className="text-white/60 text-[10px] uppercase tracking-[0.15em]">Suited to:</p>
+                    <ul className="space-y-1">
+                      {["Cellular renewal", "Deep recovery", "Longevity support"].map((item) => (
+                        <li key={item} className="text-white/80 text-xs md:text-sm flex items-center gap-2">
+                          <span className="w-1 h-1 rounded-full bg-[#C4A882] flex-shrink-0" /> {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <Link href="/product/black-turmeric" className="mt-5 inline-flex h-10 items-center justify-center border border-white/60 px-5 text-white/90 text-[10px] tracking-[0.2em] uppercase transition-colors duration-300 hover:bg-white hover:text-[#2C2A26]">
+                    Explore Black Turmeric
+                  </Link>
+                </div>
+              </div>
               <video
                 ref={videoRef}
                 className="h-[300px] w-full object-cover md:h-full"
@@ -226,7 +252,7 @@ export default function SignatureRituals() {
                 playsInline
                 preload="auto"
               >
-                <source src="/assests/videos/black turmeric vid.mp4" type="video/mp4" />
+                <source src="/assests/videos/black turmeric man.mp4" type="video/mp4" />
               </video>
               <div className="absolute bottom-8 right-8 z-10 flex gap-3">
                 <button

@@ -136,13 +136,13 @@ function ArchivePreview({ customArticles }: { customArticles?: ArchiveArticle[] 
               pharmacopoeia - and the quiet observation of plants in their living landscapes.
             </p>
           </div>
-          <Link
+          <a
             href="/archive"
             className="mt-[1.8cm] inline-flex min-h-16 items-center justify-center border-2 border-[#262420] px-7 text-sm font-semibold text-[#262420] transition-colors duration-300 hover:bg-[#262420] hover:text-white cursor-pointer"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Explore All Articles {"\u2192"}
-          </Link>
+          </a>
         </article>
       </div>
       </div>

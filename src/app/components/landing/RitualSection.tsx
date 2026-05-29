@@ -50,7 +50,7 @@ export default function RitualSection() {
         {/* BOTTOM: Quote + body copy */}
         <div className="max-w-4xl">
           <blockquote
-            className="text-3xl md:text-5xl lg:text-6xl font-light leading-[1.15] mb-6"
+            className="text-2xl md:text-3xl lg:text-4xl font-light leading-[1.15] mb-6"
             style={{ fontFamily: "var(--font-serif)", color: "#FFFFFF" }}
           >
             "This is not consumption.
@@ -59,7 +59,7 @@ export default function RitualSection() {
           </blockquote>
 
           <p
-            className="text-sm md:text-base leading-relaxed max-w-2xl mb-6"
+            className="text-sm md:text-base leading-relaxed max-w-4xl mb-6"
             style={{ color: "rgba(255,255,255,0.8)", fontFamily: "var(--font-sans)", fontWeight: 300 }}
           >
             Sampriti was born from a quiet pilgrimage across India's living landscapes of plant
