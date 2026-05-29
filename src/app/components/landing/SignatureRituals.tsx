@@ -162,7 +162,7 @@ export default function SignatureRituals() {
   };
 
   const groupedBySection = remainingProducts.reduce((acc, p) => {
-    const section = (p as any).homepageSection || "__default";
+    const section = p.homepageSection || "__default";
     if (!acc[section]) acc[section] = [];
     acc[section].push(p);
     return acc;
@@ -215,21 +215,21 @@ export default function SignatureRituals() {
         </div>
 
         {/* Black Turmeric Video */}
-        <div className="relative left-1/2 -translate-x-1/2 w-screen mb-20">
+        <div className="relative left-1/2 -translate-x-1/2 w-screen mb-20 overflow-hidden">
           <div className="flex flex-col md:flex-row md:items-stretch">
-            <div className="relative min-h-[300px] overflow-hidden md:min-h-[400px] md:w-[58%]">
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent z-10" />
-              <div className="absolute inset-y-0 left-0 z-20 flex items-center max-w-[55%] px-6 md:px-12 lg:px-16">
-                <div>
+            <div className="relative min-h-[430px] overflow-hidden md:min-h-[400px] md:w-[58%]">
+              <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-black/35 to-black/85 md:bg-gradient-to-r md:from-black/70 md:via-black/30 md:to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 z-20 flex px-6 pb-24 pt-10 md:inset-y-0 md:left-0 md:right-auto md:items-center md:max-w-[55%] md:px-12 md:py-0 lg:px-16">
+                <div className="max-w-[19rem] md:max-w-none">
                   <p className="text-[#C4A882] text-[10px] md:text-[11px] uppercase tracking-[0.28em] mb-3">Kaya Kalpa — Cellular Rejuvenation</p>
-                  <h2 className="text-white text-xl md:text-3xl font-light mb-1" style={{ fontFamily: "var(--font-serif)" }}>
+                  <h2 className="text-white text-[26px] md:text-3xl font-light mb-1" style={{ fontFamily: "var(--font-serif)" }}>
                     Black Turmeric
                   </h2>
-                  <p className="text-white/70 text-xs md:text-sm mb-4">Curcuma Caesia</p>
-                  <p className="text-white/80 text-xs md:text-sm leading-[1.7] max-w-sm">
+                  <p className="text-white/70 text-sm mb-4">Curcuma Caesia</p>
+                  <p className="text-white/85 text-[14px] md:text-sm leading-[1.65] max-w-sm">
                     A rare Kaya Kalpa agent for profound recovery and cellular longevity. Revered for its exceptional anti-inflammatory and rejuvenative properties.
                   </p>
-                  <div className="mt-4 space-y-1.5">
+                  <div className="mt-4 hidden space-y-1.5 min-[390px]:block">
                     <p className="text-white/60 text-[10px] uppercase tracking-[0.15em]">Suited to:</p>
                     <ul className="space-y-1">
                       {["Cellular renewal", "Deep recovery", "Longevity support"].map((item) => (
@@ -239,14 +239,17 @@ export default function SignatureRituals() {
                       ))}
                     </ul>
                   </div>
-                  <Link href="/product/black-turmeric" className="mt-5 inline-flex h-10 items-center justify-center border border-white/60 px-5 text-white/90 text-[10px] tracking-[0.2em] uppercase transition-colors duration-300 hover:bg-white hover:text-[#2C2A26]">
+                  <Link href="/product/black-turmeric" className="mt-5 hidden h-10 items-center justify-center border border-white/60 px-5 text-white/90 text-[10px] tracking-[0.2em] uppercase transition-colors duration-300 hover:bg-white hover:text-[#2C2A26] sm:inline-flex">
                     Explore Black Turmeric
                   </Link>
                 </div>
               </div>
+              <Link href="/product/black-turmeric" className="absolute bottom-8 left-6 z-30 inline-flex h-11 max-w-[calc(100vw-9.5rem)] items-center justify-center border border-white/70 bg-black/25 px-3 text-center text-[9px] uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm transition-colors duration-300 hover:bg-white hover:text-[#2C2A26] sm:hidden">
+                Explore Black Turmeric
+              </Link>
               <video
                 ref={videoRef}
-                className="h-[300px] w-full object-cover md:h-full"
+                className="h-[430px] w-full object-cover md:h-full"
                 muted
                 loop
                 playsInline
@@ -254,10 +257,10 @@ export default function SignatureRituals() {
               >
                 <source src="/assests/videos/black turmeric man.mp4" type="video/mp4" />
               </video>
-              <div className="absolute bottom-8 right-8 z-10 flex gap-3">
+              <div className="absolute bottom-8 right-6 z-30 flex gap-2 md:right-8 md:gap-3">
                 <button
                   onClick={togglePlay}
-                  className="flex h-12 w-12 items-center justify-center border border-white/70 bg-black/20 text-white backdrop-blur-sm transition-colors hover:bg-black/35 cursor-pointer"
+                  className="flex h-11 w-11 items-center justify-center border border-white/70 bg-black/25 text-white backdrop-blur-sm transition-colors hover:bg-black/35 cursor-pointer md:h-12 md:w-12"
                   aria-label={isPlaying ? "Pause video" : "Play video"}
                 >
                   {isPlaying ? (
@@ -268,7 +271,7 @@ export default function SignatureRituals() {
                 </button>
                 <button
                   onClick={toggleMute}
-                  className="flex h-12 w-12 items-center justify-center border border-white/70 bg-black/20 text-white backdrop-blur-sm transition-colors hover:bg-black/35 cursor-pointer"
+                  className="flex h-11 w-11 items-center justify-center border border-white/70 bg-black/25 text-white backdrop-blur-sm transition-colors hover:bg-black/35 cursor-pointer md:h-12 md:w-12"
                   aria-label={isMuted ? "Unmute video" : "Mute video"}
                 >
                   {isMuted ? (
