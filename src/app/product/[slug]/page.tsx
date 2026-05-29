@@ -500,13 +500,13 @@ export default function ProductPage() {
 
             {/* "" Hero Product Image with Gallery """"""""""""""""""""""""""" */}
             <div>
-              <div className="group relative aspect-square bg-white overflow-hidden">
+              <div className="relative aspect-square bg-white overflow-hidden">
                 <ProductImage
                   src={galleryImages[galleryIndex]}
                   alt={product.name}
                   fill
                   priority
-                  className={`${heroImgClass} group-hover:scale-[1.03] transition-all duration-500`}
+                  className={heroImgClass}
                 />
               </div>
               {galleryImages.length > 1 && (
@@ -579,10 +579,10 @@ export default function ProductPage() {
 
           {/* "" Product Tabs — Full Width """"""""""""""""""""""""""""""""""" */}
           <div className="mt-16 border-t border-[#E5DCCF]">
-            <div className="grid grid-cols-3">
+            <div className="flex sm:grid sm:grid-cols-3 gap-0 sm:gap-x-4">
               {["description", "ingredients", "howToUse"].map((tab) => (
                 <button key={tab} onClick={() => setActiveTab(tab)}
-                  className={`relative py-5 text-[11px] md:text-xs tracking-[0.2em] uppercase cursor-pointer text-center transition-colors duration-300 ${activeTab === tab ? "text-[#2C2A26]" : "text-[#9A958E] hover:text-[#5A554E]"}`}>
+                  className={`relative py-5 text-[11px] md:text-xs tracking-[0.15em] md:tracking-[0.2em] uppercase cursor-pointer text-center transition-colors duration-300 flex-1 sm:flex-none ${activeTab === tab ? "text-[#2C2A26]" : "text-[#9A958E] hover:text-[#5A554E]"}`}>
                   {tab === "howToUse" ? "Servings" : tab === "ingredients" ? "Ingredients" : tab}
                   {activeTab === tab && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[1.5px] bg-[#A48662]" />}
                 </button>

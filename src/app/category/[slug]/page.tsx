@@ -76,7 +76,7 @@ const heroCategoryImages: Record<string, string> = {
 };
 
 const heroMobileImages: Record<string, string> = {
-  infusions: "/assests/images/Minfusion.webp",
+  infusions: "/assests/images/Minfusion2.webp",
   skincare: "/assests/images/Mskincare.webp",
   fragrance: "/assests/images/MFragrance.webp",
   ceremony: "/assests/images/MCaremony.webp",
