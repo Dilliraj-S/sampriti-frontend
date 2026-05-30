@@ -1,0 +1,175 @@
+/* Sampriti Botanicals — Dark Botanical Luxury Theme */
+/* Tailwind v4: theme tokens defined via @theme inline */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --color-forest: #0F1A0F;
+  --color-grove: #1A2B1A;
+  --color-moss: #243824;
+  --color-sage: #5A8A52;
+  --color-sage-lt: #8AB882;
+  --color-gold: #C4923A;
+  --color-gold-lt: #E8C87A;
+  --color-ivory: #F8F4ED;
+  --color-cream: #EDE8DF;
+  --color-parchment: #D6CFC3;
+  --color-bark: #2C1F0E;
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'DM Sans', sans-serif;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: #2C2A26;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar — dark botanical */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-forest);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-moss);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sage);
+}
+
+/* ── Botanical drift animation (hero background SVG leaves) ── */
+@keyframes botanical-drift {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(10px, -15px) rotate(2deg);
+  }
+  50% {
+    transform: translate(-5px, -25px) rotate(-1deg);
+  }
+  75% {
+    transform: translate(-15px, -10px) rotate(1.5deg);
+  }
+}
+
+.animate-botanical-drift {
+  animation: botanical-drift 20s ease-in-out infinite;
+}
+
+.animate-botanical-drift-reverse {
+  animation: botanical-drift 25s ease-in-out infinite reverse;
+}
+
+.animate-botanical-drift-slow {
+  animation: botanical-drift 30s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
+/* ── Marquee animation (trust strip mobile) ── */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* ── Fade-up on scroll (fallback for non-JS / initial state) ── */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Gold underline draw animation ── */
+@keyframes draw-underline {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.gold-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.gold-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  animation: draw-underline 1.5s ease-out forwards;
+  animation-delay: 0.8s;
+}
+
+/* ── Border expansion on hover (foundations pillars) ── */
+.border-expand {
+  position: relative;
+}
+
+.border-expand::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-gold) 20%, transparent);
+  transition: width 0.6s ease;
+}
+
+.border-expand:hover::after {
+  width: 100%;
+}
+
+/* ── Grayscale to color hover ── */
+.grayscale-hover {
+  filter: grayscale(100%);
+  transition: filter 0.7s ease;
+}
+
+.grayscale-hover:hover {
+  filter: grayscale(0%);
+}
+
+/* ── Image zoom on hover ── */
+.zoom-hover {
+  transition: transform 0.7s ease;
+}
+
+.zoom-hover:hover {
+  transform: scale(1.05);
+}
