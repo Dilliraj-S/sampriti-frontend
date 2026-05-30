@@ -1,5 +1,5 @@
 "use client";
-import { FileText, Plus, Edit2, Trash2, X, ToggleLeft, ToggleRight } from "lucide-react";
+import { FileText, Plus, Edit2, Trash2, X, ToggleRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { api } from "@/services/api.client";
 import ImageUpload from "@/app/components/admin/ImageUpload";
@@ -13,7 +13,7 @@ export default function ContentPage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Post | null>(null);
-  const [form, setForm] = useState({ title: "", category: "Wellness", content: "", excerpt: "", image: "", status: "draft", publishDate: "" });
+  const [form, setForm] = useState({ title: "", category: "Wellness", content: "", excerpt: "", image: "", status: "published", publishDate: "" });
 
   const load = async () => {
     setLoading(true);
@@ -24,12 +24,14 @@ export default function ContentPage() {
 
   useEffect(() => { load(); }, []);
 
-  const openAdd = () => { setEditing(null); setForm({ title: "", category: "Wellness", content: "", excerpt: "", image: "", status: "draft", publishDate: "" }); setShowForm(true); };
+  const openAdd = () => { setEditing(null); setForm({ title: "", category: "Wellness", content: "", excerpt: "", image: "", status: "published", publishDate: "" }); setShowForm(true); };
   const openEdit = (p: Post) => { setEditing(p); setForm({ title: p.title, category: p.category || "Wellness", content: p.content || "", excerpt: p.excerpt || "", image: p.image || "", status: p.status, publishDate: p.publishDate || "" }); setShowForm(true); };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = editing ? await api.put(`/content/${editing.id}`, form) : await api.post("/content", form);
+    const { publishDate, ...rest } = form;
+    const payload = form.status !== "scheduled" || !form.publishDate ? rest : form;
+    const res = editing ? await api.put(`/content/${editing.id}`, payload) : await api.post("/content", payload);
     if (res.status) { setShowForm(false); load(); } else alert(res.message);
   };
 
@@ -61,10 +63,10 @@ export default function ContentPage() {
             <form onSubmit={handleSubmit} className="p-5 space-y-4">
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Title</label><input type="text" value={form.title} onChange={e => setForm({...form, title: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Category</label><select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 bg-white text-black">{categories.map(c => <option key={c} value={c}>{c}</option>)}</select></div>
-              <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Status</label><select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 bg-white text-black"><option value="draft">Draft</option><option value="published">Published</option><option value="scheduled">Scheduled</option></select></div>
-              {form.status === "scheduled" && <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Publish Date</label><input type="date" value={form.publishDate} onChange={e => setForm({...form, publishDate: e.target.value})} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>}
-              <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Excerpt</label><textarea value={form.excerpt} onChange={e => setForm({...form, excerpt: e.target.value})} rows={2} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 resize-none text-black" /></div>
-              <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Content</label><textarea value={form.content} onChange={e => setForm({...form, content: e.target.value})} rows={4} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 resize-none text-black" /></div>
+              <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Status</label><select value={form.status} onChange={e => setForm({...form, status: e.target.value})} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 bg-white text-black"><option value="published">Published</option><option value="scheduled">Scheduled</option></select></div>
+              {form.status === "scheduled" && <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Publish Date</label><input type="date" value={form.publishDate} onChange={e => setForm({...form, publishDate: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>}
+              <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Excerpt</label><textarea value={form.excerpt} onChange={e => setForm({...form, excerpt: e.target.value})} rows={3} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 resize-none text-black" /></div>
+              <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Content</label><textarea value={form.content} onChange={e => setForm({...form, content: e.target.value})} rows={10} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
               <ImageUpload label="Featured Image" value={form.image} onChange={v => setForm({...form, image: v})} />
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => setShowForm(false)} className="flex-1 px-4 py-2.5 border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors">Cancel</button>
@@ -86,10 +88,10 @@ export default function ContentPage() {
                 <tr key={p.id} className="hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-4"><div className="flex items-center gap-3"><FileText size={16} className="text-gray-400" /><span className="font-medium text-gray-800">{p.title}</span></div></td>
                   <td className="px-6 py-4 text-gray-500">{p.category || "—"}</td>
-                  <td className="px-6 py-4"><span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${p.status === "published" ? "bg-green-50 text-green-700" : p.status === "scheduled" ? "bg-blue-50 text-blue-700" : "bg-gray-100 text-gray-500"}`}>{p.status.charAt(0).toUpperCase()+p.status.slice(1)}</span></td>
+                  <td className="px-6 py-4"><span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${p.status === "published" ? "bg-green-50 text-green-700" : "bg-blue-50 text-blue-700"}`}>{p.status.charAt(0).toUpperCase()+p.status.slice(1)}</span></td>
                   <td className="px-6 py-4 text-gray-400">{p.publishDate || p.createdAt?.split("T")[0]}</td>
                   <td className="px-6 py-4 text-gray-500">{p.views || 0}</td>
-                  <td className="px-6 py-4"><div className="flex items-center gap-1"><button onClick={() => toggleStatus(p.id)} className={`p-1.5 rounded-lg transition-colors ${p.status === "published" ? "text-green-500 hover:bg-green-50" : "text-gray-300 hover:bg-gray-100"}`}>{p.status === "published" ? <ToggleRight size={16} /> : <ToggleLeft size={16} />}</button><button onClick={() => openEdit(p)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-blue-600 transition-colors"><Edit2 size={14} /></button><button onClick={() => handleDelete(p.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={14} /></button></div></td>
+                  <td className="px-6 py-4"><div className="flex items-center gap-1"><button onClick={() => toggleStatus(p.id)} className={`p-1.5 rounded-lg transition-colors ${p.status === "published" ? "text-green-500 hover:bg-green-50" : "text-blue-500 hover:bg-blue-50"}`}><ToggleRight size={16} /></button><button onClick={() => openEdit(p)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-blue-600 transition-colors"><Edit2 size={14} /></button><button onClick={() => handleDelete(p.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={14} /></button></div></td>
                 </tr>
               ))}
             </tbody>

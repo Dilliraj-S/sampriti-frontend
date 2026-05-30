@@ -66,8 +66,9 @@ export default function ArchivePage() {
     (async () => {
       const res = await api.get<any[]>("/content");
       if (res.status && res.data?.length) {
+        const today = new Date().toISOString().split("T")[0];
         const published = res.data
-          .filter((p: any) => p.status === "published")
+          .filter((p: any) => p.status === "published" || (p.status === "scheduled" && p.publishDate && p.publishDate <= today))
           .map((p: any) => ({
             category: p.category || "Journal",
             title: p.title,

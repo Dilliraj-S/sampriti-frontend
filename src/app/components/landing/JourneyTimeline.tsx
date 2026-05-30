@@ -407,7 +407,7 @@ export default function JourneyTimeline() {
       {/* ════════════════════════════════ MOBILE ════════════════════════════════ */}
       <div className="overflow-hidden md:hidden">
 
-        {/* Image — 75svh with object-cover object-center (same logic as old working code) */}
+        {/* Image — 75svh */}
         <div className="relative overflow-hidden" style={{ height: "75svh" }}>
           <div className="absolute inset-0">
             <img
@@ -426,47 +426,6 @@ export default function JourneyTimeline() {
             }}
           />
 
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.06) 55%, transparent 100%)",
-            }}
-          />
-
-          {/* Step counter badge — top right */}
-          <div
-            style={{
-              position: "absolute",
-              top: "16px",
-              right: "16px",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "28px",
-                fontWeight: 300,
-                color: "rgba(255,255,255,0.9)",
-                lineHeight: 1,
-              }}
-            >
-              {pad(active + 1)}
-            </span>
-            <span
-              style={{
-                fontSize: "11px",
-                color: "rgba(255,255,255,0.38)",
-                fontFamily: "var(--font-sans)",
-                letterSpacing: "0.1em",
-              }}
-            >
-              /{pad(steps.length)}
-            </span>
-          </div>
 
           {/* Image bottom overlay */}
           <div className="absolute bottom-6 left-5 right-5">

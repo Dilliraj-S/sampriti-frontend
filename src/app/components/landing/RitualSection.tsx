@@ -5,10 +5,10 @@
 export default function RitualSection() {
   return (
     <section
-      className="relative w-full overflow-hidden"
-      style={{ background: "#000000", height: "calc(100dvh - 3cm)" }}
+      className="relative w-full"
+      style={{ background: "#000000", minHeight: "100dvh" }}
     >
-      {/* Background image — fills exactly the display size, no overflow */}
+      {/* Background image — fills the section */}
       <div className="absolute inset-0 w-full h-full">
         <img
           src="/Assets/pexels-tranthangnhat-27792454.webp"
@@ -34,7 +34,7 @@ export default function RitualSection() {
 
       {/* Content: flex column, label at top — quote at bottom */}
       <div
-        className="relative z-10 flex flex-col justify-between h-full px-6 md:px-14 py-10 md:py-30 max-w-7xl mx-auto w-full"
+        className="relative z-10 flex flex-col justify-between min-h-[100dvh] px-6 md:px-14 py-10 md:py-30 max-w-7xl mx-auto w-full"
       >
         {/* TOP: The Vessel label — no gap, no rule below it */}
         <div className="flex items-center gap-4">

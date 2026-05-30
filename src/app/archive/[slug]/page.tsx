@@ -21,6 +21,8 @@ async function getArticleFromApi(slug: string): Promise<ArchiveArticle | undefin
     const json = await res.json();
     if (json.status && json.data) {
       const p = json.data;
+      const today = new Date().toISOString().split("T")[0];
+      if (p.status !== "published" && !(p.status === "scheduled" && p.publishDate && p.publishDate <= today)) return undefined;
       return {
         category: p.category || "Journal",
         title: p.title,

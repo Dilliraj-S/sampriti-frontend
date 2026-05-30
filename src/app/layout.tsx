@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, DM_Sans, Inter, Tenor_Sans } from "next/font/google";
 import "./globals.css";
 import CartDrawer from "@/app/components/landing/CartDrawer";
-import PopupBanner from "@/app/components/landing/PopupBanner";
+import PromoStrip from "@/app/components/landing/PromoStrip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,9 +51,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${dmSans.variable} ${inter.variable} ${tenorSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <PromoStrip />
         {children}
         <CartDrawer />
-        <PopupBanner />
       </body>
     </html>
   );
