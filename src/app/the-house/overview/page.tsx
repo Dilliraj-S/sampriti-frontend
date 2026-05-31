@@ -34,7 +34,7 @@ const sections: SectionData[] = [
   {
     id: 1,
     title: "A Botanical Pilgrimage",
-    image: "/Assets/forest girl.webp",
+    image: "/assets/forest girl.webp",
     imageAlt: "A Botanical Pilgrimage",
     content: [
       { heading: "Origins", description: "Sampriti was born from a quiet pilgrimage across India's living landscapes of plant wisdom—Himalayan ridges, coastal plains, temple gardens, and rain-soaked forests of the South." },
@@ -45,7 +45,7 @@ const sections: SectionData[] = [
   {
     id: 2,
     title: "Our Foundations",
-    image: "/Assets/perume distillation.webp",
+    image: "/assets/perume distillation.webp",
     imageAlt: "Our Foundations",
     content: [
       { heading: "Lineage (Parampara)", description: "We honour the 4,000-year-old Siddha and Ayurvedic traditions. Our formulations are rooted in time-tested wisdom passed down through generations of practitioners." },
@@ -56,7 +56,7 @@ const sections: SectionData[] = [
   {
     id: 3,
     title: "The Slow Botanical Movement",
-    image: "/Assets/img.webp",
+    image: "/assets/img.webp",
     imageAlt: "The Slow Botanical Movement",
     content: [
       { heading: "Conscious Scaling", description: "We prioritize the integrity of the soil over the speed of the market." },
@@ -180,7 +180,7 @@ export default function TheHouseOverview() {
         </div>
         
         <div className="relative aspect-[16/9] md:aspect-[16/7] lg:aspect-[21/8]">
-          <Image src="/Assets/house bottom banner.webp" alt="The House of Sampriti" fill className="object-cover" sizes="100vw" />
+          <Image src="/assets/house bottom banner.webp" alt="The House of Sampriti" fill className="object-cover" sizes="100vw" />
           <div className="absolute inset-0 hidden md:block" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%)" }} />
           <div className="absolute inset-0 md:hidden" style={{ background: "linear-gradient(to top, rgba(8,7,5,0.82) 0%, rgba(8,7,5,0.34) 42%, rgba(8,7,5,0.04) 100%)" }} />
           

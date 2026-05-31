@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/app/components/landing/Navbar";
 import Footer from "@/app/components/landing/Footer";
@@ -27,7 +27,7 @@ async function getArticleFromApi(slug: string): Promise<ArchiveArticle | undefin
         category: p.category || "Journal",
         title: p.title,
         excerpt: p.excerpt || p.content?.slice(0, 120) || "",
-        image: p.image || "/Assets/img 4.webp",
+        image: p.image || "/assets/img 4.webp",
         slug: p.slug,
         href: `/archive/${p.slug}`,
         body: p.content ? p.content.split('\n').filter((l: string) => l.trim()) : [],
@@ -51,10 +51,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <main className="min-h-screen bg-[#FFFFFF]" style={{ fontFamily: "var(--font-sans)" }}>
-      {/* Navbar — untouched */}
+      {/* Navbar � untouched */}
       <Navbar forceScrolled={true} />
 
-      {/* Back button — fixed so it always stays visible just below the navbar */}
+      {/* Back button � fixed so it always stays visible just below the navbar */}
       <div className="px-6 pt-28 md:px-12 md:pt-52 lg:px-20 lg:pt-56">
         <Link
           href="/archive#all-articles"
@@ -79,7 +79,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
       <article className="grid gap-7 px-0 pb-16 pt-6 md:gap-10 md:px-12 md:pt-10 lg:grid-cols-[50vw_minmax(0,1fr)] lg:gap-0 lg:px-0 lg:pb-0 lg:pt-12">
 
-        {/* ── LEFT COLUMN ── */}
+        {/* -- LEFT COLUMN -- */}
         <div className="relative w-full">
           <div
             className="relative h-[270px] w-full overflow-hidden bg-white md:h-[315px] lg:h-[calc(clamp(320px,70vh,780px)+2cm)]"
@@ -92,7 +92,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </div>
         </div>
 
-        {/* ── RIGHT COLUMN: same 5cm top gap ── */}
+        {/* -- RIGHT COLUMN: same 5cm top gap -- */}
         <div className="flex flex-col justify-start px-6 md:px-0 lg:px-16 lg:pb-16 xl:px-24">
           <p
             className="mb-4 text-[#A48662]/80 text-[0.62rem] uppercase tracking-[0.34em]"

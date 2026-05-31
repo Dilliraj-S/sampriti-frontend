@@ -31,24 +31,24 @@ interface CuratedSectionProps {
 
 const fallbackBySection: Record<string, { id: string; name: string; subtitle: string; price: number; image: string; hoverImage: string; description?: string }[]> = {
   home: [
-    { id: "black-turmeric", name: "Black Turmeric", subtitle: "Curcuma Caesia", price: 45, image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp", description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity." },
+    { id: "black-turmeric", name: "Black Turmeric", subtitle: "Curcuma Caesia", price: 45, image: "/assets/black turmeric hd.webp", hoverImage: "/assets/black turmeric hover.webp", description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity." },
   ],
   influence: [
-    { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", price: 48, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "A potent botanical formulation for rejuvenation." },
+    { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", price: 48, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", description: "A potent botanical formulation for rejuvenation." },
   ],
   skincare: [
-    { id: "kanti", name: "Kanti", subtitle: "Red Radiance", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "A radiant botanical essence for skin vitality." },
-    { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "A potent concentrate for cellular vitality." },
+    { id: "kanti", name: "Kanti", subtitle: "Red Radiance", price: 48, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", description: "A radiant botanical essence for skin vitality." },
+    { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", price: 48, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", description: "A potent concentrate for cellular vitality." },
   ],
   fragrance: [
-    { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", price: 54, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "First rain fragrance captured in botanical form." },
-    { id: "jawa", name: "Jawa", subtitle: "Embers", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "Warm ember fragrance for deep atmosphere." },
-    { id: "kha", name: "Kha", subtitle: "The Zero Point", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "Zero point fragrance of stillness." },
+    { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", price: 54, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", description: "First rain fragrance captured in botanical form." },
+    { id: "jawa", name: "Jawa", subtitle: "Embers", price: 54, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", description: "Warm ember fragrance for deep atmosphere." },
+    { id: "kha", name: "Kha", subtitle: "The Zero Point", price: 54, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", description: "Zero point fragrance of stillness." },
   ],
   atmosphere: [
-    { id: "sandalwood-shavings", name: "Sandalwood Shavings", subtitle: "Mysore Sandalwood", price: 38, image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp", description: "Pure sandalwood for ambient purification." },
-    { id: "deodar-discs", name: "Deodar Discs", subtitle: "Cedar of the Gods", price: 32, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "Himalayan cedar discs for sacred space." },
-    { id: "black-sambrani", name: "Black Sambrani", subtitle: "Sacred Resin", price: 36, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "Traditional resin for deep meditative smoke." },
+    { id: "sandalwood-shavings", name: "Sandalwood Shavings", subtitle: "Mysore Sandalwood", price: 38, image: "/assets/black turmeric hd.webp", hoverImage: "/assets/black turmeric hover.webp", description: "Pure sandalwood for ambient purification." },
+    { id: "deodar-discs", name: "Deodar Discs", subtitle: "Cedar of the Gods", price: 32, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", description: "Himalayan cedar discs for sacred space." },
+    { id: "black-sambrani", name: "Black Sambrani", subtitle: "Sacred Resin", price: 36, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", description: "Traditional resin for deep meditative smoke." },
   ],
 };
 

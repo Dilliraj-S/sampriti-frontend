@@ -14,7 +14,7 @@ export const archiveArticles: ArchiveArticle[] = [
     title: "The Crimson Catalyst: Hibiscus in Practice",
     excerpt:
       "Hibiscus (Japa) is a high-functioning botanical characterized by its dense concentration of anthocyanins and organic acids. Discover how these compounds provide remarkable resilience.",
-    image: "/Assets/Botanical profile.webp",
+    image: "/assets/Botanical profile.webp",
     slug: "hibiscus-in-practice",
     href: "/archive/hibiscus-in-practice",
     body: [
@@ -28,7 +28,7 @@ export const archiveArticles: ArchiveArticle[] = [
     title: "The Shadow Catalyst: Siddha Wisdom and Dual Black Recovery",
     excerpt:
       "In the ancient Siddha tradition - the oldest medical lineage of South India - certain botanicals are classified as Kaya Kalpa, agents of longevity. Among these, Black Turmeric is the rarest.",
-    image: "/Assets/siddha wisdom.webp",
+    image: "/assets/siddha wisdom.webp",
     slug: "dual-black-recovery",
     href: "/archive/dual-black-recovery",
     body: [
@@ -42,7 +42,7 @@ export const archiveArticles: ArchiveArticle[] = [
     title: "The Lunar Pulse: Moon Rhythms and the Vitality of Herbs",
     excerpt:
       "The Moon is far more than a celestial body; it is the universal Mother of the World, the moistening principle that governs the flow of all liquids.",
-    image: "/Assets/Moon Rhythms.webp",
+    image: "/assets/Moon Rhythms.webp",
     slug: "moon-rhythms",
     href: "/archive/moon-rhythms",
     body: [
@@ -56,7 +56,7 @@ export const archiveArticles: ArchiveArticle[] = [
     title: "The Art of Infusion",
     excerpt:
       "Explore the delicate balance of time, temperature, and botanical integrity in crafting the perfect herbal infusion.",
-    image: "/Assets/art of infusion.webp",
+    image: "/assets/art of infusion.webp",
     slug: "art-of-infusion",
     href: "/archive/art-of-infusion",
     body: [
@@ -70,7 +70,7 @@ export const archiveArticles: ArchiveArticle[] = [
     title: "The Science of Scent",
     excerpt:
       "Understanding how aromatic compounds interact with our nervous system to induce calm and clarity.",
-    image: "/Assets/distillation.webp",
+    image: "/assets/distillation.webp",
     slug: "science-of-scent",
     href: "/archive/science-of-scent",
     body: [
@@ -84,7 +84,7 @@ export const archiveArticles: ArchiveArticle[] = [
     title: "Seasonal Rhythms",
     excerpt:
       "Aligning your daily rituals with the changing seasons to optimize vitality and well-being.",
-    image: "/Assets/seasonal rhythms.webp",
+    image: "/assets/seasonal rhythms.webp",
     slug: "seasonal-rhythms",
     href: "/archive/seasonal-rhythms",
     body: [

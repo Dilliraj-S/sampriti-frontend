@@ -1,5 +1,5 @@
 const OLD_PREFIX = "/assets/products/";
-const NEW_PREFIX = "/Assets/";
+const NEW_PREFIX = "/assets/";
 
 export function normalizeImagePath(path?: string): string {
   if (!path) return "";
@@ -7,7 +7,7 @@ export function normalizeImagePath(path?: string): string {
     return path.replace(OLD_PREFIX, NEW_PREFIX);
   }
   return path;
-}
+} 
 
 export function normalizeProductImages<T extends { image?: string; hoverImage?: string }>(product: T): T {
   return {

@@ -124,7 +124,7 @@ function AmbientVideo() {
         style={{ background: "#050805", opacity: loaded ? 0 : 1, transition: "opacity 1.2s ease" }} />
       {/* Full screen video */}
       <video ref={ref} className="absolute inset-0 w-full h-full object-cover"
-        src="/assests/videos/mp.mp4"
+        src="/assets/mp.mp4"
         autoPlay muted loop playsInline
         style={{ opacity: loaded ? 0.45 : 0, transition: "opacity 1.8s ease 0.4s" }} />
       {/* Full screen dark overlay for text readability */}
@@ -238,7 +238,7 @@ function ProductCarousel({ active, onSelect }: { active: number; onSelect: (i: n
             }}
           >
             <img
-              src="/Assets/1.webp"
+              src="/assets/1.webp"
               alt="Sampriti"
               style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
             />

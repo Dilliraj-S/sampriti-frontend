@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -14,24 +14,24 @@ import { normalizeImagePath } from "@/app/utils/normalizeImagePath";
 import ProductImage from "@/app/components/landing/ProductImage";
 
 const productGallery: Record<string, string[]> = {
-  "shakti-peya": ["/Assets/shakti peya.webp", "/Assets/shakti peya product hd.webp", "/Assets/shakti peya product display.webp", "/Assets/shakti peya product clean.webp", "/Assets/shakti peya product 1.webp", "/Assets/shakti peya hover.webp"],
-  "chandra-rasa": ["/Assets/chandra rasa.webp", "/Assets/Chandra rasa product hd.webp", "/Assets/Chandra rasa product display.webp", "/Assets/Chandra rasa product clean.webp", "/Assets/Chandra rasa product 1.webp", "/Assets/chandra rasa hover.webp"],
-  "shotharaha": ["/Assets/shakti peya product hd.webp", "/Assets/shakti peya hover.webp"],
-  "rose": ["/Assets/rose hd.webp", "/Assets/rose new.webp", "/Assets/rose display.webp", "/Assets/rose clean.webp", "/Assets/Rose hover.webp", "/Assets/Sampriti Rose zoom out.webp"],
-  "hibiscus": ["/Assets/hibiscus hd.webp", "/Assets/hibiscus new.webp", "/Assets/hibiscus display.webp", "/Assets/hibiscus clean.webp", "/Assets/hibiscus hover.webp"],
-  "blue-butterfly-pea": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea new.webp", "/Assets/blue butterfly pea display.webp", "/Assets/blue butterfly pea clean.webp", "/Assets/blue butterfly pea hover.webp"],
-  "vatari": ["/Assets/hibiscus hd.webp", "/Assets/hibiscus hover.webp"],
-  "kanti": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
-  "blue-ojas": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
-  "the-sahane": ["/Assets/hibiscus hd.webp", "/Assets/hibiscus hover.webp"],
-  "rakta-chandanam": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
-  "shveta-chandanam": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
-  "parjanya": ["/Assets/hibiscus hd.webp", "/Assets/hibiscus hover.webp"],
-  "jawa": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
-  "kha": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
-  "sandalwood-shavings": ["/Assets/hibiscus hd.webp", "/Assets/hibiscus hover.webp"],
-  "deodar-discs": ["/Assets/rose hd.webp", "/Assets/Rose hover.webp"],
-  "black-sambrani": ["/Assets/blue butterfly pea hd.webp", "/Assets/blue butterfly pea hover.webp"],
+  "shakti-peya": ["/assets/shakti peya.webp", "/assets/shakti peya product hd.webp", "/assets/shakti peya product display.webp", "/assets/shakti peya product clean.webp", "/assets/shakti peya product 1.webp", "/assets/shakti peya hover.webp"],
+  "chandra-rasa": ["/assets/chandra rasa.webp", "/assets/Chandra rasa product hd.webp", "/assets/Chandra rasa product display.webp", "/assets/Chandra rasa product clean.webp", "/assets/Chandra rasa product 1.webp", "/assets/chandra rasa hover.webp"],
+  "shotharaha": ["/assets/shakti peya product hd.webp", "/assets/shakti peya hover.webp"],
+  "rose": ["/assets/rose hd.webp", "/assets/rose new.webp", "/assets/rose display.webp", "/assets/rose clean.webp", "/assets/Rose hover.webp", "/assets/Sampriti Rose zoom out.webp"],
+  "hibiscus": ["/assets/hibiscus hd.webp", "/assets/hibiscus new.webp", "/assets/hibiscus display.webp", "/assets/hibiscus clean.webp", "/assets/hibiscus hover.webp"],
+  "blue-butterfly-pea": ["/assets/blue butterfly pea hd.webp", "/assets/blue butterfly pea new.webp", "/assets/blue butterfly pea display.webp", "/assets/blue butterfly pea clean.webp", "/assets/blue butterfly pea hover.webp"],
+  "vatari": ["/assets/hibiscus hd.webp", "/assets/hibiscus hover.webp"],
+  "kanti": ["/assets/rose hd.webp", "/assets/Rose hover.webp"],
+  "blue-ojas": ["/assets/blue butterfly pea hd.webp", "/assets/blue butterfly pea hover.webp"],
+  "the-sahane": ["/assets/hibiscus hd.webp", "/assets/hibiscus hover.webp"],
+  "rakta-chandanam": ["/assets/rose hd.webp", "/assets/Rose hover.webp"],
+  "shveta-chandanam": ["/assets/blue butterfly pea hd.webp", "/assets/blue butterfly pea hover.webp"],
+  "parjanya": ["/assets/hibiscus hd.webp", "/assets/hibiscus hover.webp"],
+  "jawa": ["/assets/rose hd.webp", "/assets/Rose hover.webp"],
+  "kha": ["/assets/blue butterfly pea hd.webp", "/assets/blue butterfly pea hover.webp"],
+  "sandalwood-shavings": ["/assets/hibiscus hd.webp", "/assets/hibiscus hover.webp"],
+  "deodar-discs": ["/assets/rose hd.webp", "/assets/Rose hover.webp"],
+  "black-sambrani": ["/assets/blue butterfly pea hd.webp", "/assets/blue butterfly pea hover.webp"],
 };
 
 type UsageDetail = {
@@ -88,8 +88,8 @@ const fallbackProducts: Product[] = [
     id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir",
     category: "Sampriti Botanicals",
     price: 54, format: "9 Test Tube Kit",
-    image: "/Assets/shakti peya.webp", hoverImage: "/Assets/shakti peya hover.webp",
-    benefits: "Activation · Anti-Aging · Radiance",
+    image: "/assets/shakti peya.webp", hoverImage: "/assets/shakti peya hover.webp",
+    benefits: "Activation � Anti-Aging � Radiance",
     description: "Shakti Peya is designed to support sustained vitality, circulation, digestion, and metabolic balance. The formulation encourages steady energy, warmth, and resilience - without sharp stimulation or depletion.",
     aroma: "Warming, herbaceous, grounding",
     suitedTo: "Those seeking sustained energy, mental clarity, and metabolic balance",
@@ -109,8 +109,8 @@ const fallbackProducts: Product[] = [
     subtitle: "Sleep Potion",
     category: "Sampriti Botanicals",
     price: 54, format: "9 Test Tube Kit",
-    image: "/Assets/chandra rasa.webp", hoverImage: "/Assets/chandra rasa hover.webp",
-    benefits: "Calm · Settling · Restorative",
+    image: "/assets/chandra rasa.webp", hoverImage: "/assets/chandra rasa hover.webp",
+    benefits: "Calm � Settling � Restorative",
     description: "This botanical sequence provides comprehensive support for the parasympathetic nervous system, aiding in the reduction of cognitive noise and the stabilization of the stress response through adaptogenic modulation. It assists the body in establishing a consistent nighttime recovery cycle, supporting deeper sleep quality and the natural cellular repair processes essential for long-term neurological health.",
     aroma: "Calming, earthy, settling",
     suitedTo: "Those seeking restorative sleep and nervous system balance",
@@ -128,7 +128,7 @@ const fallbackProducts: Product[] = [
     subtitle: "Rosa-Sinensis",
     category: "Sampriti Botanicals",
     price: 42,
-    image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", benefits: "",
+    image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", benefits: "",
     description: "A vibrant infusion of sun-drenched petals, known for its high antioxidant content and ability to support natural collagen production. This botanical essence revitalises the skin's appearance, lending a youthful radiance.",
     aroma: "Tart, floral, refreshing",
     suitedTo: "Those seeking cardiovascular support, radiant skin, and antioxidant protection",
@@ -144,7 +144,7 @@ const fallbackProducts: Product[] = [
     subtitle: "Rosa Damascena",
     category: "Sampriti Botanicals",
     price: 42,
-    image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", benefits: "",
+    image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", benefits: "",
     description: "Steam-distilled from hand-picked petals at dawn. A deeply hydrating and soothing essence that balances the skin's pH and calms the senses. This timeless botanical provides comfort and long-lasting moisture.",
     aroma: "Rich, floral, deeply comforting",
     suitedTo: "Those seeking hydration, emotional balance, and sensory refinement",
@@ -160,7 +160,7 @@ const fallbackProducts: Product[] = [
     subtitle: "Clitoria Ternatea",
     category: "Sampriti Botanicals",
     price: 42,
-    image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", benefits: "",
+    image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", benefits: "",
     description: "A brilliant azure infusion rich in anthocyanins. Supports cognitive function and provides a powerful shield against environmental stressors. This antioxidant powerhouse promotes a calm, even tone.",
     aroma: "Subtle, earthy, naturally sweet",
     suitedTo: "Those seeking cognitive support, stress relief, and antioxidant protection",
@@ -176,7 +176,7 @@ const fallbackProducts: Product[] = [
     subtitle: "Curcuma Caesia",
     category: "Sampriti Botanicals",
     price: 45,
-    image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp", benefits: "",
+    image: "/assets/black turmeric hd.webp", hoverImage: "/assets/black turmeric hover.webp", benefits: "",
     description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity. Black Turmeric is revered in traditional medicine for its exceptional anti-inflammatory and rejuvenative properties.",
     aroma: "Deep, earthy, camphoraceous",
     suitedTo: "Those seeking cellular renewal, deep recovery, and longevity support",
@@ -191,7 +191,7 @@ const fallbackProducts: Product[] = [
     name: "Shotharaha", subtitle: "Dual Black Recovery",
     category: "Restorative Infusion",
     price: 54, format: "9 Test Tube Kit",
-    image: "/Assets/shakti peya product hd.webp", hoverImage: "/Assets/shakti peya hover.webp", benefits: "",
+    image: "/assets/shakti peya product hd.webp", hoverImage: "/assets/shakti peya hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -200,7 +200,7 @@ const fallbackProducts: Product[] = [
     name: "Vatari", subtitle: "Botanical Botox",
     category: "Skincare Ritual",
     price: 48, format: "Botanical Profile",
-    image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", benefits: "",
+    image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -209,7 +209,7 @@ const fallbackProducts: Product[] = [
     name: "Kanti", subtitle: "Red Radiance",
     category: "Skincare Ritual",
     price: 48, format: "Botanical Profile",
-    image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", benefits: "",
+    image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -218,7 +218,7 @@ const fallbackProducts: Product[] = [
     name: "Blue Ojas", subtitle: "Vitality Concentrate",
     category: "Skincare Ritual",
     price: 48, format: "Botanical Profile",
-    image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", benefits: "",
+    image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -227,7 +227,7 @@ const fallbackProducts: Product[] = [
     name: "The Sahane", subtitle: "Stone",
     category: "Ceremony",
     price: 36, format: "",
-    image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", benefits: "",
+    image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -236,7 +236,7 @@ const fallbackProducts: Product[] = [
     name: "Rakta Chandanam", subtitle: "Red Sandalwood",
     category: "Ceremony",
     price: 42, format: "",
-    image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", benefits: "",
+    image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -245,7 +245,7 @@ const fallbackProducts: Product[] = [
     name: "Shveta Chandanam", subtitle: "White Sandalwood",
     category: "Ceremony",
     price: 42, format: "",
-    image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", benefits: "",
+    image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -254,7 +254,7 @@ const fallbackProducts: Product[] = [
     name: "Parjanya", subtitle: "The First Rain",
     category: "Fragrance",
     price: 54, format: "Botanical Profile",
-    image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", benefits: "",
+    image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -263,7 +263,7 @@ const fallbackProducts: Product[] = [
     name: "Jawa", subtitle: "Embers",
     category: "Fragrance",
     price: 54, format: "Botanical Profile",
-    image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", benefits: "",
+    image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -272,7 +272,7 @@ const fallbackProducts: Product[] = [
     name: "Kha", subtitle: "The Zero Point",
     category: "Fragrance",
     price: 54, format: "Botanical Profile",
-    image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", benefits: "",
+    image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -281,7 +281,7 @@ const fallbackProducts: Product[] = [
     name: "Sandalwood Shavings", subtitle: "",
     category: "Atmospheric",
     price: 28, format: "",
-    image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", benefits: "",
+    image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -290,7 +290,7 @@ const fallbackProducts: Product[] = [
     name: "Deodar Discs", subtitle: "",
     category: "Atmospheric",
     price: 28, format: "",
-    image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", benefits: "",
+    image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   },
@@ -299,7 +299,7 @@ const fallbackProducts: Product[] = [
     name: "Black Sambrani", subtitle: "",
     category: "Atmospheric",
     price: 28, format: "",
-    image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", benefits: "",
+    image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", benefits: "",
     description: "", aroma: "", suitedTo: "", keyIngredients: "",
     howToUse: "", usageDetails: [], essenceTitle: "", essence: ""
   }
@@ -549,7 +549,7 @@ export default function ProductPage() {
               {/* Quantity & Add to Cart */}
               <div className="flex gap-3 mb-6">
                 <div className="flex items-center gap-0 border border-[#E5DCCF] flex-shrink-0">
-                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-10 h-10 md:w-12 md:h-12 text-[#5A554E] hover:text-[#2C2A26] cursor-pointer text-sm">−</button>
+                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-10 h-10 md:w-12 md:h-12 text-[#5A554E] hover:text-[#2C2A26] cursor-pointer text-sm">-</button>
                   <span className="text-[#2C2A26] w-8 text-center text-sm">{quantity}</span>
                   <button onClick={() => setQuantity(quantity + 1)} className="w-10 h-10 md:w-12 md:h-12 text-[#5A554E] hover:text-[#2C2A26] cursor-pointer text-lg">+</button>
                 </div>
@@ -577,7 +577,7 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* "" Product Tabs — Full Width """"""""""""""""""""""""""""""""""" */}
+          {/* "" Product Tabs � Full Width """"""""""""""""""""""""""""""""""" */}
           <div className="mt-16 border-t border-[#E5DCCF]">
             <div className="flex sm:grid sm:grid-cols-3 gap-0 sm:gap-x-4">
               {["description", "ingredients", "howToUse"].map((tab) => (

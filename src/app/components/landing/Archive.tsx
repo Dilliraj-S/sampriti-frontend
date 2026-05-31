@@ -219,7 +219,7 @@ export default function Archive({
               category: p.category || "Journal",
               title: p.title,
               excerpt: p.excerpt || p.content?.slice(0, 120) || "",
-              image: p.image || "/Assets/img 4.webp",
+              image: p.image || "/assets/img 4.webp",
               slug: p.slug,
               href: `/archive/${p.slug}`,
               body: [p.content || ""],

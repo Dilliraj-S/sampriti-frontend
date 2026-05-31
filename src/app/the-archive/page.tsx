@@ -19,42 +19,42 @@ const fallbackArticles: {
     category: "Botanical Profile",
     title: "The Crimson Catalyst: Hibiscus in Practice",
     excerpt: "Hibiscus (Japa) is a high-functioning botanical characterized by its dense concentration of anthocyanins and organic acids. Discover how these compounds provide remarkable resilience.",
-    image: "/Assets/Botanical profile.webp",
+    image: "/assets/Botanical profile.webp",
     slug: "hibiscus-in-practice"
   },
   {
     category: "Siddha Wisdom",
     title: "The Shadow Catalyst: Siddha Wisdom and Dual Black Recovery",
     excerpt: "In the ancient Siddha tradition - the oldest medical lineage of South India - certain botanicals are classified as Kaya Kalpa, agents of longevity. Among these, Black Turmeric is the rarest.",
-    image: "/Assets/siddha wisdom.webp",
+    image: "/assets/siddha wisdom.webp",
     slug: "dual-black-recovery"
   },
   {
     category: "Moon Rhythms",
     title: "The Lunar Pulse: Moon Rhythms and the Vitality of Herbs",
     excerpt: "The Moon is far more than a celestial body; it is the universal moistening principle that governs the flow of all liquids.",
-    image: "/Assets/Moon Rhythms.webp",
+    image: "/assets/Moon Rhythms.webp",
     slug: "moon-rhythms"
   },
   {
     category: "Ritual Science",
     title: "The Art of Infusion",
     excerpt: "Explore the delicate balance of time, temperature, and botanical integrity in crafting the perfect herbal infusion.",
-    image: "/Assets/art of infusion.webp",
+    image: "/assets/art of infusion.webp",
     slug: "art-of-infusion"
   },
   {
     category: "Distillation",
     title: "The Science of Scent",
     excerpt: "Understanding how aromatic compounds interact with our nervous system to induce calm and clarity.",
-    image: "/Assets/distillation.webp",
+    image: "/assets/distillation.webp",
     slug: "science-of-scent"
   },
   {
     category: "Seasonal Rhythms",
     title: "Seasonal Rhythms",
     excerpt: "Aligning your daily rituals with the changing seasons to optimize vitality and well-being.",
-    image: "/Assets/seasonal rhythms.webp",
+    image: "/assets/seasonal rhythms.webp",
     slug: "seasonal-rhythms"
   }
 ];
@@ -73,7 +73,7 @@ export default function ArchivePage() {
             category: p.category || "Journal",
             title: p.title,
             excerpt: p.excerpt || (p.content || "").slice(0, 120),
-            image: p.image || "/Assets/img 4.webp",
+            image: p.image || "/assets/img 4.webp",
             slug: p.slug,
           }));
         if (published.length) setArticles(published);

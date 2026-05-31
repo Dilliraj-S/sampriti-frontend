@@ -67,7 +67,7 @@ export default function SourceCraft() {
               playsInline
               preload="auto"
             >
-              <source src="/assests/videos/black%20turmeric.mp4" type="video/mp4" />
+              <source src="/assets/black%20turmeric.mp4" type="video/mp4" />
             </video>
 
             {/* Video Controls */}

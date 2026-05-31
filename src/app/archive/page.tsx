@@ -11,7 +11,7 @@ export default function ArchivePage() {
       <Navbar />
       <section className="relative flex min-h-screen items-end justify-center overflow-hidden px-6 pb-24 pt-24 text-center md:px-12 md:pb-32 lg:px-20">
         <Image
-          src="/Assets/libray 1.webp"
+          src="/assets/libray 1.webp"
           alt="The Archive"
           fill
           priority
@@ -45,7 +45,7 @@ export default function ArchivePage() {
 
       <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
         <Image
-          src="/assests/images/Img.webp"
+          src="/assets/images/Img.webp"
           alt="Explore The Archive"
           fill
           className="object-cover object-center"
