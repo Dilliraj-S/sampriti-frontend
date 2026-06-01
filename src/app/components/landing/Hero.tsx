@@ -142,7 +142,7 @@ export default function Hero() {
 
           <div>
             <Link
-              href="/shop"
+              href="/category/infusions"
               className="inline-flex min-h-16 items-center justify-center border-2 border-white px-7 text-sm font-semibold text-white transition-colors duration-300 hover:bg-white hover:text-black"
             >
               Discover the collection
