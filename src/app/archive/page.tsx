@@ -45,7 +45,7 @@ export default function ArchivePage() {
 
       <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
         <Image
-          src="/assets/images/Img.webp"
+          src="/assets/Img.webp"
           alt="Explore The Archive"
           fill
           className="object-cover object-center"

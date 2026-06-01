@@ -63,7 +63,7 @@ const sections: SectionData[] = [
   {
     id: 3,
     title: "The Slow Botanical Movement",
-    image: "/assets/img.webp",
+    image: "/assets/img9.webp",
     imageAlt: "The Slow Botanical Movement",
     content: [
       {

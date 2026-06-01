@@ -12,7 +12,7 @@ export default function OurStandards() {
 
           <div className="hidden md:block">
             <img
-              src="/assests/images/ourstandard.webp"
+              src="/assets/ourstandard.webp"
               alt="Our Standards"
               className="w-full h-auto mx-auto"
             />
@@ -22,7 +22,7 @@ export default function OurStandards() {
 
       <div className="block md:hidden w-full">
         <img
-          src="/assests/images/Mourstandard.webp"
+          src="/assets/Mourstandard.webp"
           alt="Our Standards"
           className="w-full h-auto"
         />

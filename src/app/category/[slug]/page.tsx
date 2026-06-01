@@ -68,19 +68,19 @@ const carouselOnlyCategories = new Set(["skincare", "fragrance", "ceremony", "at
 
 const heroCategoryImages: Record<string, string> = {
   // infusions: "/assets/art of infusion.webp",
-  infusions: "/assets/images/infusion1.webp",
-  skincare: "/assets/images/skincare.webp",
-  fragrance: "/assets/images/fragrance.webp",
-  ceremony: "/assets/images/Caremony.webp",
-  atmospheric: "/assets/images/atmospheric.webp",
+  infusions: "/assets/infusion1.webp",
+  skincare: "/assets/skincare.webp",
+  fragrance: "/assets/fragrance.webp",
+  ceremony: "/assets/Caremony.webp",
+  atmospheric: "/assets/atmospheric.webp",
 };
 
 const heroMobileImages: Record<string, string> = {
-  infusions: "/assets/images/Minfusion2.webp",
-  skincare: "/assets/images/Mskincare.webp",
-  fragrance: "/assets/images/MFragrance.webp",
-  ceremony: "/assets/images/MCaremony.webp",
-  atmospheric: "/assets/images/Matmospheric.webp",
+  infusions: "/assets/Minfusion2.webp",
+  skincare: "/assets/Mskincare.webp",
+  fragrance: "/assets/MFragrance.webp",
+  ceremony: "/assets/MCaremony.webp",
+  atmospheric: "/assets/Matmospheric.webp",
 };
 
 const heroSubtitles: Record<string, string> = {

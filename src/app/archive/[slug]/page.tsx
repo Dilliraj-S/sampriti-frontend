@@ -54,26 +54,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       {/* Navbar � untouched */}
       <Navbar forceScrolled={true} />
 
-      {/* Back button � fixed so it always stays visible just below the navbar */}
+
       <div className="px-6 pt-28 md:px-12 md:pt-52 lg:px-20 lg:pt-56">
         <Link
           href="/archive#all-articles"
-          className="group inline-flex items-center gap-2.5 rounded-sm px-4 py-2.5 transition-all duration-200"
-          style={{
-            background: "rgba(251, 250, 248, 0.92)",
-            border: "1px solid rgba(164, 134, 98, 0.35)",
-            fontFamily: "var(--font-sans)",
-          }}
+          className="inline-flex items-center gap-2.5 border-2 border-[#2C2A26] px-5 py-2.5 text-[#2C2A26] text-xs tracking-[0.2em] uppercase transition-all duration-300 hover:bg-[#2C2A26] hover:text-white"
+          style={{ fontFamily: "var(--font-sans)" }}
         >
-          <span className="flex h-6 w-6 items-center justify-center rounded-full border border-[#A48662]/50 bg-white text-[#A48662] text-xs transition-all duration-200 group-hover:bg-[#A48662] group-hover:text-white group-hover:border-[#A48662]">
-            &#8592;
-          </span>
-          <span
-            className="text-[0.62rem] uppercase tracking-[0.26em] text-[#6B5740] group-hover:text-[#2C2A26] transition-colors duration-200"
-            style={{ fontWeight: 650 }}
-          >
-            Back
-          </span>
+          &#8592; Back
         </Link>
       </div>
 
