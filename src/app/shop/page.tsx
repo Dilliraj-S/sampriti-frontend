@@ -15,24 +15,24 @@ import { formatPrice, getSettings } from "@/services/settings";
 import { normalizeImagePath } from "@/app/utils/normalizeImagePath";
 
 const fallbackProducts = [
-  { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.webp", hoverImage: "/Assets/shakti peya hover.webp", description: "Shakti Peya is designed to support sustained vitality, circulation, digestion, and metabolic balance." },
-  { id: "chandra-rasa", name: "Chandra Rasa", subtitle: "Sleep Potion", benefits: "Calm · Settling · Restorative", format: "9 Test Tube Kit", price: 54, image: "/Assets/Chandra rasa product hd.webp", hoverImage: "/Assets/chandra rasa hover.webp", description: "A lunar-calming adaptogenic brew formulation for restful sleep and nervous system balance." },
-  { id: "shotharaha", name: "Shotharaha", subtitle: "Dual Black Recovery", benefits: "", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.webp", hoverImage: "/Assets/shakti peya hover.webp", description: "A potent adaptogenic brew rooted in the ancient Siddha tradition." },
-  { id: "rose", name: "Rose", subtitle: "Rosa Damascena", benefits: "Hydrating · Softening · Heart", format: "Botanical Profile", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "A sacred petal infusion crafted from heirloom roses for the heart and senses." },
-  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", benefits: "Antioxidant · Cooling · Gloss", format: "Botanical Profile", price: 42, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "A vibrant floral infusion for radiant skin and hair, rich in antioxidants." },
-  { id: "blue-butterfly-pea", name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", benefits: "Azure · Clarity · Calm", format: "Botanical Profile", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity." },
-  { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "" },
-  { id: "kanti", name: "Kanti", subtitle: "Red Radiance", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "" },
-  { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", benefits: "", format: "Botanical Profile", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "" },
-  { id: "the-sahane", name: "The Sahane", subtitle: "Stone", benefits: "", format: "", price: 36, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "" },
-  { id: "rakta-chandanam", name: "Rakta Chandanam", subtitle: "Red Sandalwood", benefits: "", format: "", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "" },
-  { id: "shveta-chandanam", name: "Shveta Chandanam", subtitle: "White Sandalwood", benefits: "", format: "", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "" },
-  { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "" },
-  { id: "jawa", name: "Jawa", subtitle: "Embers", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "" },
-  { id: "kha", name: "Kha", subtitle: "The Zero Point", benefits: "", format: "Botanical Profile", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "" },
-  { id: "sandalwood-shavings", name: "Sandalwood Shavings", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "" },
-  { id: "deodar-discs", name: "Deodar Discs", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "" },
-  { id: "black-sambrani", name: "Black Sambrani", subtitle: "", benefits: "", format: "", price: 28, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "" },
+  { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/assets/shakti peya product hd.webp", hoverImage: "/assets/shakti peya hover.webp", description: "Shakti Peya is designed to support sustained vitality, circulation, digestion, and metabolic balance." },
+  { id: "chandra-rasa", name: "Chandra Rasa", subtitle: "Sleep Potion", benefits: "Calm · Settling · Restorative", format: "9 Test Tube Kit", price: 54, image: "/assets/Chandra rasa product hd.webp", hoverImage: "/assets/chandra rasa hover.webp", description: "A lunar-calming adaptogenic brew formulation for restful sleep and nervous system balance." },
+  { id: "shotharaha", name: "Shotharaha", subtitle: "Dual Black Recovery", benefits: "", format: "9 Test Tube Kit", price: 54, image: "/assets/shakti peya product hd.webp", hoverImage: "/assets/shakti peya hover.webp", description: "A potent adaptogenic brew rooted in the ancient Siddha tradition." },
+  { id: "rose", name: "Rose", subtitle: "Rosa Damascena", benefits: "Hydrating · Softening · Heart", format: "Botanical Profile", price: 42, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", description: "A sacred petal infusion crafted from heirloom roses for the heart and senses." },
+  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", benefits: "Antioxidant · Cooling · Gloss", format: "Botanical Profile", price: 42, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", description: "A vibrant floral infusion for radiant skin and hair, rich in antioxidants." },
+  { id: "blue-butterfly-pea", name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", benefits: "Azure · Clarity · Calm", format: "Botanical Profile", price: 42, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity." },
+  { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", benefits: "", format: "Botanical Profile", price: 48, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", description: "" },
+  { id: "kanti", name: "Kanti", subtitle: "Red Radiance", benefits: "", format: "Botanical Profile", price: 48, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", description: "" },
+  { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", benefits: "", format: "Botanical Profile", price: 48, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", description: "" },
+  { id: "the-sahane", name: "The Sahane", subtitle: "Stone", benefits: "", format: "", price: 36, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", description: "" },
+  { id: "rakta-chandanam", name: "Rakta Chandanam", subtitle: "Red Sandalwood", benefits: "", format: "", price: 42, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", description: "" },
+  { id: "shveta-chandanam", name: "Shveta Chandanam", subtitle: "White Sandalwood", benefits: "", format: "", price: 42, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", description: "" },
+  { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", benefits: "", format: "Botanical Profile", price: 54, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", description: "" },
+  { id: "jawa", name: "Jawa", subtitle: "Embers", benefits: "", format: "Botanical Profile", price: 54, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", description: "" },
+  { id: "kha", name: "Kha", subtitle: "The Zero Point", benefits: "", format: "Botanical Profile", price: 54, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", description: "" },
+  { id: "sandalwood-shavings", name: "Sandalwood Shavings", subtitle: "", benefits: "", format: "", price: 28, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", description: "" },
+  { id: "deodar-discs", name: "Deodar Discs", subtitle: "", benefits: "", format: "", price: 28, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", description: "" },
+  { id: "black-sambrani", name: "Black Sambrani", subtitle: "", benefits: "", format: "", price: 28, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", description: "" },
 ];
 
 const fadeUp = {
@@ -149,7 +149,7 @@ export default function ShopPage() {
         className="relative flex min-h-screen items-end justify-center overflow-hidden px-6 pb-24 text-center md:px-12 md:pb-28 lg:px-20"
       >
         <Image
-          src="/Assets/img 4.webp"
+          src="/assets/img 4.webp"
           alt="Sampriti botanical ritual collection"
           fill
           priority

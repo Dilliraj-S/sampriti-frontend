@@ -46,22 +46,22 @@ type RitualProduct = {
 };
 
 const fallbackProducts = [
-  { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", category: "Activation", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/Assets/shakti peya product hd.webp", hoverImage: "/Assets/shakti peya hover.webp" },
-  { id: "chandra-rasa", name: "Chandra Rasa", subtitle: "Sleep Potion", category: "Calm", benefits: "Calm · Settling · Restorative", format: "9 Test Tube Kit", price: 54, image: "/Assets/Chandra rasa product hd.webp", hoverImage: "/Assets/chandra rasa hover.webp" },
-  { id: "shotharaha", name: "Shotharaha", subtitle: "Dual Black Recovery", category: "Restorative", benefits: "", format: "", description: "", price: 54, image: "/Assets/shakti peya product hd.webp", hoverImage: "/Assets/shakti peya hover.webp" },
-  { id: "rose", name: "Rose", subtitle: "Rosa Damascena", category: "Floral", benefits: "", format: "", description: "A delicate floral essence to soothe the heart and refine natural radiance.", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", category: "Antioxidant", benefits: "", format: "", description: "A vibrant botanical infusion rich in antioxidants for cardiovascular resilience.", price: 42, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp" },
-  { id: "blue-butterfly-pea", name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", category: "Azure", benefits: "", format: "", description: "A brilliant blue infusion to enhance cognitive function and reduce stress.", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp" },
-  { id: "kanti", name: "Kanti", subtitle: "Red Radiance", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", category: "Fragrance", benefits: "", format: "", description: "", price: 54, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp" },
-  { id: "jawa", name: "Jawa", subtitle: "Embers", category: "Fragrance", benefits: "", format: "", description: "", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  { id: "kha", name: "Kha", subtitle: "The Zero Point", category: "Fragrance", benefits: "", format: "", description: "", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
+  { id: "shakti-peya", name: "Shakti Peya", subtitle: "Energy Elixir", category: "Activation", benefits: "Activation · Anti-Aging · Radiance", format: "9 Test Tube Kit", price: 54, image: "/assets/shakti peya product hd.webp", hoverImage: "/assets/shakti peya hover.webp" },
+  { id: "chandra-rasa", name: "Chandra Rasa", subtitle: "Sleep Potion", category: "Calm", benefits: "Calm · Settling · Restorative", format: "9 Test Tube Kit", price: 54, image: "/assets/Chandra rasa product hd.webp", hoverImage: "/assets/chandra rasa hover.webp" },
+  { id: "shotharaha", name: "Shotharaha", subtitle: "Dual Black Recovery", category: "Restorative", benefits: "", format: "", description: "", price: 54, image: "/assets/shakti peya product hd.webp", hoverImage: "/assets/shakti peya hover.webp" },
+  { id: "rose", name: "Rose", subtitle: "Rosa Damascena", category: "Floral", benefits: "", format: "", description: "A delicate floral essence to soothe the heart and refine natural radiance.", price: 42, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp" },
+  { id: "hibiscus", name: "Hibiscus", subtitle: "Rosa-Sinensis", category: "Antioxidant", benefits: "", format: "", description: "A vibrant botanical infusion rich in antioxidants for cardiovascular resilience.", price: 42, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp" },
+  { id: "blue-butterfly-pea", name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", category: "Azure", benefits: "", format: "", description: "A brilliant blue infusion to enhance cognitive function and reduce stress.", price: 42, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp" },
+  { id: "vatari", name: "Vatari", subtitle: "Botanical Botox", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp" },
+  { id: "kanti", name: "Kanti", subtitle: "Red Radiance", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp" },
+  { id: "blue-ojas", name: "Blue Ojas", subtitle: "Vitality Concentrate", category: "Skincare", benefits: "", format: "", description: "", price: 48, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp" },
+  { id: "parjanya", name: "Parjanya", subtitle: "The First Rain", category: "Fragrance", benefits: "", format: "", description: "", price: 54, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp" },
+  { id: "jawa", name: "Jawa", subtitle: "Embers", category: "Fragrance", benefits: "", format: "", description: "", price: 54, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp" },
+  { id: "kha", name: "Kha", subtitle: "The Zero Point", category: "Fragrance", benefits: "", format: "", description: "", price: 54, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp" },
 ];
 
 const productImageFallbacks = new Map([
-  ["black-turmeric", { image: "/Assets/black turmeric hd.webp", hoverImage: "/Assets/black turmeric hover.webp" }],
+  ["black-turmeric", { image: "/assets/black turmeric hd.webp", hoverImage: "/assets/black turmeric hover.webp" }],
 ]);
 
 const categoryPageSections = new Set(["infusions", "skincare", "fragrance", "ceremony", "atmosphere"]);
@@ -255,7 +255,7 @@ export default function SignatureRituals() {
                 playsInline
                 preload="auto"
               >
-                <source src="/assests/videos/black turmeric man.mp4" type="video/mp4" />
+                <source src="/assets/black turmeric man.mp4" type="video/mp4" />
               </video>
               <div className="absolute bottom-8 right-6 z-30 flex gap-2 md:right-8 md:gap-3">
                 <button
@@ -291,14 +291,14 @@ export default function SignatureRituals() {
               <Link href="/product/black-turmeric" className="block">
                 <div className="relative mb-3 flex h-[310px] items-center justify-center overflow-hidden bg-white" onMouseEnter={() => setHoveredProduct("black-turmeric")} onMouseLeave={() => setHoveredProduct(null)}>
                   <ProductImage
-                    src="/Assets/black turmeric hd.webp"
+                    src="/assets/black turmeric hd.webp"
                     alt="Black Turmeric"
                     fill
                     className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === "black-turmeric" ? "opacity-0" : "opacity-100"}`}
                     sizes="33vw"
                   />
                   <ProductImage
-                    src="/Assets/black turmeric hover.webp"
+                    src="/assets/black turmeric hover.webp"
                     alt="Black Turmeric"
                     fill
                     className={`object-contain p-0 transition-all duration-500 mix-blend-multiply group-hover:scale-[1.03] ${hoveredProduct === "black-turmeric" ? "opacity-100" : "opacity-0"}`}
@@ -312,7 +312,7 @@ export default function SignatureRituals() {
                   <p className="mt-4 text-[#2C2A26] text-xl font-light">{formatPrice(45, currency, exchangeRate)}</p>
                 </div>
               </Link>
-              <button onClick={() => { addItem({ id: "black-turmeric", name: "Black Turmeric", price: 45, quantity: 1, image: "/Assets/black turmeric hd.webp" }); openCart(); }} className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer">Add To Cart</button>
+              <button onClick={() => { addItem({ id: "black-turmeric", name: "Black Turmeric", price: 45, quantity: 1, image: "/assets/black turmeric hd.webp" }); openCart(); }} className="mt-2 flex h-12 px-8 items-center justify-center bg-[#333333] text-[#F9F7F3] text-base font-normal hover:bg-black transition-colors duration-300 cursor-pointer">Add To Cart</button>
             </div>
           </div>
         </div>

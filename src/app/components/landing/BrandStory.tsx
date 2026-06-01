@@ -19,9 +19,9 @@ interface SlideImage {
 }
 
 const CAROUSEL_IMAGES: SlideImage[] = [
-  { src: "/Assets/The house 1.webp",           alt: "A Botanical Pilgrimage", label: "The House",    sublabel: "Origins & Lineage" },
-  { src: "/Assets/forest girl.webp",          alt: "Forest Girl",            label: "Forest Ritual", sublabel: "Wild Botanicals"   },
-  { src: "/Assets/perume distillation.webp",  alt: "Perfume Distillation",   label: "Distillation",  sublabel: "Sacred Process"    },
+  { src: "/assets/The house 1.webp",           alt: "A Botanical Pilgrimage", label: "The House",    sublabel: "Origins & Lineage" },
+  { src: "/assets/forest girl.webp",          alt: "Forest Girl",            label: "Forest Ritual", sublabel: "Wild Botanicals"   },
+  { src: "/assets/perume distillation.webp",  alt: "Perfume Distillation",   label: "Distillation",  sublabel: "Sacred Process"    },
 ];
 
 const INTERVAL_MS = 3000;

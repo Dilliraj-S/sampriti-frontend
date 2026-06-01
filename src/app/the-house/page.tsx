@@ -17,7 +17,7 @@ const sections: SectionData[] = [
   {
     id: 1,
     title: "A Botanical Pilgrimage",
-    image: "/Assets/forest girl.webp",
+    image: "/assets/forest girl.webp",
     imageAlt: "A Botanical Pilgrimage",
     content: [
       {
@@ -40,7 +40,7 @@ const sections: SectionData[] = [
   {
     id: 2,
     title: "Our Foundations",
-    image: "/Assets/perume distillation.webp",
+    image: "/assets/perume distillation.webp",
     imageAlt: "Our Foundations",
     content: [
       {
@@ -63,7 +63,7 @@ const sections: SectionData[] = [
   {
     id: 3,
     title: "The Slow Botanical Movement",
-    image: "/Assets/img.webp",
+    image: "/assets/img.webp",
     imageAlt: "The Slow Botanical Movement",
     content: [
       {
@@ -170,7 +170,7 @@ export default function TheHousePage() {
 
       <section className="relative min-h-screen w-full overflow-hidden bg-black">
         <Image
-          src="/Assets/The house 1.webp"
+          src="/assets/The house 1.webp"
           alt="The House of Sampriti"
           fill
           priority
@@ -239,7 +239,7 @@ export default function TheHousePage() {
 
       <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
         <Image
-          src="/Assets/house bottom banner.webp"
+          src="/assets/house bottom banner.webp"
           alt="Explore The House"
           fill
           className="object-cover object-center"

@@ -67,20 +67,20 @@ const categorySectionMap: Record<string, string> = {
 const carouselOnlyCategories = new Set(["skincare", "fragrance", "ceremony", "atmospheric"]);
 
 const heroCategoryImages: Record<string, string> = {
-  // infusions: "/Assets/art of infusion.webp",
-  infusions: "/assests/images/infusion1.webp",
-  skincare: "/assests/images/skincare.webp",
-  fragrance: "/assests/images/fragrance.webp",
-  ceremony: "/assests/images/Caremony.webp",
-  atmospheric: "/assests/images/atmospheric.webp",
+  // infusions: "/assets/art of infusion.webp",
+  infusions: "/assets/images/infusion1.webp",
+  skincare: "/assets/images/skincare.webp",
+  fragrance: "/assets/images/fragrance.webp",
+  ceremony: "/assets/images/Caremony.webp",
+  atmospheric: "/assets/images/atmospheric.webp",
 };
 
 const heroMobileImages: Record<string, string> = {
-  infusions: "/assests/images/Minfusion2.webp",
-  skincare: "/assests/images/Mskincare.webp",
-  fragrance: "/assests/images/MFragrance.webp",
-  ceremony: "/assests/images/MCaremony.webp",
-  atmospheric: "/assests/images/Matmospheric.webp",
+  infusions: "/assets/images/Minfusion2.webp",
+  skincare: "/assets/images/Mskincare.webp",
+  fragrance: "/assets/images/MFragrance.webp",
+  ceremony: "/assets/images/MCaremony.webp",
+  atmospheric: "/assets/images/Matmospheric.webp",
 };
 
 const heroSubtitles: Record<string, string> = {
@@ -92,24 +92,24 @@ const heroSubtitles: Record<string, string> = {
 };
 
 const fallbackProducts: Record<string, { name: string; subtitle: string; price: number; image: string; hoverImage: string; description?: string }> = {
-  "shakti-peya": { name: "Shakti Peya", subtitle: "Energy Elixir", price: 54, image: "/Assets/shakti peya product hd.webp", hoverImage: "/Assets/shakti peya hover.webp", description: "Shakti Peya is designed to support sustained vitality, circulation, digestion, and metabolic balance." },
-  "chandra-rasa": { name: "Chandra Rasa", subtitle: "Sleep Potion", price: 54, image: "/Assets/Chandra rasa product hd.webp", hoverImage: "/Assets/chandra rasa hover.webp", description: "A lunar-calming adaptogenic brew formulation for restful sleep and nervous system balance." },
-  "shotharaha": { name: "Shotharaha", subtitle: "Dual Black Recovery", price: 54, image: "/Assets/shakti peya product hd.webp", hoverImage: "/Assets/shakti peya hover.webp", description: "A potent adaptogenic brew rooted in the ancient Siddha tradition." },
-  "rose": { name: "Rose", subtitle: "Rosa Damascena", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp", description: "A sacred petal infusion crafted from heirloom roses for the heart and senses." },
-  "hibiscus": { name: "Hibiscus", subtitle: "Rosa-Sinensis", price: 42, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp", description: "A vibrant floral infusion for radiant skin and hair, rich in antioxidants." },
-  "blue-butterfly-pea": { name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp", description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity." },
-  "vatari": { name: "Vatari", subtitle: "Botanical Botox", price: 48, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp" },
-  "kanti": { name: "kanti", subtitle: "Red Radiance", price: 48, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  "blue-ojas": { name: "Blue Ojas", subtitle: "Vitality Concentrate", price: 48, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  "the-sahane": { name: "The Sahane", subtitle: "Stone", price: 36, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp" },
-  "rakta-chandanam": { name: "Rakta Chandanam", subtitle: "Red Sandalwood", price: 42, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  "shveta-chandanam": { name: "Shveta Chandanam", subtitle: "White Sandalwood", price: 42, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  "parjanya": { name: "Parjanya", subtitle: "The First Rain", price: 54, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp" },
-  "jawa": { name: "Jawa", subtitle: "Embers", price: 54, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  "kha": { name: "Kha", subtitle: "The Zero Point", price: 54, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
-  "sandalwood-shavings": { name: "Sandalwood Shavings", subtitle: "", price: 28, image: "/Assets/hibiscus hd.webp", hoverImage: "/Assets/hibiscus hover.webp" },
-  "deodar-discs": { name: "Deodar Discs", subtitle: "", price: 28, image: "/Assets/rose hd.webp", hoverImage: "/Assets/Rose hover.webp" },
-  "black-sambrani": { name: "Black Sambrani", subtitle: "", price: 28, image: "/Assets/blue butterfly pea hd.webp", hoverImage: "/Assets/blue butterfly pea hover.webp" },
+  "shakti-peya": { name: "Shakti Peya", subtitle: "Energy Elixir", price: 54, image: "/assets/shakti peya product hd.webp", hoverImage: "/assets/shakti peya hover.webp", description: "Shakti Peya is designed to support sustained vitality, circulation, digestion, and metabolic balance." },
+  "chandra-rasa": { name: "Chandra Rasa", subtitle: "Sleep Potion", price: 54, image: "/assets/Chandra rasa product hd.webp", hoverImage: "/assets/chandra rasa hover.webp", description: "A lunar-calming adaptogenic brew formulation for restful sleep and nervous system balance." },
+  "shotharaha": { name: "Shotharaha", subtitle: "Dual Black Recovery", price: 54, image: "/assets/shakti peya product hd.webp", hoverImage: "/assets/shakti peya hover.webp", description: "A potent adaptogenic brew rooted in the ancient Siddha tradition." },
+  "rose": { name: "Rose", subtitle: "Rosa Damascena", price: 42, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp", description: "A sacred petal infusion crafted from heirloom roses for the heart and senses." },
+  "hibiscus": { name: "Hibiscus", subtitle: "Rosa-Sinensis", price: 42, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp", description: "A vibrant floral infusion for radiant skin and hair, rich in antioxidants." },
+  "blue-butterfly-pea": { name: "Blue Butterfly Pea", subtitle: "Clitoria Ternatea", price: 42, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp", description: "A rare Kaya Kalpa agent for profound recovery and cellular longevity." },
+  "vatari": { name: "Vatari", subtitle: "Botanical Botox", price: 48, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp" },
+  "kanti": { name: "kanti", subtitle: "Red Radiance", price: 48, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp" },
+  "blue-ojas": { name: "Blue Ojas", subtitle: "Vitality Concentrate", price: 48, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp" },
+  "the-sahane": { name: "The Sahane", subtitle: "Stone", price: 36, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp" },
+  "rakta-chandanam": { name: "Rakta Chandanam", subtitle: "Red Sandalwood", price: 42, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp" },
+  "shveta-chandanam": { name: "Shveta Chandanam", subtitle: "White Sandalwood", price: 42, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp" },
+  "parjanya": { name: "Parjanya", subtitle: "The First Rain", price: 54, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp" },
+  "jawa": { name: "Jawa", subtitle: "Embers", price: 54, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp" },
+  "kha": { name: "Kha", subtitle: "The Zero Point", price: 54, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp" },
+  "sandalwood-shavings": { name: "Sandalwood Shavings", subtitle: "", price: 28, image: "/assets/hibiscus hd.webp", hoverImage: "/assets/hibiscus hover.webp" },
+  "deodar-discs": { name: "Deodar Discs", subtitle: "", price: 28, image: "/assets/rose hd.webp", hoverImage: "/assets/Rose hover.webp" },
+  "black-sambrani": { name: "Black Sambrani", subtitle: "", price: 28, image: "/assets/blue butterfly pea hd.webp", hoverImage: "/assets/blue butterfly pea hover.webp" },
 };
 
 const fadeInSlow = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 1.0 } } };

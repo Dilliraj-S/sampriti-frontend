@@ -11,7 +11,7 @@ export default function RitualSection() {
       {/* Background image — fills the section */}
       <div className="absolute inset-0 w-full h-full">
         <img
-          src="/Assets/pexels-tranthangnhat-27792454.webp"
+          src="/assets/pexels-tranthangnhat-27792454.webp"
           alt="The Vessel"
           style={{
             position: "absolute",

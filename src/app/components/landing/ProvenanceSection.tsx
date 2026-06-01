@@ -99,7 +99,7 @@ function VideoSection() {
               preload="none"
               className="w-full h-full object-cover"
             >
-              <source src="/Assets/Sampriti Hero Video V 7.mp4" type="video/mp4" />
+              <source src="/assets/Sampriti Hero Video V 7.mp4" type="video/mp4" />
             </video>
             
             {/* Overlay */}

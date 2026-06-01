@@ -22,7 +22,7 @@ interface SlideImage {
 
 const CAROUSEL_IMAGES: SlideImage[] = [
   {
-    src: "/Assets/The house 1.webp",
+    src: "/assets/The house 1.webp",
     alt: "A Botanical Pilgrimage",
     label: "The House",
     sublabel: "Origins & Lineage",
@@ -30,7 +30,7 @@ const CAROUSEL_IMAGES: SlideImage[] = [
     imageFilter: "brightness(0.88) contrast(1.12) saturate(1.1) sepia(0.08)",
   },
   {
-    src: "/Assets/forest girl.webp",
+    src: "/assets/forest girl.webp",
     alt: "Forest Girl",
     label: "Forest Ritual",
     sublabel: "Wild Botanicals",
@@ -38,7 +38,7 @@ const CAROUSEL_IMAGES: SlideImage[] = [
     imageFilter: "brightness(0.92) contrast(1.05) saturate(1.0)",
   },
   {
-    src: "/Assets/perume distillation.webp",
+    src: "/assets/perume distillation.webp",
     alt: "Perfume Distillation",
     label: "Distillation",
     sublabel: "Sacred Process",

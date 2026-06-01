@@ -80,7 +80,7 @@ export default function VideoSection() {
             playsInline
             preload="auto"
           >
-            <source src="/Assets/second.mp4" type="video/mp4" />
+            <source src="/assets/second.mp4" type="video/mp4" />
           </video>
 
           <div className="absolute bottom-8 right-8 z-10 flex gap-3">
