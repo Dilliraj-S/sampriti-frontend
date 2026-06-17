@@ -153,7 +153,7 @@ export default function Hero() {
       <div className="absolute bottom-5 left-0 right-0 z-10 hidden justify-center px-8 md:flex md:bottom-8">
         <Link
           href="/category/infusions"
-          className="inline-flex h-11 cursor-pointer items-center justify-center border border-white/70 bg-black/25 px-7 text-[12px] leading-[22px] tracking-[0.2em] font-[400] text-[rgb(255,254,242)] backdrop-blur-sm transition-colors duration-300 hover:bg-white hover:text-[#2C2A26]"
+          className="inline-flex h-11 cursor-pointer items-center justify-center border border-white/70 bg-black/25 px-7 text-[12px] leading-[22px] tracking-[0.2em] font-[400] text-[rgb(255,254,242)] backdrop-blur-sm transition-colors duration-300 hover:bg-[#2C2A26]"
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           Discover The Collection
@@ -164,7 +164,7 @@ export default function Hero() {
       <div className="absolute bottom-5 right-8 z-10 hidden gap-3 md:flex md:bottom-8">
         <button
           onClick={togglePlay}
-          className="flex h-12 w-12 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-white/15"
+          className="flex h-12 w-12 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-[#2C2A26]"
           aria-label={isPlaying ? "Pause video" : "Play video"}
         >
           {isPlaying ? (
@@ -179,7 +179,7 @@ export default function Hero() {
         </button>
         <button
           onClick={toggleMute}
-          className="flex h-12 w-12 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-white/15"
+          className="flex h-12 w-12 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-[#2C2A26]"
           aria-label={isMuted ? "Unmute video" : "Mute video"}
         >
           {isMuted ? (
@@ -199,7 +199,7 @@ export default function Hero() {
       <div className="absolute bottom-17 left-0 right-0 z-10 flex justify-center px-6 md:hidden">
         <Link
           href="/category/infusions"
-          className="inline-flex h-11 cursor-pointer items-center justify-center border border-white/70 bg-black/25 px-5 text-[12px] leading-[22px] tracking-[0.2em] font-[400] text-[rgb(255,254,242)] backdrop-blur-sm transition-colors duration-300 hover:bg-white hover:text-[#2C2A26]"
+          className="inline-flex h-11 cursor-pointer items-center justify-center border border-white/70 bg-black/25 px-5 text-[12px] leading-[22px] tracking-[0.2em] font-[400] text-[rgb(255,254,242)] backdrop-blur-sm transition-colors duration-300 hover:bg-[#2C2A26]"
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           Discover The Collection
@@ -210,7 +210,7 @@ export default function Hero() {
       <div className="absolute bottom-1 right-2 z-10 flex gap-2 md:hidden">
         <button
           onClick={togglePlay}
-          className="flex h-10 w-10 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-white/15"
+          className="flex h-10 w-10 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-[#2C2A26]"
           aria-label={isPlaying ? "Pause video" : "Play video"}
         >
           {isPlaying ? (
@@ -225,7 +225,7 @@ export default function Hero() {
         </button>
         <button
           onClick={toggleMute}
-          className="flex h-10 w-10 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-white/15"
+          className="flex h-10 w-10 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-[#2C2A26]"
           aria-label={isMuted ? "Unmute video" : "Mute video"}
         >
           {isMuted ? (

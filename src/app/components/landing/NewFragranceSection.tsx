@@ -67,7 +67,7 @@ export default function NewFragranceSection() {
       <div className="relative overflow-hidden md:w-1/2 min-h-[300px] md:min-h-[600px]">
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/5 via-black/5 to-black/15 md:bg-gradient-to-r md:from-black/5 md:via-transparent md:to-transparent" />
         <div className="absolute inset-x-0 bottom-0 z-20 flex px-8 pb-8 pt-6 md:inset-y-0 md:left-0 md:right-6 lg:right-8 md:items-end md:pl-20 lg:pl-28 md:pb-24">
-          <div className="max-w-[19rem] md:max-w-none">
+          <div className="max-w-[19rem] md:max-w-none mt-12 md:mt-16">
             <h2 className="text-white text-[28px] leading-[38px] md:text-[32px] md:leading-[42px] md:text-white font-[400] md:font-[400] mb-3" style={{ fontFamily: '"Tenor Sans", "Tenor Sans Fallback", "Tenor Sans", system-ui, sans-serif' }}>
               New Fragrance
             </h2>
@@ -76,7 +76,7 @@ export default function NewFragranceSection() {
             </p>
             <Link
               href="/category/fragrance"
-              className="mt-5 inline-flex h-11 items-center justify-center border border-white/70 bg-black/25 px-7 text-[12px] leading-[22px] tracking-[0.2em] font-[400] text-[rgb(255,254,242)] backdrop-blur-sm transition-colors duration-300 hover:bg-white hover:text-[#2C2A26]"
+              className="mt-5 inline-flex h-11 items-center justify-center border border-white/70 bg-black/25 px-7 text-[12px] leading-[22px] tracking-[0.2em] font-[400] text-[rgb(255,254,242)] backdrop-blur-sm transition-colors duration-300 hover:bg-[#2C2A26]"
               style={{ fontFamily: '"Inter", "Inter Fallback"' }}
             >
               Explore Fragrance
@@ -116,7 +116,7 @@ export default function NewFragranceSection() {
             <h3 className="text-[#333333] text-[17px] leading-[22px] font-[600] tracking-[0.08em]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{product.name}</h3>
             <p className="mt-3 text-[16px] leading-[24px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{product.subtitle}</p>
             <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{product.description}</p>
-            <p className="mt-3 text-[#666666] text-[20px] leading-[22px] font-[300]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
+            <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
           </div>
         </Link>
         <button onClick={() => { addItem({ id: "parjanya", name: product.name, subtitle: product.subtitle, format: product.format, price: product.price, quantity: 1, image: product.image }); openCart(); }} className="mt-4 flex h-11 w-full cursor-pointer items-center justify-center bg-[#333333] text-[#FFFEF2] text-[12px] font-[400] hover:bg-black transition-all duration-300 mx-[0.3rem]" suppressHydrationWarning>Add To Cart</button>

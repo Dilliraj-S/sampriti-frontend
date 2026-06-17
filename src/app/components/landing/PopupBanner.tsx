@@ -43,7 +43,7 @@ export default function PopupBanner() {
       <div className="relative max-w-lg w-full bg-white rounded-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300">
         <button
           onClick={handleDismiss}
-          className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 hover:bg-white transition-colors cursor-pointer"
+          className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 hover:bg-[rgba(0,0,0,0.1)] transition-colors cursor-pointer"
         >
           <X size={18} />
         </button>

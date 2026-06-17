@@ -74,7 +74,7 @@ export default function SourceCraft() {
             <div className="absolute bottom-5 right-5 z-10 flex gap-2 md:bottom-8 md:right-8 md:gap-3">
               <button
                 onClick={togglePlay}
-                className="flex h-10 w-10 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-white/15 md:h-12 md:w-12"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-[#2C2A26] md:h-12 md:w-12"
                 aria-label={isPlaying ? "Pause video" : "Play video"}
               >
                 {isPlaying ? (
@@ -89,7 +89,7 @@ export default function SourceCraft() {
               </button>
               <button
                 onClick={toggleMute}
-                className="flex h-10 w-10 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-white/15 md:h-12 md:w-12"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center border border-white/35 bg-black/20 text-white transition-colors hover:bg-[#2C2A26] md:h-12 md:w-12"
                 aria-label={isMuted ? "Unmute video" : "Mute video"}
               >
                 {isMuted ? (

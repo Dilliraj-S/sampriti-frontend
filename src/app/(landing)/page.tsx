@@ -94,6 +94,7 @@ export default function HomePage() {
       <Suspense fallback={<SectionPlaceholder />}>
         <Archive />
       </Suspense>
+      <div className="mb-32" />
       <Suspense fallback={null}>
         <BottomBanner />
       </Suspense>

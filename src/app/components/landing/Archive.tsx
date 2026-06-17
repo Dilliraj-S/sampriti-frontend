@@ -136,8 +136,8 @@ function ArchivePreview({ customArticles }: { customArticles?: ArchiveArticle[] 
           />
         ))}
 
-       <article className="flex flex-col justify-between self-start border border-b-0 border-[#A48662]/15 bg-[#A48662]/[0.045] p-7 md:p-8 h-[340px] md:h-[400px] lg:h-[460px]">
-          <div>
+        <article className="flex flex-col justify-between self-start border border-b-0 border-[#A48662]/15 bg-[#A48662]/[0.045] p-7 md:p-8 min-h-[420px] md:h-[400px] lg:h-[460px]">
+          <div className="pt-6 md:pt-8">
             <h2
               className="mb-8 text-[#2B2925] text-xl md:text-2xl font-light leading-snug"
               style={{ fontFamily: "var(--font-serif)" }}
@@ -152,13 +152,13 @@ function ArchivePreview({ customArticles }: { customArticles?: ArchiveArticle[] 
               pharmacopoeia - and the quiet observation of plants in their living landscapes.
             </p>
           </div>
-          <a
-            href="/archive"
-            className="mt-6 md:mt-auto inline-flex h-11 md:h-12 items-center justify-center border border-[#2B2925]/70 px-5 md:px-7 text-[11px] tracking-[0.2em] text-[#2B2925]/90 transition-colors duration-300 hover:bg-[#2B2925] hover:text-white cursor-pointer"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            Explore All Articles
-          </a>
+        <a
+  href="/archive"
+  className="mt-6 md:mt-auto flex h-12 w-full items-center justify-center border border-[#2B2925]/70 px-7 text-[12px] tracking-[0.12em] text-[#2B2925]/90 transition-colors duration-300 hover:bg-[#2B2925] hover:text-white cursor-pointer"
+  style={{ fontFamily: "var(--font-sans)" }}
+>
+  Explore All Articles
+</a>
         </article>
       </div>
       </div>

@@ -156,7 +156,7 @@ export default function SignatureRituals() {
                   </div>
                   <div>
                     {product.format && <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{product.format}</p>}
-                    <p className="mt-3 text-[#666666] text-[20px] leading-[22px] font-[300]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
+                    <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
                   </div>
                 </div>
               </Link>

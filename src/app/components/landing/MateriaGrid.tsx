@@ -269,7 +269,7 @@ export default function MateriaGrid() {
                 {/* ✅ Fixed Price + Cart */}
                 <div className="flex items-center gap-3">
                   <span
-                    className="text-[#A48662] text-lg"
+                    className="text-[#333333] text-[16px]"
                     style={{ fontFamily: "var(--font-serif)" }}
                   >
                     {formatPrice(product.price, currency, exchangeRate)}

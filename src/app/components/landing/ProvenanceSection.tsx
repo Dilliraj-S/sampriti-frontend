@@ -116,7 +116,7 @@ function VideoSection() {
           <div className="absolute bottom-3 right-3 md:bottom-4 md:right-4 flex items-center gap-2 md:gap-3 z-10">
             <button
               onClick={(e) => { e.stopPropagation(); togglePlay(); }}
-              className="w-10 h-10 md:w-12 md:h-12 border flex cursor-pointer items-center justify-center transition-all duration-300 hover:bg-white/10"
+              className="w-10 h-10 md:w-12 md:h-12 border flex cursor-pointer items-center justify-center transition-all duration-300 hover:bg-[#2C2A26]"
               style={{
                 background: "rgba(0,0,0,0.35)",
                 borderColor: "rgba(250,247,242,0.55)",
@@ -137,7 +137,7 @@ function VideoSection() {
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); toggleMute(); }}
-              className="w-10 h-10 md:w-12 md:h-12 border flex cursor-pointer items-center justify-center transition-all duration-300 hover:bg-white/10"
+              className="w-10 h-10 md:w-12 md:h-12 border flex cursor-pointer items-center justify-center transition-all duration-300 hover:bg-[#2C2A26]"
               style={{
                 background: "rgba(0,0,0,0.35)",
                 borderColor: "rgba(250,247,242,0.55)",

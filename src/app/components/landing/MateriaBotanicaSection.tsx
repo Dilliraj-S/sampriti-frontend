@@ -229,7 +229,7 @@ function ProductSection({
                       {product.subtitle && <p className="mt-3 text-[16px] leading-[24px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{product.subtitle}</p>}
                       {product.description && <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{product.description}</p>}
                     </div>
-                    <p className="mt-3 text-[#666666] text-[20px] leading-[22px] font-[300]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
+                    <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
                   </div>
                 </div>
                 <button onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { if (wasDragged.current) { wasDragged.current = false; return; } const s = useCartStore.getState(); s.addItem({ id: product.id, name: product.name, price: product.price, quantity: 1, image: product.image, subtitle: product.subtitle, format: product.format }); s.openCart(); }} className="mt-4 flex h-11 w-full cursor-pointer items-center justify-center bg-[#333333] text-[#FFFEF2] text-[12px] font-[400] hover:bg-black transition-all duration-300 mx-[0.3rem]" suppressHydrationWarning>Add To Cart</button>
@@ -276,7 +276,7 @@ function ProductSection({
                   <h3 className="text-[#333333] text-[17px] leading-[22px] font-[600] tracking-[0.08em]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{product.name}</h3>
                   {product.subtitle && <p className="mt-3 text-[16px] leading-[24px] font-[400] text-[#2C2A26]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{product.subtitle}</p>}
                   {product.description && <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[400] text-[#2C2A26]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{product.description}</p>}
-                  <p className="mt-3 text-[#2C2A26] text-[20px] leading-[22px] font-[400]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{formatPrice(product.price, currency, exchangeRate)}</p>
+                  <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{formatPrice(product.price, currency, exchangeRate)}</p>
                 </div>
               </Link>
               <button onClick={() => { useCartStore.getState().addItem({ id: product.id, name: product.name, price: product.price, quantity: 1, image: product.image, subtitle: product.subtitle, format: product.format }); useCartStore.getState().openCart(); }} className="mt-4 flex h-11 w-full cursor-pointer items-center justify-center bg-[#333333] text-[#FFFEF2] text-[12px] font-[400] hover:bg-black transition-all duration-300" suppressHydrationWarning>Add To Cart</button>

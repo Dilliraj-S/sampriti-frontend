@@ -121,7 +121,7 @@ export default function JourneyNavigator({ steps, activeStep, onNavigate }: Jour
             >
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-200 hover:bg-white/50"
+                className="w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-200 hover:bg-black/20"
               >
                 <svg
                   width="10"

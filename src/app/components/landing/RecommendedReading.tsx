@@ -118,7 +118,7 @@ export default function RecommendedReading() {
                     {p.subtitle && <p className="mt-3 text-[16px] leading-[24px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{p.subtitle}</p>}
                     {p.description && <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{p.description}</p>}
                   </div>
-                  <p className="mt-3 text-[#666666] text-[20px] leading-[22px] font-[300]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
+                  <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
                 </div>
               </Link>
               <button

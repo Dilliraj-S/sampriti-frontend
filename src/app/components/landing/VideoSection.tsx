@@ -56,7 +56,7 @@ export default function VideoSection() {
       <div className="grid min-h-[445px] grid-cols-1 items-stretch md:h-[calc(100vh-14rem)] md:min-h-[560px] md:grid-cols-[35vw_minmax(0,1fr)] md:pl-12 md:pt-6 lg:pl-20">
         <div className="flex max-w-[640px] flex-col justify-start px-6 pt-1 pb-4 md:px-0 md:py-0 md:pr-8 lg:pr-12"
         >
-          <h2 className="text-[#333333] text-[20px] font-[500] tracking-[0.15em] mb-3" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>
+          <h2 className="text-[#333333] text-[22px] font-[500] tracking-[0.15em] mb-3 mt-12" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>
             The Intelligence of Ancient<br />Botanicals
           </h2>
           <p className="text-[#333333] text-[16px] leading-[29px] font-[300]" style={{ fontFamily: "Inter, sans-serif" }}>

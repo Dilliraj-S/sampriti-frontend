@@ -262,7 +262,7 @@ export default function CategoryPage() {
             {p.subtitle && <p className="mt-3 text-sm leading-[20px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{p.subtitle}</p>}
             {p.description && <p className="mx-auto mt-3 text-sm leading-[22px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{p.description}</p>}
           </div>
-          <p className="mt-3 text-[#666666] text-[20px] leading-[22px] font-[300]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
+          <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
         </div>
       </Link>
       <button onClick={() => handleAddToCart(p, slugKey)} className="mt-6 w-full bg-[#2C2A26] text-white px-6 py-4 text-xs tracking-[0.2em] hover:bg-black transition-all duration-300 cursor-pointer" suppressHydrationWarning>Add To Cart</button>
@@ -340,7 +340,7 @@ export default function CategoryPage() {
                         <h3 className="text-[#333333] text-[17px] leading-[22px] font-[600] tracking-[0.08em]" style={{ fontFamily: "Inter, sans-serif" }}>{p.name} | {p.subtitle}</h3>
                         {p.description && <p className="mx-auto mt-3 text-sm leading-[22px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{p.description}</p>}
                       </div>
-                      <p className="mt-3 text-[#666666] text-[20px] leading-[22px] font-[300]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
+                      <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
                     </div>
       <button onClick={() => handleAddToCart(p, slugKey)} className="mt-6 w-full bg-[#2C2A26] text-white px-6 py-4 text-xs tracking-[0.2em] hover:bg-black transition-all duration-300 cursor-pointer" suppressHydrationWarning>Add To Cart</button>
                   </motion.div>
@@ -384,7 +384,7 @@ export default function CategoryPage() {
                             {p.subtitle && <p className="mt-3 text-sm leading-[20px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{p.subtitle}</p>}
                             {p.description && <p className="mx-auto mt-3 text-sm leading-[22px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{p.description}</p>}
                           </div>
-                          <p className="mt-3 text-[#666666] text-[20px] leading-[22px] font-[300]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
+                          <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
                         </div>
                       </Link>
       <button onClick={() => handleAddToCart(p, slugKey)} className="mt-6 w-full bg-[#2C2A26] text-white px-6 py-4 text-xs tracking-[0.2em] hover:bg-black transition-all duration-300 cursor-pointer" suppressHydrationWarning>Add To Cart</button>

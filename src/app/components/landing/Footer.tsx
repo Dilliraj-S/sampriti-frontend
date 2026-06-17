@@ -39,8 +39,8 @@ export default function Footer() {
 
   const helpLinks = [
     { label: "Contact us", href: "/contact" },
-    { label: "FAQ", href: "/" },
-    { label: "Shipping", href: "/" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Shipping", href: "/faq?category=shipping-returns" },
     { label: "Terms of use", href: "/terms" },
   ];
 

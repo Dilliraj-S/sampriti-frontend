@@ -115,15 +115,15 @@ export default function LoginPage() {
   const msgColor = message.type === "success" ? "#2D6A4F" : message.type === "warning" ? "#7A4F34" : "#B91C1C";
 
   return (
-    <section className="mx-auto flex w-full max-w-md flex-col justify-center px-5 pt-[100px] md:pt-[120px] pb-16">
+    <section className="mx-auto flex w-full max-w-md flex-col justify-center px-5 pt-[150px] md:pt-[120px] pb-16">
       <div className="mb-6 text-center">
-        <h1 className="text-3xl font-light tracking-[0.08em]" style={{ fontFamily: "var(--font-heading)" }}>
+        <h1 className="text-2xl md:text-3xl font-light tracking-[0.08em]" style={{ fontFamily: "var(--font-heading)" }}>
           {mode === "signin" ? "Sign in" : "Create account"}
         </h1>
       </div>
 
       {/* Mode toggle */}
-      <div className="mb-5 grid grid-cols-2 border border-[#D8D0C6] bg-white">
+      <div className="mb-5 grid grid-cols-2 gap-2 border border-[#D8D0C6] bg-white">
         {(["signin", "signup"] as Mode[]).map(m => (
           <button key={m} type="button" onClick={() => switchMode(m)}
             className={`h-12 text-sm font-semibold tracking-[0.05em] transition-colors ${mode === m ? "bg-[#2C2A26] text-white" : "text-[#6C6258] hover:bg-[#F6F1E8]"}`}

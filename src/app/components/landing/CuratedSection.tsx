@@ -129,7 +129,7 @@ export default function CuratedSection({ section, title, description }: CuratedS
                     <p className="mt-1 text-sm leading-[20px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{product.subtitle}</p>
                     {product.description && <p className="mx-auto mt-1 text-sm leading-[22px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{product.description}</p>}
                   </div>
-                  <p className="mt-3 text-[#666666] text-[20px] leading-[22px] font-[300]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
+                  <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
                 </div>
               </Link>
               <button onClick={() => { addItem({ id: product.id, name: product.name, price: product.price, quantity: 1, image: product.image }); openCart(); }}                className="mt-auto flex h-11 w-full items-center justify-center bg-[#333333] text-[#FFFEF2] text-[12px] font-[400] hover:bg-black transition-all duration-300 mx-[0.3rem] cursor-pointer" suppressHydrationWarning>Add To Cart</button>

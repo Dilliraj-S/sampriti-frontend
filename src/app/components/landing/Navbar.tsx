@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronRight, LogOut, Package, User } from "lucide-react";
 import { useCartStore } from "@/app/components/landing/cartStore";
+import SearchOverlay from "@/app/components/landing/SearchOverlay";
 import { formatPrice, getSettings } from "@/services/settings";
 import { useAuthStore } from "@/app/stores/authStore";
 
@@ -63,6 +64,7 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
   const lastScrollY = useRef(0);
   const [mobileOpen,   setMobileOpen]   = useState(false);
   const [profileOpen,  setProfileOpen]  = useState(false);
+  const [searchOpen,   setSearchOpen]   = useState(false);
   const [currency,     setCurrency]     = useState("INR");
   const [exchangeRate, setExchangeRate] = useState(85);
   const items          = useCartStore((s) => s.items);
@@ -187,7 +189,7 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
                 </span>
               </Link>
               <div className="flex items-center gap-1">
-                <IconButton label="Search" colorClass={navColor}>
+                <IconButton label="Search" colorClass={navColor} onClick={() => setSearchOpen(true)}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
                     <circle cx="11" cy="11" r="8" />
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -239,8 +241,8 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
                     </span>
                   </Link>
                   <div className="flex w-full items-center justify-end gap-3 xl:gap-6 lg:-mt-4">
-                    <IconButton label="Search" colorClass={navColor}>
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <IconButton label="Search" colorClass={navColor} onClick={() => setSearchOpen(true)}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
                         <circle cx="11" cy="11" r="8" />
                         <line x1="21" y1="21" x2="16.65" y2="16.65" />
                       </svg>
@@ -310,8 +312,8 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
                 </div>
 
                 <div className="flex items-center">
-                  <IconButton label="Search" colorClass="text-[#333333]">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <IconButton label="Search" colorClass="text-[#333333]" onClick={() => setSearchOpen(true)}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
                       <circle cx="11" cy="11" r="8" />
                       <line x1="21" y1="21" x2="16.65" y2="16.65" />
                     </svg>
@@ -420,6 +422,8 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
           </>
         )}
       </AnimatePresence>
+
+      {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
     </>
   );
 }

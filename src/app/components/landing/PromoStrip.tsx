@@ -60,7 +60,7 @@ export default function PromoStrip() {
     return (
       <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4">
         <div className="relative max-w-lg w-full bg-white rounded-2xl overflow-hidden shadow-2xl">
-          <button onClick={dismissPopup} className="absolute top-3 right-3 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 hover:bg-white transition-colors cursor-pointer">
+          <button onClick={dismissPopup} className="absolute top-3 right-3 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 hover:bg-[rgba(0,0,0,0.1)] transition-colors cursor-pointer">
             <X size={18} />
           </button>
           {popupBanner.image && (
@@ -88,7 +88,7 @@ export default function PromoStrip() {
             type="button"
             aria-label="Close announcement"
             onClick={(e) => { e.stopPropagation(); setDismissed(true); }}
-            className="absolute right-1.5 top-1.5 z-20 flex h-5 w-5 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/80 hover:bg-white transition-colors cursor-pointer"
+            className="absolute right-1.5 top-1.5 z-20 flex h-5 w-5 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/80 hover:bg-[rgba(0,0,0,0.1)] transition-colors cursor-pointer"
           >
             <X size={12} className="sm:size-4" />
           </button>

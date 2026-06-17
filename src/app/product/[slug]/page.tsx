@@ -110,7 +110,7 @@ function ReviewsSection({ slug, productName }: { slug: string; productName: stri
     <section className="bg-white px-6 md:px-12 lg:px-20" style={{ paddingTop: "40px", paddingBottom: "120px" }}>
       <div className="max-w-4xl mx-auto">
         <h2 className="text-[#2B2925] text-[24px] leading-[31px] font-[400] tracking-[0.08em] mb-10" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>
-          Customer reflections
+          Customer impressions
         </h2>
 
         <div className="md:flex md:gap-16 md:items-start">
@@ -125,7 +125,7 @@ function ReviewsSection({ slug, productName }: { slug: string; productName: stri
                   <div className="w-[140px] h-[14px] bg-[#D6D5CC] rounded-full overflow-hidden">
                     <div className="h-full bg-[#333333] rounded-full" style={{ width: `${pct}%` }} />
                   </div>
-                  <span className="text-[11px] text-[#666666] whitespace-nowrap">{String(count).padStart(2, "0")} {count === 1 ? "reflection" : "reflections"} with {star} {star === 1 ? "star" : "stars"}.</span>
+                  <span className="text-[11px] text-[#666666] whitespace-nowrap">{String(count).padStart(2, "0")} {count === 1 ? "impression" : "impressions"} with {star} {star === 1 ? "star" : "stars"}.</span>
                 </div>
               );
             })}
@@ -139,7 +139,7 @@ function ReviewsSection({ slug, productName }: { slug: string; productName: stri
                 <svg key={star} width="11" height="11" viewBox="0 0 24 24" fill={star <= Math.round(avgRating) ? "#333333" : "#D6D5CC"}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
               ))}
             </div>
-            <p className="text-[11px] text-[#666666]">{reviews.length} {reviews.length === 1 ? "reflection" : "reflections"}</p>
+            <p className="text-[11px] text-[#666666]">{reviews.length} {reviews.length === 1 ? "impression" : "impressions"}</p>
           </div>
         </div>
 
@@ -148,7 +148,7 @@ function ReviewsSection({ slug, productName }: { slug: string; productName: stri
         <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-6">
           <div className="relative flex-1 w-full md:max-w-sm">
             <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9A958E]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
-            <input type="text" placeholder="Search topics and reflections"
+            <input type="text" placeholder="Search topics and impressions"
               value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full border border-[#E5DCCF] bg-white py-3 pl-10 pr-4 text-sm text-[#2B2925] placeholder:text-[#9A958E] focus:outline-none focus:border-[#333333] transition-colors" />
           </div>
@@ -183,7 +183,7 @@ function ReviewsSection({ slug, productName }: { slug: string; productName: stri
         </div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mt-6 mb-10">
-          <p className="text-sm text-[#7A756D]">1 to {filtered.length} of {filtered.length} reflections.</p>
+          <p className="text-sm text-[#7A756D]">1 to {filtered.length} of {filtered.length} impressions.</p>
           <div className="flex items-center gap-2">
             <label className="text-xs text-[#7A756D] tracking-[0.1em] uppercase">Sort by</label>
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}
@@ -220,7 +220,7 @@ function ReviewsSection({ slug, productName }: { slug: string; productName: stri
         </div>
 
         <div className="mt-16 border border-[#E5DCCF] p-8 md:p-12 text-center">
-          <h3 className="text-[#2B2925] text-lg font-normal mb-3" style={{ fontFamily: "var(--font-serif)" }}>Share your reflection</h3>
+          <h3 className="text-[#2B2925] text-lg font-normal mb-3" style={{ fontFamily: "var(--font-serif)" }}>Share your impression</h3>
           <p className="text-sm text-[#7A756D] font-light mb-6 max-w-md mx-auto" style={{ fontFamily: "var(--font-sans)" }}>Your experience with this product matters. Tell us what you think — your voice helps others discover what works.</p>
           <button className="inline-flex h-11 items-center justify-center border border-[#2B2925]/70 px-6 text-[11px] tracking-[0.2em] text-[#2B2925]/90 transition-colors duration-300 hover:bg-[#2B2925] hover:text-white cursor-pointer" style={{ fontFamily: "var(--font-sans)" }}>
             Write Your Review
@@ -730,13 +730,53 @@ export default function ProductPage() {
     <main className="bg-white min-h-screen" style={{ fontFamily: "var(--font-sans)" }}>
       <Navbar forceScrolled={true} />
 
-      <div className="px-0 pb-16 pt-32 md:pt-44 lg:pt-52">
+      <div className="px-0 pb-16 pt-32 md:pt-44 lg:pt-56">
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* Breadcrumb */}
+          {product && (
+            <div className="flex items-center gap-2 text-[11px] tracking-[0.15em] mb-6 md:mb-8 mt-2 md:mt-4 capitalize" style={{ color: "#333333" }}>
+              <a href="/" className="hover:opacity-70 transition-opacity">Home</a>
+              {product.category && (() => {
+                const catSlugMap: Record<string, string> = {
+                  "sampriti botanicals": "infusions",
+                  "restorative infusion": "infusions",
+                  "skincare ritual": "skincare",
+                  "fragrance": "fragrance",
+                  "ceremony": "ceremony",
+                  "atmospheric": "atmospheric",
+                };
+                const catSlug = catSlugMap[product.category.toLowerCase()];
+                const catTitles: Record<string, string> = {
+                  infusions: "Infusions",
+                  skincare: "Skincare",
+                  fragrance: "Fragrance",
+                  ceremony: "Ceremony",
+                  atmospheric: "Atmospheric",
+                };
+                if (catSlug) {
+                  return (
+                    <>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#333333" strokeWidth="1.5">
+                        <polyline points="9 18 15 12 9 6" />
+                      </svg>
+                      <a href={`/category/${catSlug}`} className="hover:opacity-70 transition-opacity">{catTitles[catSlug] || product.category}</a>
+                    </>
+                  );
+                }
+                return null;
+              })()}
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#333333" strokeWidth="1.5">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+              <span className="opacity-60">{product.name}</span>
+            </div>
+          )}
 
           <div className="grid lg:grid-cols-2 gap-0 lg:gap-16 items-start">
 
             {/* "" Hero Product Image with Gallery """"""""""""""""""""""""""" */}
-            <div className="self-start mb-6 md:mb-0 max-w-sm mx-auto md:mx-0">
+            <div className="self-start mb-6 md:mb-0 w-full md:max-w-sm md:mx-0">
               <div className="relative aspect-square bg-white overflow-hidden">
                 <ProductImage
                   src={displayImages[galleryIndex]}
@@ -779,7 +819,7 @@ export default function ProductPage() {
               {product.format && (
                 <p className="text-[#5A554E] mb-6">{product.format}</p>
               )}
-              <p className="text-[#2C2A26] text-xl mb-4" style={{ fontFamily: "var(--font-serif)" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
+              <p className="text-[#333333] text-[16px] mb-4" style={{ fontFamily: "var(--font-serif)" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
 
               {/* Quantity & Add to Cart */}
               <div className="flex gap-3 mb-6">
@@ -979,7 +1019,7 @@ export default function ProductPage() {
                       {related.subtitle && <p className="mt-1 text-sm leading-[20px] font-[400] italic text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{related.subtitle}</p>}
                       {related.description && <p className="mx-auto mt-1 text-sm leading-[22px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{related.description}</p>}
                     </div>
-                    <p className="mt-3 text-[#666666] text-[20px] leading-[22px] font-[300]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(related.price, currency, exchangeRate)}</p>
+                    <p className="mt-3 text-[#333333] text-sm leading-[20px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(related.price, currency, exchangeRate)}</p>
                   </div>
                   <button
                     onClick={() => {
