@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { toast, Toaster } from "sonner";
 import Navbar from "@/app/components/landing/Navbar";
 import { useCartStore } from "@/app/components/landing/cartStore";
 
@@ -11,13 +13,31 @@ interface ShippingZone {
   id: number; name: string; pinCodes: string; rate: string; freeAbove: string; deliveryTime: string; status: string;
 }
 
+interface OrderResult {
+  orderId: number;
+  paypalOrderId?: string;
+  total: number;
+  currency?: string;
+}
+
+type Step = "form" | "paypal" | "processing" | "success" | "error";
+
+const API = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace("/api/admin", "");
+const ADMIN_API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/admin";
+
 export default function CheckoutPage() {
   const [mounted, setMounted] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [paymentMethod, setPaymentMethod] = useState("paypal");
   const [shippingZones, setShippingZones] = useState<ShippingZone[]>([]);
   const [selectedZone, setSelectedZone] = useState<number | null>(null);
+  const [step, setStep] = useState<Step>("form");
+  const [orderResult, setOrderResult] = useState<OrderResult | null>(null);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const items = useCartStore((s) => s.items);
   const getTotal = useCartStore((s) => s.getTotal);
+  const clearCart = useCartStore((s) => s.clearCart);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -31,24 +51,56 @@ export default function CheckoutPage() {
     country: "India",
     landmark: "",
     deliveryInstructions: "",
-    cardNumber: "0000 0000 0000 0000",
-    expiry: "MM / YY",
-    cvv: "123",
   });
 
   useEffect(() => {
     setMounted(true);
     (async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/admin';
-        const res = await fetch(base + '/shipping-zones').then(r => r.json());
+        const res = await fetch(ADMIN_API + "/shipping-zones").then(r => r.json());
         if (res.status) {
-          const active = res.data?.filter((z: ShippingZone) => z.status === 'active') || [];
+          const active = res.data?.filter((z: ShippingZone) => z.status === "active") || [];
           setShippingZones(active);
           if (active.length > 0) setSelectedZone(active[0].id);
         }
       } catch {}
     })();
+  }, []);
+
+  const handlePaypalApprove = useCallback(async (data: { orderID: string }) => {
+    const currentOrderResult = orderResult;
+    if (!currentOrderResult) return;
+    setStep("processing");
+
+    try {
+      const res = await fetch(API + "/api/payments/paypal/capture-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId: currentOrderResult.orderId,
+          paypalOrderId: data.orderID,
+        }),
+      });
+
+      const result = await res.json();
+      if (!result.status) throw new Error(result.message || "Payment capture failed");
+
+      clearCart();
+      setStep("success");
+      toast.success("Payment successful! Your order has been placed.");
+    } catch (err: any) {
+      setErrorMsg(err.message);
+      setStep("paypal");
+      toast.error(err.message || "Payment failed. Please try again.");
+    }
+  }, [orderResult, clearCart]);
+
+  const handlePaypalError = useCallback(() => {
+    toast.error("PayPal encountered an error. Please try again.");
+  }, []);
+
+  const handlePaypalCancel = useCallback(() => {
+    toast.warning("Payment was cancelled. You can try again when ready.");
   }, []);
 
   if (!mounted) return null;
@@ -64,6 +116,68 @@ export default function CheckoutPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const placeOrder = async () => {
+    if (!formData.fullName || !formData.phone || !formData.building || !formData.street || !formData.city || !formData.state || !formData.pincode) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    if (items.length === 0) {
+      toast.error("Your cart is empty");
+      return;
+    }
+
+    setLoading(true);
+    setErrorMsg("");
+
+    try {
+      const res = await fetch(API + "/api/payments/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customerInfo: {
+            fullName: formData.fullName,
+            phone: formData.phone,
+            email: formData.email,
+          },
+          shippingAddress: {
+            building: formData.building,
+            street: formData.street,
+            city: formData.city,
+            state: formData.state,
+            pincode: formData.pincode,
+            country: formData.country,
+            landmark: formData.landmark,
+            deliveryInstructions: formData.deliveryInstructions,
+          },
+          items: items.map(i => ({
+            id: i.id,
+            name: i.name,
+            price: i.price,
+            quantity: i.quantity,
+            image: i.image,
+            subtitle: i.subtitle,
+            format: i.format,
+          })),
+          total,
+          shipping,
+          paymentMethod: "paypal",
+        }),
+      });
+
+      const data = await res.json();
+      if (!data.status) throw new Error(data.message || "Failed to create order");
+
+      setOrderResult({ orderId: data.data.orderId, total: data.data.total });
+      setStep("paypal");
+      toast.success("Order created! Complete payment with PayPal below.");
+    } catch (err: any) {
+      setErrorMsg(err.message);
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const inputBase = "w-full px-4 py-3 text-sm transition-colors";
   const inputStyle: React.CSSProperties = {
     background: "#FDFAF5",
@@ -75,12 +189,12 @@ export default function CheckoutPage() {
 
   return (
     <main className="min-h-screen" style={{ background: "#FDFAF5" }}>
+      <Toaster position="top-center" richColors />
       <Navbar forceScrolled={true} />
 
       <div className="pt-48 pb-16 px-6">
         <div className="max-w-6xl mx-auto">
 
-          {/* Back Link */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-8">
             <Link
               href="/cart"
@@ -95,403 +209,309 @@ export default function CheckoutPage() {
             </Link>
           </motion.div>
 
-          {/* Header */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
             <p className="text-xs tracking-[0.4em] uppercase mb-4" style={{ fontFamily: "var(--font-sans)", color: "#A48662" }}>
               SECURE CHECKOUT
             </p>
             <h1 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
-              Complete Your Order
+              {step === "success" ? "Order Confirmed!" : "Complete Your Order"}
             </h1>
           </motion.div>
 
-          <div className="grid lg:grid-cols-5 gap-16">
-            {/* Left: Form Sections */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="lg:col-span-3">
-
-              {/* 1. Customer Information */}
-              <div className="mb-10">
-                <h2 className="text-xl mb-6" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
-                  1. Customer Information
-                </h2>
-                <div className="space-y-5">
-                  <div>
-                    <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                      Full Name <span style={{ color: "#A48662" }}>*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="fullName"
-                      value={formData.fullName}
-                      onChange={handleInputChange}
-                      className={`${inputBase} ${inputFocus}`}
-                      style={inputStyle}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                      Phone Number <span style={{ color: "#A48662" }}>*</span>
-                    </label>
-                    <p className="text-xs mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>10-digit mobile number</p>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className={`${inputBase} ${inputFocus}`}
-                      style={inputStyle}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                      Email Address
-                    </label>
-                    <p className="text-xs mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>Optional</p>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className={`${inputBase} ${inputFocus}`}
-                      style={inputStyle}
-                    />
-                  </div>
+          <AnimatePresence mode="wait">
+            {step === "success" ? (
+              <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-lg mx-auto text-center">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ background: "rgba(164,134,98,0.1)" }}>
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#A48662" strokeWidth="2">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
                 </div>
-              </div>
-
-              {/* 2. Shipping Address */}
-              <div className="mb-10">
-                <h2 className="text-xl mb-6" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
-                  2. Shipping Address
-                </h2>
-                <div className="space-y-5">
-                  <div>
-                    <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                      House / Flat / Building Number <span style={{ color: "#A48662" }}>*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="building"
-                      value={formData.building}
-                      onChange={handleInputChange}
-                      className={`${inputBase} ${inputFocus}`}
-                      style={inputStyle}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                      Street / Area <span style={{ color: "#A48662" }}>*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="street"
-                      value={formData.street}
-                      onChange={handleInputChange}
-                      className={`${inputBase} ${inputFocus}`}
-                      style={inputStyle}
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                        City <span style={{ color: "#A48662" }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleInputChange}
-                        className={`${inputBase} ${inputFocus}`}
-                        style={inputStyle}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                        State <span style={{ color: "#A48662" }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="state"
-                        value={formData.state}
-                        onChange={handleInputChange}
-                        className={`${inputBase} ${inputFocus}`}
-                        style={inputStyle}
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                        Postal Code (PIN) <span style={{ color: "#A48662" }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="pincode"
-                        value={formData.pincode}
-                        onChange={handleInputChange}
-                        className={`${inputBase} ${inputFocus}`}
-                        style={inputStyle}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                        Country <span style={{ color: "#A48662" }}>*</span>
-                      </label>
-                      <select
-                        name="country"
-                        value={formData.country}
-                        onChange={handleInputChange}
-                        className={`${inputBase} ${inputFocus}`}
-                        style={{ ...inputStyle, cursor: "pointer" }}
-                      >
-                        <option value="India">India</option>
-                        <option value="US">United States</option>
-                        <option value="UK">United Kingdom</option>
-                        <option value="UAE">UAE</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>
-                      Landmark (Optional)
-                    </label>
-                    <input
-                      type="text"
-                      name="landmark"
-                      value={formData.landmark}
-                      onChange={handleInputChange}
-                      className={`${inputBase} ${inputFocus}`}
-                      style={inputStyle}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>
-                      Delivery Instructions (Optional)
-                    </label>
-                    <textarea
-                      name="deliveryInstructions"
-                      value={formData.deliveryInstructions}
-                      onChange={handleInputChange}
-                      rows={3}
-                      className={`${inputBase} ${inputFocus}`}
-                      style={inputStyle}
-                    />
-                  </div>
+                <p className="text-lg mb-2" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
+                  Thank you, {formData.fullName}!
+                </p>
+                <p className="text-sm mb-6" style={{ color: "#5A554E" }}>
+                  Your order #{orderResult?.orderId} has been placed and payment is confirmed.
+                  We&apos;ll send a confirmation to {formData.email || "your email"}.
+                </p>
+                <div className="p-4 mb-6" style={{ background: "rgba(164,134,98,0.06)", border: "1px solid rgba(164,134,98,0.2)" }}>
+                  <p className="text-xs tracking-[0.2em] uppercase mb-1" style={{ color: "#A48662" }}>Order Total</p>
+                  <p className="text-3xl font-light" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>${total}</p>
                 </div>
-              </div>
-
-              {/* 3. Payment Method */}
-              <div className="mb-10">
-                <h2 className="text-xl mb-6" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
-                  3. Payment Method
-                </h2>
-                <div className="space-y-4">
-                  {/* Credit / Debit Card */}
-                  <label
-                    className="flex items-center gap-4 p-4 cursor-pointer transition-colors"
-                    style={{
-                      border: paymentMethod === "card" ? "1px solid #A48662" : "1px solid rgba(164,134,98,0.25)",
-                      background: paymentMethod === "card" ? "rgba(164,134,98,0.06)" : "transparent",
-                    }}
-                  >
-                    <input
-                      type="radio"
-                      name="payment"
-                      checked={paymentMethod === "card"}
-                      onChange={() => setPaymentMethod("card")}
-                      style={{ accentColor: "#A48662" }}
-                    />
-                    <div className="flex-1">
-                      <p style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>Credit / Debit Card</p>
-                      <p className="text-xs mt-0.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>
-                        Visa, Mastercard, AMEX, RuPay
-                      </p>
-                    </div>
-                  </label>
-
-                  {/* UPI */}
-                  <label
-                    className="flex items-center gap-4 p-4 cursor-pointer transition-colors"
-                    style={{
-                      border: paymentMethod === "upi" ? "1px solid #A48662" : "1px solid rgba(164,134,98,0.25)",
-                      background: paymentMethod === "upi" ? "rgba(164,134,98,0.06)" : "transparent",
-                    }}
-                  >
-                    <input
-                      type="radio"
-                      name="payment"
-                      checked={paymentMethod === "upi"}
-                      onChange={() => setPaymentMethod("upi")}
-                      style={{ accentColor: "#A48662" }}
-                    />
-                    <div className="flex-1">
-                      <p style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>UPI</p>
-                      <p className="text-xs mt-0.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>
-                        Google Pay, PhonePe, Paytm
-                      </p>
-                    </div>
-                  </label>
-
-                  {/* PayPal */}
-                  <label
-                    className="flex items-center gap-4 p-4 cursor-pointer transition-colors"
-                    style={{
-                      border: paymentMethod === "paypal" ? "1px solid #A48662" : "1px solid rgba(164,134,98,0.25)",
-                      background: paymentMethod === "paypal" ? "rgba(164,134,98,0.06)" : "transparent",
-                    }}
-                  >
-                    <input
-                      type="radio"
-                      name="payment"
-                      checked={paymentMethod === "paypal"}
-                      onChange={() => setPaymentMethod("paypal")}
-                      style={{ accentColor: "#A48662" }}
-                    />
-                    <div className="flex-1">
-                      <p style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>PayPal</p>
-                      <p className="text-xs mt-0.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>
-                        Pay securely with PayPal
-                      </p>
-                    </div>
-                  </label>
-                </div>
-
-                {/* Card Fields (only when card is selected) */}
-                {paymentMethod === "card" && (
-                  <div className="mt-6 space-y-5">
-                    <div>
-                      <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                        Card Number <span style={{ color: "#A48662" }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="cardNumber"
-                        value={formData.cardNumber}
-                        onChange={handleInputChange}
-                        className={`${inputBase} ${inputFocus}`}
-                        style={inputStyle}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                          Expiry Date <span style={{ color: "#A48662" }}>*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="expiry"
-                          value={formData.expiry}
-                          onChange={handleInputChange}
-                          className={`${inputBase} ${inputFocus}`}
-                          style={inputStyle}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
-                          CVV <span style={{ color: "#A48662" }}>*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="cvv"
-                          value={formData.cvv}
-                          onChange={handleInputChange}
-                          className={`${inputBase} ${inputFocus}`}
-                          style={inputStyle}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Place Order Button */}
-                <button
-                  className="w-full py-4 mt-8 text-xs tracking-[0.2em] uppercase text-[#F9F7F3] hover:opacity-90 transition-all duration-300 cursor-pointer"
-                  style={{ fontFamily: "var(--font-sans)", fontWeight: 500, background: "#262420" }}
+                <Link
+                  href="/"
+                  className="inline-block py-3 px-8 text-xs tracking-[0.2em] uppercase text-[#F9F7F3] transition-all duration-300"
+                  style={{ background: "#262420" }}
+                  onClick={clearCart}
                 >
-                  Place Order
-                </button>
-              </div>
+                  Continue Shopping
+                </Link>
+              </motion.div>
+            ) : (
+              <div className="grid lg:grid-cols-5 gap-16">
+                <motion.div key="form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="lg:col-span-3">
 
-            </motion.div>
+                  {/* 1. Customer Information */}
+                  <div className="mb-10">
+                    <h2 className="text-xl mb-6" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
+                      1. Customer Information
+                    </h2>
+                    <div className="space-y-5">
+                      <div>
+                        <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
+                          Full Name <span style={{ color: "#A48662" }}>*</span>
+                        </label>
+                        <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange}
+                          className={`${inputBase} ${inputFocus}`} style={inputStyle} disabled={step !== "form"} />
+                      </div>
+                      <div>
+                        <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
+                          Phone Number <span style={{ color: "#A48662" }}>*</span>
+                        </label>
+                        <p className="text-xs mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>10-digit mobile number</p>
+                        <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange}
+                          className={`${inputBase} ${inputFocus}`} style={inputStyle} disabled={step !== "form"} />
+                      </div>
+                      <div>
+                        <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
+                          Email Address
+                        </label>
+                        <p className="text-xs mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>Optional</p>
+                        <input type="email" name="email" value={formData.email} onChange={handleInputChange}
+                          className={`${inputBase} ${inputFocus}`} style={inputStyle} disabled={step !== "form"} />
+                      </div>
+                    </div>
+                  </div>
 
-            {/* Right: Order Summary */}
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="lg:col-span-2">
-              <div className="p-6 sticky top-28" style={{ background: "#FDFAF5" }}>
-                <h2 className="text-xl mb-6" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
-                  Order Summary
-                </h2>
-                <div className="space-y-4 mb-6">
-                  {items.map((item) => {
-                      return (
-                      <div key={item.id} className="flex gap-4 items-center">
-                        <div className="w-16 h-16 flex-shrink-0 overflow-hidden">
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            width={64}
-                            height={64}
-                            className="w-full h-full object-contain p-2"
-                            unoptimized
-                          />
+                  {/* 2. Shipping Address */}
+                  <div className="mb-10">
+                    <h2 className="text-xl mb-6" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
+                      2. Shipping Address
+                    </h2>
+                    <div className="space-y-5">
+                      <div>
+                        <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
+                          House / Flat / Building Number <span style={{ color: "#A48662" }}>*</span>
+                        </label>
+                        <input type="text" name="building" value={formData.building} onChange={handleInputChange}
+                          className={`${inputBase} ${inputFocus}`} style={inputStyle} disabled={step !== "form"} />
+                      </div>
+                      <div>
+                        <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
+                          Street / Area <span style={{ color: "#A48662" }}>*</span>
+                        </label>
+                        <input type="text" name="street" value={formData.street} onChange={handleInputChange}
+                          className={`${inputBase} ${inputFocus}`} style={inputStyle} disabled={step !== "form"} />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
+                            City <span style={{ color: "#A48662" }}>*</span>
+                          </label>
+                          <input type="text" name="city" value={formData.city} onChange={handleInputChange}
+                            className={`${inputBase} ${inputFocus}`} style={inputStyle} disabled={step !== "form"} />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm truncate" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>{item.name}</p>
-                          <div className="flex items-center gap-2 mt-1">
-                            <button
-                              onClick={() => { const s = useCartStore.getState(); const i = s.items.find(x => x.id === item.id); if (i && i.quantity > 1) s.updateQuantity(item.id, i.quantity - 1); }}
-                              className="w-7 h-7 flex items-center justify-center border text-sm cursor-pointer hover:bg-gray-50"
-                              style={{ borderColor: "rgba(164,134,98,0.25)", color: "#5A554E" }}
-                            >−</button>
-                            <span className="text-sm w-5 text-center" style={{ color: "#2B2925" }}>{item.quantity}</span>
-                            <button
-                              onClick={() => { const s = useCartStore.getState(); const i = s.items.find(x => x.id === item.id); if (i) s.updateQuantity(item.id, i.quantity + 1); }}
-                              className="w-7 h-7 flex items-center justify-center border text-sm cursor-pointer hover:bg-gray-50"
-                              style={{ borderColor: "rgba(164,134,98,0.25)", color: "#5A554E" }}
-                            >+</button>
-                          </div>
-                        </div>
-                        <div className="flex flex-col items-end gap-1">
-                          <p className="text-sm whitespace-nowrap" style={{ fontFamily: "var(--font-serif)", color: "#A48662" }}>${item.price * item.quantity}</p>
-                          <button
-                            onClick={() => useCartStore.getState().removeItem(item.id)}
-                            className="text-xs cursor-pointer hover:opacity-60 transition-opacity"
-                            style={{ color: "#A48662", fontFamily: "var(--font-sans)" }}
-                          >Remove</button>
+                        <div>
+                          <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
+                            State <span style={{ color: "#A48662" }}>*</span>
+                          </label>
+                          <input type="text" name="state" value={formData.state} onChange={handleInputChange}
+                            className={`${inputBase} ${inputFocus}`} style={inputStyle} disabled={step !== "form"} />
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-                <div className="flex justify-between py-2">
-                  <span style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>Subtotal</span>
-                  <span style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>${cartTotal}</span>
-                </div>
-                <div className="flex justify-between py-2">
-                  <span style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>Shipping</span>
-                  <span style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>
-                    {shipping === 0 ? "Free" : `$${shipping}`}
-                  </span>
-                </div>
-                <div className="flex justify-between py-2 border-t mt-2 pt-4" style={{ borderColor: "rgba(164,134,98,0.2)" }}>
-                  <span style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>Total</span>
-                  <span className="text-xl" style={{ fontFamily: "var(--font-serif)", color: "#A48662" }}>${total}</span>
-                </div>
-                <div className="mt-6 pt-4 border-t" style={{ borderColor: "rgba(164,134,98,0.15)" }}>
-                  <Link
-                    href="/"
-                    className="flex items-center justify-center gap-2 py-3 text-xs tracking-[0.2em] uppercase transition-colors"
-                    style={{ fontFamily: "var(--font-sans)", color: "#A48662" }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </svg>
-                    Continue Shopping
-                  </Link>
-                </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
+                            Postal Code (PIN) <span style={{ color: "#A48662" }}>*</span>
+                          </label>
+                          <input type="text" name="pincode" value={formData.pincode} onChange={handleInputChange}
+                            className={`${inputBase} ${inputFocus}`} style={inputStyle} disabled={step !== "form"} />
+                        </div>
+                        <div>
+                          <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>
+                            Country <span style={{ color: "#A48662" }}>*</span>
+                          </label>
+                          <select name="country" value={formData.country} onChange={handleInputChange}
+                            className={`${inputBase} ${inputFocus}`}
+                            style={{ ...inputStyle, cursor: "pointer" }} disabled={step !== "form"}>
+                            <option value="India">India</option>
+                            <option value="US">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="UAE">UAE</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>
+                          Landmark (Optional)
+                        </label>
+                        <input type="text" name="landmark" value={formData.landmark} onChange={handleInputChange}
+                          className={`${inputBase} ${inputFocus}`} style={inputStyle} disabled={step !== "form"} />
+                      </div>
+                      <div>
+                        <label className="block text-sm mb-1.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>
+                          Delivery Instructions (Optional)
+                        </label>
+                        <textarea name="deliveryInstructions" value={formData.deliveryInstructions} onChange={handleInputChange}
+                          rows={3} className={`${inputBase} ${inputFocus}`} style={inputStyle} disabled={step !== "form"} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3. Payment Method */}
+                  <div className="mb-10">
+                    <h2 className="text-xl mb-6" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
+                      3. Payment Method
+                    </h2>
+
+                    {step === "form" ? (
+                      <>
+                        <div className="space-y-4">
+                          {[
+                            { value: "card", label: "Credit / Debit Card", desc: "Visa, Mastercard, AMEX, RuPay" },
+                            { value: "upi", label: "UPI", desc: "Google Pay, PhonePe, Paytm" },
+                            { value: "paypal", label: "PayPal", desc: "Pay securely with PayPal" },
+                          ].map((pm) => (
+                            <label key={pm.value}
+                              className="flex items-center gap-4 p-4 cursor-pointer transition-colors"
+                              style={{
+                                border: paymentMethod === pm.value ? "1px solid #A48662" : "1px solid rgba(164,134,98,0.25)",
+                                background: paymentMethod === pm.value ? "rgba(164,134,98,0.06)" : "transparent",
+                              }}
+                            >
+                              <input type="radio" name="payment" checked={paymentMethod === pm.value}
+                                onChange={() => setPaymentMethod(pm.value)} style={{ accentColor: "#A48662" }} />
+                              <div className="flex-1">
+                                <p style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>{pm.label}</p>
+                                <p className="text-xs mt-0.5" style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>{pm.desc}</p>
+                              </div>
+                            </label>
+                          ))}
+                        </div>
+
+                        <button
+                          onClick={placeOrder}
+                          disabled={loading}
+                          className="w-full py-4 mt-8 text-xs tracking-[0.2em] uppercase text-[#F9F7F3] hover:opacity-90 transition-all duration-300 cursor-pointer disabled:opacity-50"
+                          style={{ fontFamily: "var(--font-sans)", fontWeight: 500, background: "#262420" }}
+                        >
+                          {loading ? (
+                            <span className="flex items-center justify-center gap-2">
+                              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                              </svg>
+                              Processing...
+                            </span>
+                          ) : "Place Order"}
+                        </button>
+                      </>
+                    ) : (
+                      <div className="p-6" style={{ background: "rgba(164,134,98,0.04)", border: "1px solid rgba(164,134,98,0.2)" }}>
+                        <p className="text-sm mb-4 text-center" style={{ color: "#2B2925" }}>
+                          Complete payment to confirm your order
+                        </p>
+                        <PayPalScriptProvider
+                          options={{
+                            clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test",
+                            currency: "USD",
+                            intent: "capture",
+                          }}
+                        >
+                          <PayPalButtons
+                            style={{ layout: "vertical", color: "gold", shape: "rect", label: "pay" }}
+                            createOrder={async () => {
+                              const res = await fetch(API + "/api/payments/paypal/create-paypal-order", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ orderId: orderResult?.orderId }),
+                              });
+                              const data = await res.json();
+                              if (!data.status) throw new Error(data.message || "Failed to create PayPal order");
+                              setOrderResult(prev => prev ? { ...prev, paypalOrderId: data.data.paypalOrderId } : prev);
+                              return data.data.paypalOrderId;
+                            }}
+                            onApprove={handlePaypalApprove}
+                            onError={handlePaypalError}
+                            onCancel={handlePaypalCancel}
+                          />
+                        </PayPalScriptProvider>
+                        {errorMsg && (
+                          <p className="text-xs mt-3 text-center" style={{ color: "#dc2626" }}>{errorMsg}</p>
+                        )}
+                      </div>
+                    )}
+
+                    {step === "processing" && (
+                      <div className="mt-8 text-center py-8">
+                        <svg className="animate-spin h-8 w-8 mx-auto mb-4" viewBox="0 0 24 24" fill="none" style={{ color: "#A48662" }}>
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                        <p style={{ color: "#5A554E" }}>Processing your payment...</p>
+                      </div>
+                    )}
+                  </div>
+
+                </motion.div>
+
+                {/* Right: Order Summary */}
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="lg:col-span-2">
+                  <div className="p-6 sticky top-28" style={{ background: "#FDFAF5" }}>
+                    <h2 className="text-xl mb-6" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
+                      Order Summary
+                    </h2>
+                    <div className="space-y-4 mb-6">
+                      {items.map((item) => (
+                        <div key={item.id} className="flex gap-4 items-center">
+                          <div className="w-16 h-16 flex-shrink-0 overflow-hidden">
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              width={64} height={64}
+                              className="w-full h-full object-contain p-2"
+                              unoptimized
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm truncate" style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>{item.name}</p>
+                            <p className="text-xs mt-1" style={{ color: "#5A554E" }}>Qty: {item.quantity}</p>
+                          </div>
+                          <p className="text-sm whitespace-nowrap" style={{ fontFamily: "var(--font-serif)", color: "#A48662" }}>
+                            ${(item.price * item.quantity).toFixed(2)}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex justify-between py-2">
+                      <span style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>Subtotal</span>
+                      <span style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>${cartTotal.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between py-2">
+                      <span style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>Shipping</span>
+                      <span style={{ fontFamily: "var(--font-sans)", color: "#5A554E" }}>
+                        {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
+                      </span>
+                    </div>
+                    <div className="flex justify-between py-2 border-t mt-2 pt-4" style={{ borderColor: "rgba(164,134,98,0.2)" }}>
+                      <span style={{ fontFamily: "var(--font-sans)", color: "#2B2925" }}>Total</span>
+                      <span className="text-xl" style={{ fontFamily: "var(--font-serif)", color: "#A48662" }}>${total.toFixed(2)}</span>
+                    </div>
+                    <div className="mt-6 pt-4 border-t" style={{ borderColor: "rgba(164,134,98,0.15)" }}>
+                      <Link href="/"
+                        className="flex items-center justify-center gap-2 py-3 text-xs tracking-[0.2em] uppercase transition-colors"
+                        style={{ fontFamily: "var(--font-sans)", color: "#A48662" }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                        Continue Shopping
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
-          </div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </main>
