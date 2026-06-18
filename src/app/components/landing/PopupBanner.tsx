@@ -11,7 +11,7 @@ export default function PopupBanner() {
     const timer = setTimeout(() => setReady(true), 1500);
     (async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/admin";
+        const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/admin';
         const res = await fetch(base + "/banners").then(r => r.json());
         if (res.status) {
           const active = res.data?.find(

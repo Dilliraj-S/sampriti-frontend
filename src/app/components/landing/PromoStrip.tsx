@@ -17,7 +17,7 @@ export default function PromoStrip() {
   useEffect(() => {
     (async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/admin";
+        const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/admin';
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 4000);
         const [cRes, bRes, pRes] = await Promise.all([

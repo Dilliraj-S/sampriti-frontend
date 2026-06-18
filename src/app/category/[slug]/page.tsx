@@ -24,7 +24,7 @@ type ApiProduct = {
   price?: string | number;
   image?: string;
   hoverImage?: string;
-  homepageSection?: string | null;
+  sections?: string[];
   category?: { name?: string; slug?: string };
   description?: string;
   createdAt?: string;
@@ -65,8 +65,7 @@ const categorySectionMap: Record<string, string> = {
   atmospheric: "atmosphere",
 };
 
-const carouselOnlyCategories = new Set(["skincare", "fragrance", "ceremony", "atmospheric"]);
-const fullGridCategories = new Set(["infusions"]);
+const fullGridCategories = new Set(["infusions", "skincare", "fragrance", "ceremony", "atmospheric"]);
 
 const heroCategoryImages: Record<string, string> = {
   // infusions: "/assets/art of infusion.webp",
@@ -139,7 +138,6 @@ export default function CategoryPage() {
   const addItem = useCartStore((s) => s.addItem);
   const openCart = useCartStore((s) => s.openCart);
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
-  const [botanicalSlide, setBotanicalSlide] = useState(0);
   const [apiProducts, setApiProducts] = useState<ApiProduct[]>([]);
   const [sectionAssignments] = useState<Record<string, string>>(() => getSectionAssignments());
   const [suggestionSlugs, setSuggestionSlugs] = useState<string[]>([]);
@@ -193,8 +191,8 @@ export default function CategoryPage() {
     .filter(Boolean) as DisplayProduct[];
   const selectedSectionProducts: DisplayProduct[] = apiProducts
     .filter((product) => {
-      const assignedSection = product.homepageSection || sectionAssignments[String(product.id)] || sectionAssignments[product.slug] || "";
-      return assignedSection === selectedSection && !fallbackSlugSet.has(product.slug);
+      const secs = product.sections && product.sections.length ? product.sections : sectionAssignments[String(product.id)] ? [sectionAssignments[String(product.id)]] : sectionAssignments[product.slug] ? [sectionAssignments[product.slug]] : [];
+      return secs.includes(selectedSection) && !fallbackSlugSet.has(product.slug);
     })
     .sort((a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime())
     .map((product) => ({
@@ -204,38 +202,21 @@ export default function CategoryPage() {
       price: parseFloat(String(product.price || 0)) || 0,
       image: normalizeImagePath(product.image) || "",
       hoverImage: normalizeImagePath(product.hoverImage) || "",
+      description: product.description || "",
       createdAt: product.createdAt,
     }));
   const displayProducts = [...fallbackDisplayProducts, ...selectedSectionProducts];
 
   const total = displayProducts.length;
-  const isCarouselOnlyCategory = carouselOnlyCategories.has(slug);
-  const showFullGrid = fullGridCategories.has(slug);
   const isThreeProductCategory = total === 3;
-
-  const featuredProducts = isThreeProductCategory || isCarouselOnlyCategory ? [] : displayProducts.slice(0, 2);
-  const botanicalProducts = isThreeProductCategory || isCarouselOnlyCategory ? displayProducts : displayProducts.slice(2);
-  const visibleProductCount = 3;
-  const desktopGridClass = "md:grid-cols-3";
-  const maxBotanicalSlide = Math.max(0, botanicalProducts.length - visibleProductCount);
-  const visibleBotanicalProducts = botanicalProducts.slice(botanicalSlide, botanicalSlide + visibleProductCount);
-  const canScrollBack = botanicalSlide > 0;
-  const canScrollForward = botanicalSlide < maxBotanicalSlide;
 
   const handleAddToCart = (p: DisplayProduct, slugKey: string) => {
     addItem({ id: slugKey, name: p.name, subtitle: p.subtitle, price: p.price, quantity: 1, image: p.image });
     openCart();
   };
 
-  const scrollBotanicals = (direction: "back" | "forward") => {
-    setBotanicalSlide((current) => {
-      if (direction === "forward") return Math.min(maxBotanicalSlide, current + 1);
-      return Math.max(0, current - 1);
-    });
-  };
-
   const renderProductCard = (p: DisplayProduct, slugKey: string, isFeatured: boolean, btnPadding?: string) => (
-    <div key={slugKey} className="group flex flex-col h-full w-full">
+    <div key={slugKey} className="group flex flex-col h-full w-full overflow-hidden">
       <Link href={`/product/${slugKey}`} className="flex flex-col flex-1 cursor-pointer" onMouseEnter={() => setHoveredProduct(slugKey)} onMouseLeave={() => setHoveredProduct(null)}>
         <div className="relative flex mx-auto w-full aspect-square shrink-0 items-center justify-center overflow-hidden bg-white pointer-events-none" draggable={false}>
           <SaveButton item={{ id: slugKey, name: p.name, price: p.price, image: p.image, subtitle: p.subtitle }} />
@@ -256,11 +237,11 @@ export default function CategoryPage() {
             />
           )}
         </div>
-        <div className="text-center pointer-events-none mt-4 flex flex-col flex-1 justify-between">
+        <div className="text-center pointer-events-none mt-4 flex flex-col flex-1 justify-between" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
           <div>
             <h3 className="text-[#333333] text-[17px] leading-[22px] font-[600] tracking-[0.08em]" style={{ fontFamily: "Inter, sans-serif" }}>{p.name}</h3>
-            {p.subtitle && <p className="mt-3 text-sm leading-[20px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{p.subtitle}</p>}
-            {p.description && <p className="mx-auto mt-3 text-sm leading-[22px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{p.description}</p>}
+            {p.subtitle && <p className="mt-3 text-sm leading-[20px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif', overflowWrap: "break-word", wordBreak: "break-word" }}>{p.subtitle}</p>}
+            {p.description && <p className="mx-auto mt-3 text-sm leading-[22px] font-[300] text-[#666666] line-clamp-2" style={{ fontFamily: "Inter, sans-serif", overflowWrap: "break-word", wordBreak: "break-word" }}>{p.description}</p>}
           </div>
           <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
         </div>
@@ -295,137 +276,9 @@ export default function CategoryPage() {
           {displayProducts.length === 0 && <p className="text-center text-[#8A847C]">Products coming soon.</p>}
 
           {/* 3-product categories: all in one row */}
-          {isThreeProductCategory && !isCarouselOnlyCategory && (
-            <div className="grid grid-cols-1 gap-10 md:relative md:left-1/2 md:w-screen md:-translate-x-1/2 md:grid-cols-3 md:gap-x-4 md:gap-y-16 md:px-16 lg:px-24">
-              {displayProducts.map((p) => renderProductCard(p, p.slug, false))}
-            </div>
-          )}
-
-          {/* Full grid categories (infusions): all products in 3-column rows */}
-          {showFullGrid && (
-            <div className="grid grid-cols-1 gap-10 md:relative md:left-1/2 md:w-screen md:-translate-x-1/2 md:grid-cols-3 md:gap-x-4 md:gap-y-16 md:px-16 lg:px-24">
-              {displayProducts.map((p) => renderProductCard(p, p.slug, false))}
-            </div>
-          )}
-
-          {/* Categories with >3 products: first 2 featured, rest in carousel */}
-          {!isThreeProductCategory && !showFullGrid && featuredProducts.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 mb-20">
-                {featuredProducts.map((p) => {
-                const slugKey = p.slug;
-                return (
-                    <motion.div key={slugKey} variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="group flex flex-col h-full w-full">
-                    <Link href={`/product/${slugKey}`} className="flex flex-col flex-1 cursor-pointer" onMouseEnter={() => setHoveredProduct(slugKey)} onMouseLeave={() => setHoveredProduct(null)}>
-                      <div className="relative flex mx-auto w-full aspect-square shrink-0 items-center justify-center overflow-hidden bg-white pointer-events-none" draggable={false}>
-                        <ProductImage
-                          src={p.image}
-                          alt={p.name}
-                          fill
-                          className={`object-contain p-4 md:p-8 transition-all duration-500 mix-blend-multiply ${hoveredProduct === slugKey && p.hoverImage ? "opacity-0" : "opacity-100"}`}
-                          sizes="33vw"
-                        />
-                        {p.hoverImage && (
-                          <ProductImage
-                            src={p.hoverImage}
-                            alt={p.name}
-                            fill
-                            className={`object-cover object-center p-0 transition-all duration-500 ${hoveredProduct === slugKey ? "opacity-100" : "opacity-0"}`}
-                            sizes="33vw"
-                          />
-                        )}
-                      </div>
-                    </Link>
-                    <div className="text-center pointer-events-none mt-4 flex flex-col flex-1 justify-between">
-                      <div>
-                        <h3 className="text-[#333333] text-[17px] leading-[22px] font-[600] tracking-[0.08em]" style={{ fontFamily: "Inter, sans-serif" }}>{p.name} | {p.subtitle}</h3>
-                        {p.description && <p className="mx-auto mt-3 text-sm leading-[22px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{p.description}</p>}
-                      </div>
-                      <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
-                    </div>
-      <button onClick={() => handleAddToCart(p, slugKey)} className="mt-6 w-full bg-[#2C2A26] text-white px-6 py-4 text-xs tracking-[0.2em] hover:bg-black transition-all duration-300 cursor-pointer" suppressHydrationWarning>Add To Cart</button>
-                  </motion.div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Botanical products — remaining items in 3-at-a-time carousel */}
-          {(!isThreeProductCategory || isCarouselOnlyCategory) && !showFullGrid && botanicalProducts.length > 0 && (
-            <div>
-              {/* Mobile: single column */}
-              <div className="grid grid-cols-1 gap-10 md:hidden">
-                {botanicalProducts.map((p) => {
-                  const slugKey = p.slug;
-                  return (
-                    <motion.div key={slugKey} variants={fadeInSlow} initial="hidden" whileInView="show" viewport={{ once: true }} className="group flex flex-col h-full w-full">
-                    <Link href={`/product/${slugKey}`} className="flex flex-col flex-1 cursor-pointer" onMouseEnter={() => setHoveredProduct(slugKey)} onMouseLeave={() => setHoveredProduct(null)}>
-                        <div className="relative flex mx-auto w-full aspect-square shrink-0 items-center justify-center overflow-hidden bg-white pointer-events-none" draggable={false}>
-                          <SaveButton item={{ id: slugKey, name: p.name, price: p.price, image: p.image, subtitle: p.subtitle }} />
-                          <ProductImage
-                            src={p.image}
-                            alt={p.name}
-                            fill
-                            className={`object-contain p-4 md:p-8 transition-all duration-500 mix-blend-multiply ${hoveredProduct === slugKey && p.hoverImage ? "opacity-0" : "opacity-100"}`}
-                            sizes="100vw"
-                          />
-                          {p.hoverImage && (
-                            <ProductImage
-                              src={p.hoverImage}
-                              alt={p.name}
-                              fill
-                              className={`object-cover object-center p-0 transition-all duration-500 ${hoveredProduct === slugKey ? "opacity-100" : "opacity-0"}`}
-                              sizes="100vw"
-                            />
-                          )}
-                        </div>
-                        <div className="text-center pointer-events-none mt-4 flex flex-col flex-1 justify-between">
-                          <div>
-                            <h3 className="text-[#333333] text-[17px] leading-[22px] font-[600] tracking-[0.08em]" style={{ fontFamily: "Inter, sans-serif" }}>{p.name}</h3>
-                            {p.subtitle && <p className="mt-3 text-sm leading-[20px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{p.subtitle}</p>}
-                            {p.description && <p className="mx-auto mt-3 text-sm leading-[22px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{p.description}</p>}
-                          </div>
-                          <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
-                        </div>
-                      </Link>
-      <button onClick={() => handleAddToCart(p, slugKey)} className="mt-6 w-full bg-[#2C2A26] text-white px-6 py-4 text-xs tracking-[0.2em] hover:bg-black transition-all duration-300 cursor-pointer" suppressHydrationWarning>Add To Cart</button>
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-              {/* Desktop: carousel with arrows */}
-              {botanicalProducts.length > visibleProductCount && (
-                <div className="relative left-1/2 hidden w-screen -translate-x-1/2 pb-4 md:block">
-                  {canScrollBack && (
-                    <button type="button" onClick={() => scrollBotanicals("back")} className="absolute left-3 md:left-9 lg:left-16 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 flex">
-                      <ChevronLeft size={26} strokeWidth={1.8} />
-                    </button>
-                  )}
-                  {canScrollForward && (
-                    <button type="button" onClick={() => scrollBotanicals("forward")} className="absolute right-3 md:right-9 lg:right-16 top-[50%] z-10 -translate-y-1/2 h-12 w-12 items-center justify-center rounded-full bg-white text-[#2C2A26] shadow-[0_6px_18px_rgba(0,0,0,0.12)] transition hover:bg-gray-50 flex">
-                      <ChevronRight size={26} strokeWidth={1.8} />
-                    </button>
-                  )}
-                  <motion.div key={botanicalSlide} initial={{ opacity: 0.85, x: canScrollBack ? 18 : -18 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className={`hidden md:grid ${desktopGridClass} gap-4 px-6 md:px-16 lg:px-24`}>
-                    {visibleBotanicalProducts.map((p) => {
-                      const slugKey = p.slug;
-                      return renderProductCard(p, slugKey, false);
-                    })}
-                  </motion.div>
-                </div>
-              )}
-
-              {/* Desktop: single row when no carousel is needed */}
-              {botanicalProducts.length > 0 && botanicalProducts.length <= visibleProductCount && (
-                <div className={`relative left-1/2 hidden w-screen -translate-x-1/2 md:grid ${desktopGridClass} gap-4 px-6 md:px-16 lg:px-24`}>
-                  {botanicalProducts.map((p) => {
-                    const slugKey = p.slug;
-                    return renderProductCard(p, slugKey, false);
-                  })}
-                </div>
-              )}
-            </div>
-          )}
+          <div className="grid grid-cols-1 gap-10 md:relative md:left-1/2 md:w-screen md:-translate-x-1/2 md:grid-cols-3 md:gap-x-4 md:gap-y-16 md:px-16 lg:px-24">
+            {displayProducts.map((p) => renderProductCard(p, p.slug, false))}
+          </div>
         </div>
 
         {/* Divider */}

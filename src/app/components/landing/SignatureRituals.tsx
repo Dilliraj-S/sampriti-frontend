@@ -22,7 +22,7 @@ type ApiProduct = {
   image?: string;
   hoverImage?: string;
   description?: string;
-  homepageSection?: string;
+  sections?: string[];
   createdAt: string;
   updatedAt?: string;
 };
@@ -39,7 +39,7 @@ type RitualProduct = {
   image: string;
   hoverImage?: string;
   description?: string;
-  homepageSection?: string;
+  sections?: string[];
   createdAt?: string;
   updatedAt?: string;
 };
@@ -80,7 +80,7 @@ export default function SignatureRituals() {
         const fbMap = new Map(fallbackProducts.map(f => [f.id, f]));
         const merged = pRes.data.map((p: ApiProduct) => {
           const fb = fbMap.get(p.slug);
-          const section = p.homepageSection ? p.homepageSection : (assignments[String(p.id)] || assignments[p.slug] || "");
+          const secs = p.sections && p.sections.length ? p.sections : (assignments[String(p.id)] ? [assignments[String(p.id)]] : assignments[p.slug] ? [assignments[p.slug]] : []);
           return {
             id: p.slug,
             productId: p.id,
@@ -93,23 +93,23 @@ export default function SignatureRituals() {
             description: p.description ?? fb?.description ?? "",
             image: normalizeImagePath(p.image) ?? fb?.image ?? "",
             hoverImage: normalizeImagePath(p.hoverImage) ?? fb?.hoverImage ?? "",
-            homepageSection: section,
+            sections: secs,
             createdAt: p.createdAt,
             updatedAt: p.updatedAt || p.createdAt,
           };
-        }).filter((product) => !categoryPageSections.has(product.homepageSection || ""));
+        }).filter((product) => (["shakti-peya", "chandra-rasa"].includes(product.id) || (!(product.sections || []).some(s => categoryPageSections.has(s)) && !["hibiscus", "rose", "blue-butterfly-pea", "black-turmeric", "parjanya", "jawa", "kha"].includes(product.id))));
         merged.sort((a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime());
         setProducts(merged);
       } else if (Object.keys(assignments).length) {
         setProducts((prev) => prev.map((p) => {
-          if (assignments[p.id]) return { ...p, homepageSection: assignments[p.id] };
+          if (assignments[p.id]) return { ...p, sections: [assignments[p.id]] };
           return p;
         }));
       }
     })();
   }, []);
 
-  const featuredProducts = products.filter((p) => !p.homepageSection).slice(0, 2);
+  const featuredProducts = products.filter((p) => ["shakti-peya", "chandra-rasa"].includes(p.id)).slice(0, 2);
 
   const handleAddToCart = (product: (typeof products)[0]) => {
     addItem({ id: product.id, name: product.name, price: product.price, quantity: 1, image: product.image, subtitle: product.subtitle, format: product.format });

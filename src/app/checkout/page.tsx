@@ -40,7 +40,7 @@ export default function CheckoutPage() {
     setMounted(true);
     (async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/admin';
+        const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/admin';
         const res = await fetch(base + '/shipping-zones').then(r => r.json());
         if (res.status) {
           const active = res.data?.filter((z: ShippingZone) => z.status === 'active') || [];

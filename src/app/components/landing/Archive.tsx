@@ -232,7 +232,7 @@ export default function Archive({
     setLoaded(true);
     (async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/admin";
+        const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/admin';
         const res = await fetch(base + "/content").then(r => r.json());
         if (res.status && res.data?.length) {
           const blogArticles = res.data

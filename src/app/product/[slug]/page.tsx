@@ -810,14 +810,14 @@ export default function ProductPage() {
 
             {/* "" Product Info """"""""""""""""""""""""""""""""""""""""""""" */}
             <div className="self-start">
-              <h1 className="text-[#333333] text-lg md:text-[24px] leading-[31px] font-[400] tracking-[0.08em] mb-2" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>
+              <h1 className="text-[#333333] text-lg md:text-[24px] leading-[31px] font-[400] tracking-[0.08em] mb-2" style={{ fontFamily: '"Tenor Sans", sans-serif', overflowWrap: "break-word", wordBreak: "break-word" }}>
                 {product.name} | {product.subtitle}
               </h1>
               {product.benefits && (
-                <p className="text-[#7A756D] text-sm font-light mb-6">{product.benefits}</p>
+                <p className="text-[#7A756D] text-sm font-light mb-6" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>{product.benefits}</p>
               )}
               {product.format && (
-                <p className="text-[#5A554E] mb-6">{product.format}</p>
+                <p className="text-[#5A554E] mb-6" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>{product.format}</p>
               )}
               <p className="text-[#333333] text-[16px] mb-4" style={{ fontFamily: "var(--font-serif)" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
 
@@ -865,21 +865,21 @@ export default function ProductPage() {
             </div>
             <div className="py-10 md:py-12">
               {activeTab === "description" && (
-                <div className="space-y-10">
+                <div className="space-y-10" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                   <p className="text-[#7A756D] text-xs md:text-sm leading-[1.9] md:leading-[1.95] font-light">
                     {product.description}
                   </p>
                 </div>
               )}
               {activeTab === "ingredients" && (
-                <div className="space-y-6">
+                <div className="space-y-6" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                   <p className="text-[#7A756D] text-xs md:text-sm leading-[1.9] md:leading-[1.95] font-light">
                     {product.keyIngredients}
                   </p>
                 </div>
               )}
               {activeTab === "howToUse" && (
-                <p className="text-[#7A756D] text-xs md:text-sm leading-[1.9] md:leading-[1.95] font-light whitespace-pre-line">
+                <p className="text-[#7A756D] text-xs md:text-sm leading-[1.9] md:leading-[1.95] font-light whitespace-pre-line" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                   {product.howToUse}
                 </p>
               )}
@@ -892,7 +892,7 @@ export default function ProductPage() {
 
             {/* Panel 1 " Image left, text right — How to Use */}
             <section className="grid lg:grid-cols-2">
-              <div className={`${storyContainerClass} self-start`}>
+              <div className={`${storyContainerClass}`}>
                 <ProductImage
                   src={slug === "shakti-peya" ? "/assets/image-for-info1.webp" : slug === "chandra-rasa" ? "/assets/image-for-info2.webp" : product.hoverImage}
                   alt={`${product.name} preparation ritual`}
@@ -910,7 +910,7 @@ export default function ProductPage() {
                   >
                     How to Use
                   </h2>
-                  <p className="text-xs md:text-sm font-light text-[#7A756D] whitespace-pre-line">
+                  <p className="text-xs md:text-sm font-light text-[#7A756D] whitespace-pre-line" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                     {product.howToUse}
                   </p>
                   <div className="mt-8 border-t border-[#E5DCCF]">
@@ -919,7 +919,7 @@ export default function ProductPage() {
                         className="grid gap-2 border-b border-[#E5DCCF] py-4 md:grid-cols-[140px_1fr]"
                       >
                         <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#2C2A26]">{item.label}</p>
-                        <p className="text-sm leading-relaxed text-[#5A554E]">{item.value}</p>
+                        <p className="text-sm leading-relaxed text-[#5A554E]" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>{item.value}</p>
                       </div>
                     ))}
                   </div>
@@ -933,34 +933,34 @@ export default function ProductPage() {
                 <div className="max-w-xl">
                   <h2
                     className="mb-6 text-[#333333] text-[26px] leading-[33px] font-[400] tracking-[0.08em]"
-                    style={{ fontFamily: '"Tenor Sans", sans-serif' }}
+                    style={{ fontFamily: '"Tenor Sans", sans-serif', overflowWrap: "break-word", wordBreak: "break-word" }}
                   >
                     {product.essenceTitle}
                   </h2>
-                  <p className="text-xs md:text-sm font-light text-[#7A756D]">
+                  <p className="text-xs md:text-sm font-light text-[#7A756D]" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                     {product.essence}
                   </p>
                   <div className="mt-8 border-t border-[#E5DCCF]">
                     <div className="grid gap-2 border-b border-[#E5DCCF] py-4 md:grid-cols-[140px_1fr]">
                       <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#2C2A26]">Aroma</p>
-                      <p className="text-sm leading-relaxed text-[#5A554E]">{product.aroma}</p>
+                      <p className="text-sm leading-relaxed text-[#5A554E]" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>{product.aroma}</p>
                     </div>
                     <div className="grid gap-2 border-b border-[#E5DCCF] py-4 md:grid-cols-[140px_1fr]">
                       <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#2C2A26]">Suited to</p>
-                      <p className="text-sm leading-relaxed text-[#5A554E]">{product.suitedTo}</p>
+                      <p className="text-sm leading-relaxed text-[#5A554E]" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>{product.suitedTo}</p>
                     </div>
                     <div className="grid gap-2 border-b border-[#E5DCCF] py-4 md:grid-cols-[140px_1fr]">
                       <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#2C2A26]">Benefits</p>
-                      <p className="text-sm leading-relaxed text-[#5A554E]">{product.benefits}</p>
+                      <p className="text-sm leading-relaxed text-[#5A554E]" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>{product.benefits}</p>
                     </div>
                     <div className="grid gap-2 border-b border-[#E5DCCF] py-4 md:grid-cols-[140px_1fr]">
                       <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#2C2A26]">Key ingredients</p>
-                      <p className="text-sm leading-relaxed text-[#5A554E]">{product.keyIngredients}</p>
+                      <p className="text-sm leading-relaxed text-[#5A554E]" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>{product.keyIngredients}</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className={`${storyContainerClass} self-start`}>
+              <div className={`${storyContainerClass}`}>
                 <ProductImage
                   src={slug === "shakti-peya" ? "/assets/image-for-info1.webp" : slug === "chandra-rasa" ? "/assets/image-for-info2.webp" : product.hoverImage}
                   alt={`${product.name} ritual formulation`}
@@ -1013,11 +1013,11 @@ export default function ProductPage() {
                       )}
                     </div>
                   </Link>
-                  <div className="text-center pointer-events-none mt-4 flex flex-col flex-1 justify-between pb-3">
+                  <div className="text-center pointer-events-none mt-4 flex flex-col flex-1 justify-between pb-3" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                     <div>
                       <h3 className="text-[#333333] text-[17px] leading-[22px] font-[600] tracking-[0.08em]" style={{ fontFamily: "Inter, sans-serif" }}>{related.name}</h3>
-                      {related.subtitle && <p className="mt-1 text-sm leading-[20px] font-[400] italic text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{related.subtitle}</p>}
-                      {related.description && <p className="mx-auto mt-1 text-sm leading-[22px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{related.description}</p>}
+                      {related.subtitle && <p className="mt-1 text-sm leading-[20px] font-[400] italic text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif', overflowWrap: "break-word", wordBreak: "break-word" }}>{related.subtitle}</p>}
+                      {related.description && <p className="mx-auto mt-1 text-sm leading-[22px] font-[300] text-[#666666] line-clamp-2" style={{ fontFamily: "Inter, sans-serif", overflowWrap: "break-word", wordBreak: "break-word" }}>{related.description}</p>}
                     </div>
                     <p className="mt-3 text-[#333333] text-sm leading-[20px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(related.price, currency, exchangeRate)}</p>
                   </div>

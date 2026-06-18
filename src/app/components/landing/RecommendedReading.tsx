@@ -18,7 +18,7 @@ type ApiProduct = {
   image?: string;
   hoverImage?: string;
   description?: string;
-  homepageSection?: string;
+  sections?: string[];
   createdAt: string;
 };
 
@@ -112,11 +112,11 @@ export default function RecommendedReading() {
                     />
                   )}
                 </div>
-                <div className="text-center pointer-events-none mt-4 flex flex-col flex-1 justify-between">
+                <div className="text-center pointer-events-none mt-4 flex flex-col flex-1 justify-between" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                   <div>
                     <h3 className="text-[#333333] text-[17px] leading-[22px] font-[600] tracking-[0.08em]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{p.name}</h3>
-                    {p.subtitle && <p className="mt-3 text-[16px] leading-[24px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{p.subtitle}</p>}
-                    {p.description && <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{p.description}</p>}
+                    {p.subtitle && <p className="mt-3 text-[16px] leading-[24px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif', overflowWrap: "break-word", wordBreak: "break-word" }}>{p.subtitle}</p>}
+                    {p.description && <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[300] text-[#666666] line-clamp-2" style={{ fontFamily: "Inter, sans-serif", overflowWrap: "break-word", wordBreak: "break-word" }}>{p.description}</p>}
                   </div>
                   <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(p.price, currency, exchangeRate)}</p>
                 </div>

@@ -24,7 +24,7 @@ type ApiProduct = {
   image?: string;
   hoverImage?: string;
   description?: string;
-  homepageSection?: string;
+  sections?: string[];
   createdAt: string;
   updatedAt?: string;
 };
@@ -41,7 +41,7 @@ type RitualProduct = {
   image: string;
   hoverImage?: string;
   description?: string;
-  homepageSection?: string;
+  sections?: string[];
   createdAt?: string;
   updatedAt?: string;
 };
@@ -56,8 +56,6 @@ const fallbackProducts = [
 const productImageFallbacks = new Map([
   ["black-turmeric", { image: "/assets/black turmeric hd.webp", hoverImage: "/assets/black turmeric hover.webp" }],
 ]);
-
-const categoryPageSections = new Set(["infusions", "skincare", "fragrance", "ceremony", "atmosphere"]);
 
 function ProductSection({
   label,
@@ -83,33 +81,33 @@ function ProductSection({
   const dragStartScroll = useRef(0);
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
 
-  const getCardWidth = useCallback(() => {
+  const getStep = useCallback(() => {
     if (!scrollRef.current) return 0;
     const firstCard = scrollRef.current.firstElementChild as HTMLElement | null;
-    return firstCard?.offsetWidth || 0;
+    return (firstCard?.offsetWidth || 0) + 12;
   }, []);
 
   const updateScrollState = useCallback(() => {
     if (!scrollRef.current) return;
-    const cardWidth = getCardWidth();
-    if (cardWidth === 0) return;
-    const index = Math.round(scrollRef.current.scrollLeft / cardWidth);
+    const step = getStep();
+    if (step === 0) return;
+    const index = Math.round(scrollRef.current.scrollLeft / step);
     const clampedIndex = Math.max(0, Math.min(index, maxStartIndex));
     setActiveIndex(clampedIndex);
     setCanScrollBack(clampedIndex > 0);
     setCanScrollForward(clampedIndex < maxStartIndex);
-  }, [getCardWidth, maxStartIndex]);
+  }, [getStep, maxStartIndex]);
 
   const scrollToIndex = useCallback((index: number, behavior: ScrollBehavior = "smooth") => {
     if (!scrollRef.current) return;
-    const cardWidth = getCardWidth();
-    if (cardWidth === 0) return;
+    const step = getStep();
+    if (step === 0) return;
     const clampedIndex = Math.max(0, Math.min(index, maxStartIndex));
-    scrollRef.current.scrollTo({ left: cardWidth * clampedIndex, behavior });
+    scrollRef.current.scrollTo({ left: step * clampedIndex, behavior });
     setActiveIndex(clampedIndex);
     setCanScrollBack(clampedIndex > 0);
     setCanScrollForward(clampedIndex < maxStartIndex);
-  }, [getCardWidth, maxStartIndex]);
+  }, [getStep, maxStartIndex]);
 
   const handlePointerDown = (e: React.PointerEvent) => {
     if (!scrollRef.current) return;
@@ -155,7 +153,7 @@ function ProductSection({
     const observer = new ResizeObserver(updateScrollState);
     observer.observe(current);
     return () => observer.disconnect();
-  }, [sectionProducts.length, updateScrollState]);
+  }, [sectionProducts.length, updateScrollState, getStep]);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -223,11 +221,11 @@ function ProductSection({
                       />
                     )}
                   </div>
-                  <div className="text-center pointer-events-none mt-4 flex flex-col flex-1 justify-between">
+                  <div className="text-center pointer-events-none mt-4 flex flex-col flex-1 justify-between" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                     <div>
                       <h3 className="text-[#333333] text-[17px] leading-[22px] font-[600] tracking-[0.08em]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{product.name}</h3>
-                      {product.subtitle && <p className="mt-3 text-[16px] leading-[24px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif' }}>{product.subtitle}</p>}
-                      {product.description && <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[300] text-[#666666]" style={{ fontFamily: "Inter, sans-serif" }}>{product.description}</p>}
+                      {product.subtitle && <p className="mt-3 text-[16px] leading-[24px] font-[400] text-[#666666]" style={{ fontFamily: '"Tenor Sans", sans-serif', overflowWrap: "break-word", wordBreak: "break-word" }}>{product.subtitle}</p>}
+                      {product.description && <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[300] text-[#666666] line-clamp-2" style={{ fontFamily: "Inter, sans-serif", overflowWrap: "break-word", wordBreak: "break-word" }}>{product.description}</p>}
                     </div>
                     <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: "Inter, sans-serif" }}>{formatPrice(product.price, currency, exchangeRate)}</p>
                   </div>
@@ -272,10 +270,10 @@ function ProductSection({
                     />
                   )}
                 </div>
-                  <div className="text-center mt-2">
+                  <div className="text-center mt-2" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                   <h3 className="text-[#333333] text-[17px] leading-[22px] font-[600] tracking-[0.08em]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{product.name}</h3>
-                  {product.subtitle && <p className="mt-3 text-[16px] leading-[24px] font-[400] text-[#2C2A26]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{product.subtitle}</p>}
-                  {product.description && <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[400] text-[#2C2A26]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{product.description}</p>}
+                  {product.subtitle && <p className="mt-3 text-[16px] leading-[24px] font-[400] text-[#2C2A26]" style={{ fontFamily: '"Inter", "Inter Fallback"', overflowWrap: "break-word", wordBreak: "break-word" }}>{product.subtitle}</p>}
+                  {product.description && <p className="mx-auto mt-3 text-[16px] leading-[24px] font-[400] text-[#2C2A26] line-clamp-2" style={{ fontFamily: '"Inter", "Inter Fallback"', overflowWrap: "break-word", wordBreak: "break-word" }}>{product.description}</p>}
                   <p className="mt-3 text-[#333333] text-[16px] leading-[22px] font-[400]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>{formatPrice(product.price, currency, exchangeRate)}</p>
                 </div>
               </Link>
@@ -305,7 +303,7 @@ export default function MateriaBotanicaSection() {
         const merged = pRes.data.map((p: ApiProduct) => {
           const fb = fbMap.get(p.slug);
           const imageFallback = productImageFallbacks.get(p.slug);
-          const section = p.homepageSection ? p.homepageSection : (assignments[String(p.id)] || assignments[p.slug] || "");
+          const secs = p.sections && p.sections.length ? p.sections : (assignments[String(p.id)] ? [assignments[String(p.id)]] : assignments[p.slug] ? [assignments[p.slug]] : []);
           return {
             id: p.slug,
             productId: p.id,
@@ -318,29 +316,16 @@ export default function MateriaBotanicaSection() {
             description: p.description ?? fb?.description ?? "",
             image: imageFallback?.image || normalizeImagePath(p.image) || fb?.image || "",
             hoverImage: imageFallback?.hoverImage || normalizeImagePath(p.hoverImage) || fb?.hoverImage || "",
-            homepageSection: section,
+            sections: secs,
             createdAt: p.createdAt,
             updatedAt: p.updatedAt || p.createdAt,
           };
-        }).filter((product) => !categoryPageSections.has(product.homepageSection || "") && !["shakti-peya", "chandra-rasa"].includes(product.id));
+        }).filter((product) => (product.sections || []).includes('home') && !["shakti-peya", "chandra-rasa", "parjanya", "jawa", "kha"].includes(product.id));
         merged.sort((a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime());
         setProducts(merged);
       }
     })();
   }, []);
-
-  const sectionLabels: Record<string, string> = {
-    home: "The Home Collection",
-    infusions: "Infusions",
-    skincare: "Skincare",
-    fragrance: "Fragrance",
-    ceremony: "Ceremony",
-    atmosphere: "Atmosphere",
-  };
-
-  const groupedBySection: Record<string, RitualProduct[]> = { __default: products };
-
-  const sectionOrder = ["home", "infusions", "skincare", "fragrance", "ceremony", "atmosphere", "__default"];
 
   return (
     <section className="bg-[#FDFAF5] px-6 md:px-12 lg:px-20" style={{ marginBottom: "120px" }}>
@@ -350,20 +335,12 @@ export default function MateriaBotanicaSection() {
           <p className="mx-auto mt-5 max-w-5xl text-[16px] leading-[29px] font-[400] text-[#2C2A26]" style={{ fontFamily: '"Inter", "Inter Fallback"' }}>A collection of high-functioning botanical infusions, each chosen for its unique therapeutic profile and ancestral significance.</p>
         </div>
 
-        {sectionOrder.map((sectionKey) => {
-          const sectionProducts = groupedBySection[sectionKey];
-          if (!sectionProducts?.length) return null;
-          const label = sectionKey === "__default" ? "" : sectionLabels[sectionKey];
-          return (
-            <ProductSection
-              key={sectionKey}
-              label={label}
-              sectionProducts={sectionProducts}
-              currency={currency}
-              exchangeRate={exchangeRate}
-            />
-          );
-        })}
+        <ProductSection
+          label=""
+          sectionProducts={products}
+          currency={currency}
+          exchangeRate={exchangeRate}
+        />
       </div>
     </section>
   );
