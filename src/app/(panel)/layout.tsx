@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AdminSidebar } from "@/app/components/admin/AdminSidebar";
 import { AdminHeader } from "@/app/components/admin/AdminHeader";
+import { RealtimeNotifications } from "@/app/components/admin/RealtimeNotifications";
 import { Toaster } from "sonner";
 import { useAuthStore } from "@/app/stores/authStore";
 
@@ -54,6 +55,7 @@ function PanelGuard({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-cream">
+      <RealtimeNotifications />
       <Toaster richColors position="top-right" />
       <AdminSidebar />
       <div className="lg:ml-64 transition-all duration-300">

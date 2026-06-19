@@ -208,25 +208,58 @@ export default function CartPage() {
 
           <AnimatePresence mode="wait">
             {step === "success" ? (
-              <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-lg mx-auto text-center py-8">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ background: "rgba(164,134,98,0.1)" }}>
-                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#A48662" strokeWidth="2">
+              <motion.div key="success" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="max-w-lg mx-auto text-center py-8">
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                  className="w-20 h-20 mx-auto mb-8 rounded-full flex items-center justify-center"
+                  style={{ background: "rgba(76,175,80,0.1)", border: "2px solid rgba(76,175,80,0.3)" }}
+                >
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
-                </div>
-                <p className="text-lg mb-2" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
-                  Thank you, {formData.fullName}!
-                </p>
-                <p className="text-sm mb-6" style={{ color: "#5A554E" }}>
-                  Your order #{orderResult?.orderId} has been placed and payment is confirmed.
-                </p>
-                <div className="p-4 mb-6" style={{ background: "rgba(164,134,98,0.06)", border: "1px solid rgba(164,134,98,0.2)" }}>
-                  <p className="text-xs tracking-[0.2em] uppercase mb-1" style={{ color: "#A48662" }}>Total Paid</p>
-                  <p className="text-3xl font-light" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>${total}</p>
-                </div>
-                <Link href="/" className="inline-block py-3 px-8 text-xs tracking-[0.2em] uppercase text-[#F9F7F3] transition-all duration-300" style={{ background: "#262420" }}>
-                  Continue Shopping
-                </Link>
+                </motion.div>
+
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
+                  className="text-2xl mb-1" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>
+                  Thank You, {formData.fullName}!
+                </motion.p>
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
+                  className="text-sm mb-8" style={{ color: "#5A554E" }}>
+                  Your order <strong style={{ color: "#A48662" }}>#{orderResult?.orderId}</strong> has been placed
+                  and payment is confirmed. We&apos;ll send you a confirmation email shortly.
+                </motion.p>
+
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
+                  className="p-6 mb-8 text-left" style={{ background: "#FDFAF5", border: "1px solid rgba(164,134,98,0.2)", borderRadius: "8px" }}>
+                  <div className="flex justify-between items-center pb-4 mb-4" style={{ borderBottom: "1px solid rgba(164,134,98,0.12)" }}>
+                    <span className="text-xs tracking-[0.15em] uppercase" style={{ color: "#A48662" }}>Order</span>
+                    <span className="text-sm font-mono" style={{ color: "#2B2925" }}>#{orderResult?.orderId}</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-4 mb-4" style={{ borderBottom: "1px solid rgba(164,134,98,0.12)" }}>
+                    <span className="text-xs tracking-[0.15em] uppercase" style={{ color: "#A48662" }}>Payment</span>
+                    <span className="flex items-center gap-1.5 text-sm" style={{ color: "#4CAF50" }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
+                      Confirmed
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs tracking-[0.15em] uppercase" style={{ color: "#A48662" }}>Total Paid</span>
+                    <span className="text-2xl font-light" style={{ fontFamily: "var(--font-serif)", color: "#2B2925" }}>${Number(orderResult?.total || 0).toFixed(2)}</span>
+                  </div>
+                </motion.div>
+
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
+                  className="flex flex-col items-center gap-3">
+                  <Link href="/"
+                    className="w-full py-3.5 text-xs tracking-[0.2em] uppercase text-center text-[#F9F7F3] transition-all duration-300 hover:opacity-90"
+                    style={{ background: "#262420", fontFamily: "var(--font-sans)" }}>
+                    Continue Shopping
+                  </Link>
+                  <Link href="/account"
+                    className="text-xs tracking-[0.2em] uppercase transition-colors hover:opacity-70"
+                    style={{ color: "#A48662", fontFamily: "var(--font-sans)" }}>
+                    View My Orders
+                  </Link>
+                </motion.div>
               </motion.div>
             ) : cartCount === 0 ? (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-16">
