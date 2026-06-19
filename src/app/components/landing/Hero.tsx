@@ -16,7 +16,7 @@ export default function Hero() {
   useEffect(() => {
     (async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/admin';
+        const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/admin';
         const [bRes, cRes] = await Promise.all([
           fetch(base + '/banners').then(r => r.json()),
           fetch(base + '/coupons').then(r => r.json())

@@ -16,7 +16,7 @@ export function generateStaticParams() {
 
 async function getArticleFromApi(slug: string): Promise<ArchiveArticle | undefined> {
   try {
-    const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/admin';
+    const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/admin';
     const res = await fetch(base + '/content/' + slug, { next: { revalidate: 60 } });
     const json = await res.json();
     if (json.status && json.data) {

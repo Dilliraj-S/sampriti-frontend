@@ -13,14 +13,24 @@ interface Product {
   id: number; name: string; categoryId: number; price: number; stock: number; status: string;
   slug: string; subtitle: string; description: string; image: string; hoverImage: string;
   essenceTitle: string; essence: string; keyIngredients: string; howToUse: string; usageDetails: any;
-  aroma: string; suitedTo: string; benefits: string; format: string; homepageSection: string; galleryImages?: string[];
+  aroma: string; suitedTo: string; benefits: string; format: string; sections: string[]; galleryImages?: string[];
   category?: { id: number; name: string; slug: string };
   createdAt: string;
 }
 
+const ALL_SECTIONS = [
+  { value: "home", label: "Home" },
+  { value: "infusions", label: "Infusions" },
+  { value: "skincare", label: "Skincare" },
+  { value: "fragrance", label: "Fragrance" },
+  { value: "ceremony", label: "Ceremony" },
+  { value: "atmosphere", label: "Atmosphere" },
+];
+
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
+  const [sectionFilter, setSectionFilter] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,7 +39,7 @@ export default function ProductsPage() {
   const [formData, setFormData] = useState<any>({
     name: "", slug: "", subtitle: "", price: "", stock: "",
     description: "", image: "", hoverImage: "", essenceTitle: "", essence: "",
-    keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", homepageSection: "", galleryImages: [],
+    keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", sections: [], galleryImages: [],
   });
 
   const load = async () => {
@@ -44,27 +54,29 @@ export default function ProductsPage() {
 
   useEffect(() => { load(); }, []);
 
-  const openAdd = () => { setEditing(null); setFormData({ name: "", slug: "", subtitle: "", categoryId: "", price: "", stock: "", description: "", image: "", hoverImage: "", essenceTitle: "", essence: "", keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", homepageSection: "", galleryImages: [] }); setShowForm(true); };
+  const toggleSection = (sec: string) => {
+    const current = formData.sections || [];
+    const next = current.includes(sec) ? current.filter((s: string) => s !== sec) : [...current, sec];
+    setFormData({...formData, sections: next});
+  };
+
+  const openAdd = () => { setEditing(null); setFormData({ name: "", slug: "", subtitle: "", categoryId: "", price: "", stock: "", description: "", image: "", hoverImage: "", essenceTitle: "", essence: "", keyIngredients: "", howToUse: "", usageDetails: [], aroma: "", suitedTo: "", benefits: "", format: "", status: "active", sections: [], galleryImages: [] }); setShowForm(true); };
   const openEdit = (p: Product) => {
     setEditing(p);
     let usageArr = p.usageDetails;
     if (typeof usageArr === "string") { try { usageArr = JSON.parse(usageArr); } catch { usageArr = []; } }
     if (!Array.isArray(usageArr)) usageArr = [];
-    const assignments = getSectionAssignments();
-    const sectionFromStorage = assignments[String(p.id)] || assignments[p.slug] || "";
-    console.log("[openEdit] galleryImages raw:", p.galleryImages, typeof p.galleryImages);
     let gallery: string[] = [];
-    if (Array.isArray(p.galleryImages)) { gallery = p.galleryImages; console.log("[openEdit] gallery from array:", gallery); }
-    else if (typeof p.galleryImages === "string") { try { gallery = JSON.parse(p.galleryImages); if (!Array.isArray(gallery)) gallery = []; console.log("[openEdit] gallery from string parse:", gallery); } catch { console.log("[openEdit] gallery parse failed"); gallery = []; } }
-    else console.log("[openEdit] gallery fallback to empty");
-    setFormData({ ...p, usageDetails: usageArr, price: p.price?.toString() || "", stock: p.stock?.toString() || "", homepageSection: sectionFromStorage || p.homepageSection || "", image: normalizeImagePath(p.image), hoverImage: normalizeImagePath(p.hoverImage), galleryImages: gallery });
+    if (Array.isArray(p.galleryImages)) { gallery = p.galleryImages; }
+    else if (typeof p.galleryImages === "string") { try { gallery = JSON.parse(p.galleryImages); if (!Array.isArray(gallery)) gallery = []; } catch { gallery = []; } }
+    setFormData({ name: p.name || "", slug: p.slug || "", subtitle: p.subtitle || "", categoryId: p.categoryId || "", description: p.description || "", essenceTitle: p.essenceTitle || "", essence: p.essence || "", keyIngredients: p.keyIngredients || "", howToUse: p.howToUse || "", aroma: p.aroma || "", suitedTo: p.suitedTo || "", benefits: p.benefits || "", format: p.format || "", status: p.status || "active", usageDetails: usageArr, price: p.price?.toString() || "", stock: p.stock?.toString() || "", sections: p.sections || [], image: normalizeImagePath(p.image), hoverImage: normalizeImagePath(p.hoverImage), galleryImages: gallery });
     setShowForm(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const usageDetails = Array.isArray(formData.usageDetails) ? formData.usageDetails.filter((u: any) => u.title || u.desc) : null;
-    const payload = { ...formData, homepageSection: formData.homepageSection || null, usageDetails, price: parseFloat(formData.price) || 0, stock: parseInt(formData.stock) || 0, categoryId: null };
+    const payload = { ...formData, usageDetails, price: parseFloat(formData.price) || 0, stock: parseInt(formData.stock) || 0, categoryId: null };
     const res = editing ? await api.put("/products/" + editing.id, payload) : await api.post("/products", payload);
     if (res.status) {
       setShowForm(false);
@@ -73,7 +85,6 @@ export default function ProductsPage() {
       const saved = loaded.find((p: Product) => p.id === res.data?.id) || loaded.find((p: Product) => p.name === formData.name);
       const savedId = saved?.id || res.data?.id || editing?.id;
       const savedSlug = saved?.slug || res.data?.slug || editing?.slug || formData.slug;
-      saveSectionAssignments([savedId, savedSlug, formData.slug], formData.homepageSection || "");
       if (!editing) localStorage.setItem("sampriti-new-arrival-slug", savedSlug);
     } else {
       const msg = res.message || "";
@@ -86,7 +97,18 @@ export default function ProductsPage() {
     if (res.status) { load(); removeSectionAssignments([id, slug]); toast.success("Product deleted"); } else toast.error(res.message);
   };
 
-  const filtered = products.filter(p => p.name?.toLowerCase().includes(search.toLowerCase()));
+  const filterSections = [
+    { value: "", label: "All" },
+    ...ALL_SECTIONS,
+  ];
+  const filtered = products.filter(p => {
+    const matchesSearch = p.name?.toLowerCase().includes(search.toLowerCase());
+    let matchesSection = true;
+    if (sectionFilter) {
+      matchesSection = (p.sections || []).includes(sectionFilter);
+    }
+    return matchesSearch && matchesSection;
+  });
 
   return (
     <div className="space-y-6 pb-10">
@@ -115,8 +137,8 @@ export default function ProductsPage() {
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Price ($)</label><input type="number" step="0.01" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Stock</label><input type="number" value={formData.stock} onChange={e => setFormData({...formData, stock: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Format</label><input type="text" value={formData.format} onChange={e => setFormData({...formData, format: e.target.value})} placeholder="e.g. 35g powder" className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 text-black" /></div>
-                <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Homepage Section</label><select value={formData.homepageSection} onChange={e => setFormData({...formData, homepageSection: e.target.value})} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 bg-white text-black"> <option value="">Home</option><option value="infusions">Infusions</option><option value="skincare">Skincare</option><option value="fragrance">Fragrance</option><option value="ceremony">Ceremony</option><option value="atmosphere">Atmosphere</option></select></div>
               </div>
+              <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Sections (select all that apply)</label><div className="flex flex-wrap gap-2 mt-1">{[...ALL_SECTIONS].map(s => <label key={s.value} className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg cursor-pointer transition-colors ${(formData.sections || []).includes(s.value) ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}><input type="checkbox" checked={(formData.sections || []).includes(s.value)} onChange={() => toggleSection(s.value)} className="sr-only" />{s.label}</label>)}</div></div>
               <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Description</label><textarea value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={3} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 resize-none text-black" /></div>
               <div className="grid grid-cols-2 gap-4">
                 <div><label className="block text-sm font-semibold text-gray-700 mb-1.5">Key Ingredients</label><textarea value={formData.keyIngredients} onChange={e => setFormData({...formData, keyIngredients: e.target.value})} rows={2} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-green-300 resize-none text-black" /></div>
@@ -175,11 +197,15 @@ export default function ProductsPage() {
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-50">
-          <h2 className="text-base font-bold text-gray-800">All Products</h2>
+          <div className="flex items-center gap-2 flex-wrap">
+            {filterSections.map(s => (
+              <button key={s.value} onClick={() => setSectionFilter(s.value)} className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${sectionFilter === s.value ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>{s.label}</button>
+            ))}
+          </div>
           <div className="relative"><Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" /><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search products..." className="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-100 w-52 text-black" /></div>
         </div>
         <table className="w-full text-sm">
-          <thead><tr className="bg-gray-50/60">{["Product", "Price", "Stock", "Status", "Actions"].map(h => <th key={h} className="text-left px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">{h}</th>)}</tr></thead>
+          <thead><tr className="bg-gray-50/60">{["Product", "Price", "Stock", "Status", "Sections", "Actions"].map(h => <th key={h} className="text-left px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">{h}</th>)}</tr></thead>
           <tbody className="divide-y divide-gray-50">
             {filtered.map(p => (
               <tr key={p.id} className="hover:bg-gray-50/50 transition-colors">
@@ -187,6 +213,7 @@ export default function ProductsPage() {
                 <td className="px-6 py-4 font-semibold text-gray-800">{formatPrice(Number(p.price), currency, exchangeRate)}</td>
                 <td className="px-6 py-4 text-gray-600">{p.stock}</td>
                 <td className="px-6 py-4"><span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${p.status === "active" ? "bg-green-50 text-green-700" : p.status === "out_of_stock" ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-700"}`}>{p.status === "active" ? "Active" : p.status === "out_of_stock" ? "Out of Stock" : "Low Stock"}</span></td>
+                <td className="px-6 py-4"><div className="flex flex-wrap gap-1">{(p.sections || []).map(s => <span key={s} className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 capitalize">{s}</span>)}</div></td>
                 <td className="px-6 py-4"><div className="flex items-center gap-1"><button onClick={() => openEdit(p)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-blue-600 transition-colors"><Edit2 size={14} /></button>                <button onClick={() => handleDelete(p.id, p.slug)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={14} /></button></div></td>
               </tr>
             ))}
