@@ -8,21 +8,23 @@ import {
   Clock,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { notificationStore, Notification } from "@/lib/notificationStore";
 import "./NotificationPanel.css";
 
 export function NotificationPanel() {
-  // Mocked notifications for Sampriti Botanicals until NotificationContext is integrated
-  const notifications: any[] = [];
-  const unreadCount = 0;
-  const isLoading = false;
-  const markAsRead = async (id: number) => {};
-  const markAllAsRead = async () => {};
-  const dismissNotification = async (id: number) => {};
-  const dismissAllNotifications = async () => {};
+  const [notifications, setNotifications] = useState<Notification[]>(notificationStore.getNotifications());
+  const [isLoading] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isMarking, setIsMarking] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const unsubscribe = notificationStore.subscribe(() => {
+      setNotifications([...notificationStore.getNotifications()]);
+    });
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -38,28 +40,28 @@ export function NotificationPanel() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleMarkAsRead = async (recipientId?: number) => {
-    if (!recipientId) return;
+  const unreadCount = notifications.filter(n => n.status === 'unread').length;
+
+  const handleMarkAsRead = (id: string) => {
     setIsMarking(true);
-    await markAsRead(recipientId);
+    notificationStore.markAsRead(id);
     setIsMarking(false);
   };
 
-  const handleMarkAllAsRead = async () => {
+  const handleMarkAllAsRead = () => {
     setIsMarking(true);
-    await markAllAsRead();
+    notificationStore.markAllAsRead();
     setIsMarking(false);
   };
 
-  const handleClearAll = async () => {
+  const handleClearAll = () => {
     setIsMarking(true);
-    await dismissAllNotifications();
+    notificationStore.dismissAll();
     setIsMarking(false);
   };
 
-  const handleDismiss = async (recipientId?: number) => {
-    if (!recipientId) return;
-    await dismissNotification(recipientId);
+  const handleDismiss = (id: string) => {
+    notificationStore.dismissNotification(id);
   };
 
   const getNotificationIcon = (type?: string) => {
@@ -164,7 +166,7 @@ export function NotificationPanel() {
             ) : (
               notifications.map((notif) => (
                 <div
-                  key={notif.recipient_id}
+                  key={notif.id}
                   className={`notification-item ${
                     notif.status === "unread" ? "unread" : ""
                   }`}
@@ -195,9 +197,7 @@ export function NotificationPanel() {
                   <div className="notification-actions">
                     {notif.status === "unread" && (
                       <button
-                        onClick={() =>
-                          handleMarkAsRead(notif.recipient_id)
-                        }
+                        onClick={() => handleMarkAsRead(notif.id)}
                         disabled={isMarking}
                         className="action-btn read-btn"
                         title="Mark as read"
@@ -206,9 +206,7 @@ export function NotificationPanel() {
                       </button>
                     )}
                     <button
-                      onClick={() =>
-                        handleDismiss(notif.recipient_id)
-                      }
+                      onClick={() => handleDismiss(notif.id)}
                       className="action-btn dismiss-btn"
                       title="Dismiss"
                     >
