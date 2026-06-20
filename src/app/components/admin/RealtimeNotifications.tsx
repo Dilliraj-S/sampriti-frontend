@@ -13,14 +13,14 @@ export function RealtimeNotifications() {
       notificationStore.addNotification({
         id: `payment-${data.orderId}-${Date.now()}`,
         title: 'New Payment Received',
-        message: `${data.customerName} paid $${data.total.toFixed(2)} ${data.currency} (Order #${data.orderId})`,
+        message: `${data.customerName} paid $${Number(data.total).toFixed(2)} ${data.currency} (Order #${data.orderId})`,
         type: 'success',
         priority: 'high',
         created_at: data.time,
         status: 'unread',
       });
 
-      toast.success(`$${data.total.toFixed(2)} payment from ${data.customerName}`, {
+      toast.success(`$${Number(data.total).toFixed(2)} payment from ${data.customerName}`, {
         description: `Order #${data.orderId}`,
         duration: 5000,
       });

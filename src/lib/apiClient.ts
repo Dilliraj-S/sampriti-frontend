@@ -7,16 +7,21 @@
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
-// Avoid circular imports — import store lazily inside interceptor
 let getAccessToken: (() => string | null) | null = null;
 let setAccessToken: ((t: string | null) => void) | null = null;
+let getRefreshToken: (() => string | null) | null = null;
+let setRefreshToken: ((t: string | null) => void) | null = null;
 
 export function initApiClient(
   getter: () => string | null,
-  setter: (t: string | null) => void
+  setter: (t: string | null) => void,
+  refreshGetter?: () => string | null,
+  refreshSetter?: (t: string | null) => void,
 ) {
   getAccessToken = getter;
   setAccessToken = setter;
+  getRefreshToken = refreshGetter || null;
+  setRefreshToken = refreshSetter || null;
 }
 
 let isRefreshing = false;
@@ -28,12 +33,16 @@ const processQueue = (token: string | null) => {
 };
 
 async function silentRefresh(): Promise<string | null> {
+  const refreshToken = getRefreshToken?.() || undefined;
   const res = await fetch(`${BASE_URL}/api/auth/refresh`, {
     method: 'POST',
     credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: refreshToken ? JSON.stringify({ refreshToken }) : undefined,
   });
   if (!res.ok) return null;
   const data = await res.json();
+  if (data.refreshToken) setRefreshToken?.(data.refreshToken);
   return data.accessToken ?? null;
 }
 

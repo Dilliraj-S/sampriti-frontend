@@ -67,7 +67,7 @@ export default function OrdersPage() {
               <tr key={o.id} className="hover:bg-gray-50/50 transition-colors">
                 <td className="px-6 py-4 font-mono font-semibold text-gray-700">#ORD-{String(o.id).padStart(4,"0")}</td>
                 <td className="px-6 py-4 font-medium text-gray-800">{o.customer?.name || "Guest"}</td>
-                <td className="px-6 py-4 text-gray-500">{Array.isArray(o.items) ? o.items.length : 0}</td>
+                <td className="px-6 py-4 text-gray-500 max-w-[200px] truncate" title={Array.isArray(o.items) ? o.items.map((i: any) => i.name).join(", ") : ""}>{Array.isArray(o.items) ? o.items.map((i: any) => i.name).join(", ") : "—"}</td>
                 <td className="px-6 py-4 font-bold text-green-700">{formatPrice(parseFloat(o.total || "0"), currency, exchangeRate)}</td>
                 <td className="px-6 py-4 text-gray-400">{o.createdAt?.split("T")[0]}</td>
                 <td className="px-6 py-4">

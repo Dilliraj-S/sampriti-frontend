@@ -16,6 +16,7 @@ export interface AuthUser {
 interface AuthState {
   user: AuthUser | null;
   accessToken: string | null;
+  refreshToken: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
 
@@ -30,12 +31,15 @@ export const useAuthStore = create<AuthState>((set, get) => {
   // Wire the API client to read/write the store's accessToken
   initApiClient(
     () => get().accessToken,
-    (token) => set({ accessToken: token, isAuthenticated: !!token })
+    (token) => set({ accessToken: token, isAuthenticated: !!token }),
+    () => get().refreshToken,
+    (token) => set({ refreshToken: token }),
   );
 
   return {
     user:            null,
     accessToken:     null,
+    refreshToken:    null,
     isLoading:       true,
     isAuthenticated: false,
 
@@ -55,18 +59,18 @@ export const useAuthStore = create<AuthState>((set, get) => {
       set({
         user:            data.user,
         accessToken:     data.accessToken,
+        refreshToken:    data.refreshToken,
         isAuthenticated: true,
         isLoading:       false,
       });
-      // Return redirectTo so the calling page can route based on role
       return { redirectTo: data.redirectTo || '/' };
     },
 
     logout: async () => {
       try {
         await apiPost('/api/auth/logout', {});
-      } catch { /* ignore network errors on logout */ }
-      set({ user: null, accessToken: null, isAuthenticated: false, isLoading: false });
+      } catch {}
+      set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false, isLoading: false });
     },
 
     /**
@@ -77,8 +81,12 @@ export const useAuthStore = create<AuthState>((set, get) => {
       set({ isLoading: true });
       try {
         const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const existingRefreshToken = get().refreshToken;
         const res = await fetch(`${BASE}/api/auth/refresh`, {
-          method: 'POST', credentials: 'include',
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: existingRefreshToken ? JSON.stringify({ refreshToken: existingRefreshToken }) : undefined,
         });
         if (!res.ok) { set({ isLoading: false }); return; }
         const refreshData = await res.json();
@@ -94,6 +102,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
           set({
             user:            meData.data,
             accessToken:     refreshData.accessToken,
+            refreshToken:    refreshData.refreshToken,
             isAuthenticated: true,
             isLoading:       false,
           });
