@@ -1,28 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function SuccessPage() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const [orderId, setOrderId] = useState<string | null>(null);
 
   useEffect(() => {
     const token = searchParams.get("token");
-    const payerId = searchParams.get("PayerID");
-    if (token) {
-      setOrderId(token);
-      const stored = localStorage.getItem("pendingOrderId");
-      if (stored) {
-        fetch(`http://localhost:5000/api/payments/paypal/capture-order`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ orderId: parseInt(stored), paypalOrderId: token }),
-        }).catch(() => {});
-      }
-    }
+    if (token) setOrderId(token);
   }, [searchParams]);
 
   return (

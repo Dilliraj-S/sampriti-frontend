@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { AdminSidebar } from "@/app/components/admin/AdminSidebar";
 import { AdminHeader } from "@/app/components/admin/AdminHeader";
 import { RealtimeNotifications } from "@/app/components/admin/RealtimeNotifications";
@@ -18,7 +17,6 @@ import { useAuthStore } from "@/app/stores/authStore";
  * 4. Authenticated and admin → render panel
  */
 function PanelGuard({ children }: { children: React.ReactNode }) {
-  const router          = useRouter();
   const isLoading       = useAuthStore(s => s.isLoading);
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
   const user            = useAuthStore(s => s.user);
@@ -26,15 +24,15 @@ function PanelGuard({ children }: { children: React.ReactNode }) {
   const isAdmin = user?.role === "admin" || user?.role === "superadmin";
 
   useEffect(() => {
-    if (isLoading) return; // Wait for silentRefresh to complete
+    if (isLoading) return;
     if (!isAuthenticated) {
-      router.replace("/login");
+      window.location.href = "/login";
       return;
     }
     if (!isAdmin) {
-      router.replace("/"); // Customers can't access admin panel
+      window.location.href = "/";
     }
-  }, [isLoading, isAuthenticated, isAdmin, router]);
+  }, [isLoading, isAuthenticated, isAdmin]);
 
   // Show loading spinner while session is being restored
   if (isLoading) {
