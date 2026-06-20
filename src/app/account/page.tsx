@@ -36,7 +36,12 @@ export default function AccountPage() {
     );
   }
 
-  if (!user) return null;
+  if (!user) {
+    if (!isLoading) {
+      router.replace("/login");
+    }
+    return null;
+  }
 
   const initials = user.full_name
     ? user.full_name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)
@@ -46,7 +51,20 @@ export default function AccountPage() {
     <main className="min-h-screen bg-[#FDFAF5] text-[#2C2A26]" style={{ fontFamily: "var(--font-sans)" }}>
       <Navbar forceScrolled />
 
-      <section className="mx-auto max-w-2xl px-5 pt-[100px] md:pt-[120px] pb-16">
+      <div className="pt-44 pb-16 px-6">
+        <div className="max-w-4xl mx-auto">
+          <button
+            onClick={() => router.back()}
+            className="inline-flex items-center gap-2 border border-[#2B2925] bg-white px-5 py-3 text-[#2B2925] hover:bg-[#2B2925] hover:text-white transition-all duration-300 text-sm tracking-[0.2em] font-medium mb-10 cursor-pointer"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            BACK
+          </button>
+
+          <section className="mx-auto max-w-2xl px-0">
         {/* Profile header */}
         <div className="mb-8 flex items-center gap-5">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#E8E0D5] text-xl font-semibold text-[#2C2A26]">
@@ -56,13 +74,13 @@ export default function AccountPage() {
             <h1 className="text-2xl font-light tracking-[0.06em]" style={{ fontFamily: "var(--font-heading)" }}>
               {user.full_name}
             </h1>
-            <div className="mt-1 flex items-center gap-2">
-              <span className="inline-flex items-center gap-1 text-xs text-[#6C6258]">
-                <ShieldCheck size={12} />
-                {user.role === "admin" || user.role === "superadmin" ? "Admin Account" : "Customer Account"}
-              </span>
-            </div>
+          <div className="mt-1 flex items-center gap-2">
+            <span className="inline-flex items-center gap-1 text-xs text-[#6C6258]">
+              <ShieldCheck size={12} />
+              {user.role === "admin" || user.role === "superadmin" ? "Admin Account" : "Customer Account"}
+            </span>
           </div>
+        </div>
         </div>
 
         {/* Info cards */}
@@ -80,8 +98,8 @@ export default function AccountPage() {
               <div>
                 <p className="text-[10px] uppercase tracking-[0.18em] text-[#8A7766]">Phone</p>
                 <p className="text-sm text-[#2C2A26]">{user.phone}</p>
-              </div>
             </div>
+          </div>
           )}
           <div className="flex items-center gap-4 px-5 py-4">
             <User size={16} className="text-[#8A7766] shrink-0" />
@@ -100,7 +118,7 @@ export default function AccountPage() {
             <span className="flex items-center gap-3"><Package size={16} /> My Orders</span>
             <span className="text-[#A48662]">→</span>
           </Link>
-          <Link href="/shop"
+          <Link href="/"
             className="flex items-center justify-between px-5 py-4 text-sm text-[#5A554E] hover:text-[#2C2A26] hover:bg-[#F9F6F1] transition-colors"
           >
             <span className="flex items-center gap-3"><Package size={16} /> Continue Shopping</span>
@@ -120,6 +138,8 @@ export default function AccountPage() {
           Member since {new Date(user.created_at || Date.now()).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
         </p>
       </section>
+        </div>
+      </div>
     </main>
   );
 }

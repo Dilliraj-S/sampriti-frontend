@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import Navbar from "@/app/components/landing/Navbar";
 import ProvenanceHero from "@/app/components/landing/ProvenanceHero";
 import Footer from "@/app/components/landing/Footer";
@@ -107,14 +106,13 @@ export default function ProvenancePage() {
           </div>
           <div id="prov-carousel-track" className="flex flex-col gap-8 md:flex-row md:gap-6 md:overflow-x-auto md:pb-2" style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}>
             {carouselItems.map((item) => (
-              <Link
+              <div
                 key={item.num}
-                href={item.link}
-                className="flex-shrink-0 no-underline w-full md:w-auto"
-                style={{ color: "inherit", flex: "0 0 280px", scrollSnapAlign: "start" }}
+                className="flex-shrink-0 w-full md:w-auto"
+                style={{ flex: "0 0 280px", scrollSnapAlign: "start" }}
               >
                 <div className="relative w-full aspect-[4/3] md:aspect-square mb-4 overflow-hidden">
-                  <Image src={item.image} alt={item.title} fill className="object-cover object-center transition-transform duration-500 hover:scale-[1.03]" sizes="(max-width: 768px) 100vw, 280px" />
+                  <Image src={item.image} alt={item.title} fill className="object-cover object-center" sizes="(max-width: 768px) 100vw, 280px" />
                 </div>
                 <div className="px-6 md:px-0">
                 <h3 className="text-lg md:text-[1.15rem] font-light mb-2 tracking-[0.05em]" style={{ fontFamily: "var(--font-serif)", color: "#2a2a2a" }}>
@@ -125,7 +123,7 @@ export default function ProvenancePage() {
                   {item.description}
                 </p>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

@@ -254,7 +254,7 @@ export default function CartPage() {
                     style={{ background: "#262420", fontFamily: "var(--font-sans)" }}>
                     Continue Shopping
                   </Link>
-                  <Link href="/account"
+                  <Link href="/account/orders"
                     className="text-xs tracking-[0.2em] uppercase transition-colors hover:opacity-70"
                     style={{ color: "#A48662", fontFamily: "var(--font-sans)" }}>
                     View My Orders

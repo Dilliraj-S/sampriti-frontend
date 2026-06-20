@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 import { useAuthStore } from "@/app/stores/authStore";
@@ -39,9 +39,10 @@ function GoogleMark({ className = "h-5 w-5" }: { className?: string }) {
   );
 }
 
-export default function LoginPage() {
-  const router  = useRouter();
-  const login   = useAuthStore(s => s.login);
+function LoginContent() {
+  const searchParams = useSearchParams();
+  const login    = useAuthStore(s => s.login);
+  const redirectTo = searchParams.get("redirect") || "";
 
   const [mode,         setMode]         = useState<Mode>("signin");
   const [email,        setEmail]        = useState("");
@@ -65,15 +66,15 @@ export default function LoginPage() {
     }
     setLoading(true);
     try {
-      const { redirectTo } = await login(email.trim().toLowerCase(), password);
+      const { redirectTo: roleRedirect } = await login(email.trim().toLowerCase(), password);
       setMessage({ text: "Signed in successfully. Redirecting…", type: "success" });
-      // Role-based redirect: admin → dashboard, customer → home
-      setTimeout(() => router.push(redirectTo || "/"), 500);
+      const target = redirectTo || roleRedirect || "/";
+      setTimeout(() => { window.location.href = target; }, 500);
     } catch (err: unknown) {
       const e = err as Error & { code?: string };
       if (e.code === "EMAIL_NOT_VERIFIED") {
         setMessage({ text: e.message, type: "warning" });
-        setTimeout(() => router.push(`/verify-email?email=${encodeURIComponent(email.trim().toLowerCase())}`), 1200);
+        setTimeout(() => { window.location.href = `/verify-email?email=${encodeURIComponent(email.trim().toLowerCase())}`; }, 1200);
       } else {
         setMessage({ text: e.message || "Something went wrong.", type: "error" });
       }
@@ -100,7 +101,7 @@ export default function LoginPage() {
       const data = await res.json();
       if (!data.status) { setMessage({ text: data.message, type: "error" }); return; }
       setMessage({ text: "Account created! Check your email for the 6-digit OTP.", type: "success" });
-      setTimeout(() => router.push(`/verify-email?email=${encodeURIComponent(email.trim().toLowerCase())}`), 1000);
+      setTimeout(() => { window.location.href = `/verify-email?email=${encodeURIComponent(email.trim().toLowerCase())}`; }, 1000);
     } catch { setMessage({ text: "Network error. Please try again.", type: "error" }); }
     finally   { setLoading(false); }
   };
@@ -211,5 +212,21 @@ export default function LoginPage() {
         <Link href="/contact" className="hover:text-[#2C2A26]">Need help?</Link>
       </div>
     </section>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <section className="mx-auto flex w-full max-w-md flex-col justify-center px-5 pt-[150px] md:pt-[120px] pb-16">
+        <div className="mb-6 text-center">
+          <h1 className="text-2xl md:text-3xl font-light tracking-[0.08em]" style={{ fontFamily: "var(--font-heading)" }}>
+            Sign in
+          </h1>
+        </div>
+      </section>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }

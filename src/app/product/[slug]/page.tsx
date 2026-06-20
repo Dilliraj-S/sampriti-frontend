@@ -36,36 +36,12 @@ const productGallery: Record<string, string[]> = {
 };
 
 type Review = {
-  id: string;
+  id: number;
   name: string;
   rating: number;
-  date: string;
   title: string;
-  text: string;
-  responseFromAesop?: {
-    date: string;
-    text: string;
-  };
-};
-
-const productReviews: Record<string, Review[]> = {
-  jawa: [
-    { id: "r1", name: "Aravind K.", rating: 5, date: "a month ago", title: "A fragrance that lingers like memory", text: "Jawa carries something ancient in its notes. It's not a perfume you wear — it's a presence you inhabit. The ember-like warmth settles into the skin and stays with you through the day. I am yet to decide if it suits my skin chemistry — the dry down is different from the opening.", responseFromAesop: { date: "20 days ago", text: "Thank you for sharing your experience with Jawa. We recommend allowing the fragrance to settle for 15-20 minutes after application to experience its full development. For a softer expression, try layering with our unscented body formulations." } },
-    { id: "r2", name: "Meera S.", rating: 5, date: "2 months ago", title: "Deep, grounding, utterly unique", text: "There is a stillness at the heart of Jawa that I have not encountered in any other fragrance. It evokes the quiet after a fire has burned down to coals — warm, patient, and deeply reassuring. A masterpiece of botanical perfumery." },
-    { id: "r3", name: "Rohan P.", rating: 4, date: "3 months ago", title: "Complex and evolving", text: "Jawa unfolds in stages — initially smokey, then revealing softer floral and resinous notes. It demands patience, and rewards it. The only reason I withhold the fifth star is the longevity, which could be stronger on my skin." },
-  ],
-  hibiscus: [
-    { id: "r4", name: "Priya M.", rating: 5, date: "a month ago", title: "Vibrant and refreshing", text: "This hibiscus infusion is unlike any I've tried. The depth of flavor and the rich crimson color speak to the quality of the petals. I start my mornings with it and feel a genuine sense of vitality." },
-    { id: "r5", name: "Anand R.", rating: 4, date: "2 months ago", title: "Exceptional quality", text: "You can taste the difference that altitude makes. There is a brightness to this hibiscus that I have not found elsewhere. Perfect for iced tea in warm weather." },
-  ],
-  rose: [
-    { id: "r6", name: "Lakshmi N.", rating: 5, date: "a month ago", title: "The finest rose I have encountered", text: "I have been a rose enthusiast for decades, and this is exceptional. The distillation captures something essential about the flower — not just its fragrance, but its temperament. A truly calming presence." },
-    { id: "r7", name: "Vikram S.", rating: 5, date: "2 months ago", title: "A ritual in a cup", text: "The rose petals are so fragrant that the simple act of opening the package is a sensory experience. Brewed gently, the liquor is pale gold and carries notes of honey and spice. A daily ritual I look forward to." },
-  ],
-  "blue-butterfly-pea": [
-    { id: "r8", name: "Divya K.", rating: 5, date: "2 months ago", title: "Mesmerizing color, subtle flavor", text: "The blue is almost unreal — like captured sky. Add a squeeze of lime and watch it transform to violet. The taste is mild and earthy, perfect for evenings when you want something calming and caffeine-free." },
-    { id: "r9", name: "Arjun M.", rating: 4, date: "3 months ago", title: "Beautiful and functional", text: "I started drinking this for the antioxidants, but I keep drinking it for the experience. The color-changing property never gets old. Would love to see a larger format option." },
-  ],
+  comment: string;
+  createdAt: string;
 };
 
 function StarRating({ rating, size = 16 }: { rating: number; size?: number }) {
@@ -80,8 +56,81 @@ function StarRating({ rating, size = 16 }: { rating: number; size?: number }) {
   );
 }
 
-function ReviewsSection({ slug, productName }: { slug: string; productName: string }) {
-  const reviews = productReviews[slug] || [];
+function ReviewForm({ slug, onSubmitted }: { slug: string; onSubmitted: () => void }) {
+  const [showForm, setShowForm] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [rating, setRating] = useState(5);
+  const [title, setTitle] = useState("");
+  const [comment, setComment] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setMessage("");
+    try {
+      const API_PUBLIC = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const res = await fetch(API_PUBLIC + '/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productSlug: slug, name, email, rating, title, comment }),
+      });
+      const json = await res.json();
+      if (json.status) {
+        setMessage("Thank you! Your review has been submitted for approval.");
+        setName(""); setEmail(""); setRating(5); setTitle(""); setComment("");
+        setShowForm(false);
+        onSubmitted();
+      } else {
+        setMessage("Something went wrong. Please try again.");
+      }
+    } catch {
+      setMessage("Something went wrong. Please try again.");
+    }
+    setSubmitting(false);
+  };
+
+  return (
+    <div className="mt-16 border border-[#E5DCCF] p-8 md:p-12 text-center">
+      <h3 className="text-[#2B2925] text-lg font-normal mb-3" style={{ fontFamily: "var(--font-serif)" }}>Share your impression</h3>
+      <p className="text-sm text-[#7A756D] font-light mb-6 max-w-md mx-auto" style={{ fontFamily: "var(--font-sans)" }}>Your experience with this product matters. Tell us what you think — your voice helps others discover what works.</p>
+      {!showForm ? (
+        <button onClick={() => setShowForm(true)} className="inline-flex h-11 items-center justify-center border border-[#2B2925]/70 px-6 text-[11px] tracking-[0.2em] text-[#2B2925]/90 transition-colors duration-300 hover:bg-[#2B2925] hover:text-white cursor-pointer" style={{ fontFamily: "var(--font-sans)" }}>
+          Write Your Review
+        </button>
+      ) : (
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto text-left space-y-4">
+          <div className="flex items-center gap-2 justify-center mb-2">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button key={star} type="button" onClick={() => setRating(star)} className="cursor-pointer">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill={star <= rating ? "#333333" : "#D6D5CC"}>
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              </button>
+            ))}
+          </div>
+          <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} required className="w-full border border-[#E5DCCF] bg-white py-3 px-4 text-sm text-[#2B2925] placeholder:text-[#9A958E] focus:outline-none focus:border-[#333333]" />
+          <input type="email" placeholder="Your email" value={email} onChange={e => setEmail(e.target.value)} required className="w-full border border-[#E5DCCF] bg-white py-3 px-4 text-sm text-[#2B2925] placeholder:text-[#9A958E] focus:outline-none focus:border-[#333333]" />
+          <input type="text" placeholder="Review title" value={title} onChange={e => setTitle(e.target.value)} required className="w-full border border-[#E5DCCF] bg-white py-3 px-4 text-sm text-[#2B2925] placeholder:text-[#9A958E] focus:outline-none focus:border-[#333333]" />
+          <textarea placeholder="Your review" value={comment} onChange={e => setComment(e.target.value)} required rows={4} className="w-full border border-[#E5DCCF] bg-white py-3 px-4 text-sm text-[#2B2925] placeholder:text-[#9A958E] focus:outline-none focus:border-[#333333] resize-none" />
+          <div className="flex gap-3">
+            <button type="submit" disabled={submitting} className="flex-1 bg-[#2B2925] text-white py-3 text-xs tracking-[0.2em] hover:bg-black transition-all duration-300 cursor-pointer disabled:opacity-50">
+              {submitting ? "Submitting..." : "Submit Review"}
+            </button>
+            <button type="button" onClick={() => { setShowForm(false); setMessage(""); }} className="border border-[#E5DCCF] px-6 py-3 text-xs tracking-[0.2em] text-[#7A756D] hover:text-[#2B2925] cursor-pointer">
+              Cancel
+            </button>
+          </div>
+          {message && <p className="text-sm text-center text-[#5A554E]">{message}</p>}
+        </form>
+      )}
+    </div>
+  );
+}
+
+function ReviewsSection({ slug, productName, reviews, onReviewSubmitted }: { slug: string; productName: string; reviews: Review[]; onReviewSubmitted: () => void }) {
   const totalRating = reviews.reduce((sum, r) => sum + r.rating, 0);
   const avgRating = reviews.length ? (totalRating / reviews.length) : 0;
   const distribution = [0, 0, 0, 0, 0];
@@ -94,17 +143,28 @@ function ReviewsSection({ slug, productName }: { slug: string; productName: stri
   let filtered = [...reviews];
   if (searchQuery.trim()) {
     const q = searchQuery.toLowerCase();
-    filtered = filtered.filter(r => r.title.toLowerCase().includes(q) || r.text.toLowerCase().includes(q));
+    filtered = filtered.filter(r => (r.title || "").toLowerCase().includes(q) || (r.comment || "").toLowerCase().includes(q));
   }
   if (ratingFilter !== "all") {
     filtered = filtered.filter(r => r.rating === parseInt(ratingFilter));
   }
   filtered.sort((a, b) => {
-    if (sortBy === "most-recent") return 0;
     if (sortBy === "highest") return b.rating - a.rating;
     if (sortBy === "lowest") return a.rating - b.rating;
-    return 0;
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
+
+  const formatDate = (d: string) => {
+    const date = new Date(d);
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const days = Math.floor(diff / 86400000);
+    if (days === 0) return "today";
+    if (days === 1) return "yesterday";
+    if (days < 30) return `${days} days ago`;
+    if (days < 60) return "a month ago";
+    return `${Math.floor(days / 30)} months ago`;
+  };
 
   return (
     <section className="bg-white px-6 md:px-12 lg:px-20" style={{ paddingTop: "40px", paddingBottom: "120px" }}>
@@ -113,6 +173,8 @@ function ReviewsSection({ slug, productName }: { slug: string; productName: stri
           Customer impressions
         </h2>
 
+        {reviews.length > 0 && (
+          <>
         <div className="md:flex md:gap-16 md:items-start">
           <div className="space-y-[5px] flex-1 max-w-md">
             {[5, 4, 3, 2, 1].map((star) => {
@@ -152,38 +214,23 @@ function ReviewsSection({ slug, productName }: { slug: string; productName: stri
               value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full border border-[#E5DCCF] bg-white py-3 pl-10 pr-4 text-sm text-[#2B2925] placeholder:text-[#9A958E] focus:outline-none focus:border-[#333333] transition-colors" />
           </div>
-          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-            <div className="flex items-center gap-2">
-              <label className="text-xs text-[#7A756D] tracking-[0.1em] uppercase">Rating</label>
-              <select value={ratingFilter} onChange={(e) => setRatingFilter(e.target.value)}
-                className="border border-[#E5DCCF] bg-white py-3 px-4 text-sm text-[#2B2925] focus:outline-none focus:border-[#333333] transition-colors cursor-pointer appearance-none"
-                style={{ minWidth: "120px" }}>
-                <option value="all">All</option>
-                <option value="5">5 stars</option>
-                <option value="4">4 stars</option>
-                <option value="3">3 stars</option>
-                <option value="2">2 stars</option>
-                <option value="1">1 star</option>
-              </select>
-            </div>
-            <div className="flex items-center gap-2">
-              <label className="text-xs text-[#7A756D] tracking-[0.1em] uppercase">Locale</label>
-              <select
-                className="border border-[#E5DCCF] bg-white py-3 px-4 text-sm text-[#2B2925] focus:outline-none focus:border-[#333333] transition-colors cursor-pointer appearance-none"
-                style={{ minWidth: "120px" }}>
-                <option>All</option>
-                <option>English</option>
-                <option>United States</option>
-                <option>India</option>
-                <option>Australia</option>
-                <option>United Kingdom</option>
-              </select>
-            </div>
+          <div className="flex items-center gap-2">
+            <label className="text-xs text-[#7A756D] tracking-[0.1em] uppercase">Rating</label>
+            <select value={ratingFilter} onChange={(e) => setRatingFilter(e.target.value)}
+              className="border border-[#E5DCCF] bg-white py-3 px-4 text-sm text-[#2B2925] focus:outline-none focus:border-[#333333] transition-colors cursor-pointer appearance-none"
+              style={{ minWidth: "120px" }}>
+              <option value="all">All</option>
+              <option value="5">5 stars</option>
+              <option value="4">4 stars</option>
+              <option value="3">3 stars</option>
+              <option value="2">2 stars</option>
+              <option value="1">1 star</option>
+            </select>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mt-6 mb-10">
-          <p className="text-sm text-[#7A756D]">1 to {filtered.length} of {filtered.length} impressions.</p>
+          <p className="text-sm text-[#7A756D]">{filtered.length} {filtered.length === 1 ? "impression" : "impressions"}</p>
           <div className="flex items-center gap-2">
             <label className="text-xs text-[#7A756D] tracking-[0.1em] uppercase">Sort by</label>
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}
@@ -204,28 +251,21 @@ function ReviewsSection({ slug, productName }: { slug: string; productName: stri
                 <StarRating rating={review.rating} size={15} />
               </div>
               <h4 className="text-[#2B2925] text-base font-normal mb-2" style={{ fontFamily: "var(--font-serif)" }}>{review.title}</h4>
-              <p className="text-sm text-[#5A554E] font-light leading-relaxed mb-2" style={{ fontFamily: "var(--font-sans)" }}>{review.text}</p>
+              <p className="text-sm text-[#5A554E] font-light leading-relaxed mb-2" style={{ fontFamily: "var(--font-sans)" }}>{review.comment}</p>
               <p className="text-xs text-[#7A756D] mb-1">{review.name}</p>
-              <p className="text-xs text-[#9A958E]">{review.date}</p>
-              {review.responseFromAesop && (
-                <div className="mt-5 pl-5 border-l-2 border-[#333333]/20">
-                  <p className="text-xs text-[#333333] tracking-[0.1em] mb-1" style={{ fontFamily: "var(--font-sans)" }}>Response from Sampriti:</p>
-                  <p className="text-sm text-[#5A554E] font-light leading-relaxed mb-1" style={{ fontFamily: "var(--font-sans)" }}>{review.responseFromAesop.text}</p>
-                  <p className="text-xs text-[#9A958E]">{review.responseFromAesop.date}</p>
-                </div>
-              )}
+              <p className="text-xs text-[#9A958E]">{formatDate(review.createdAt)}</p>
               <hr className="border-[#E5DCCF] mt-10" />
             </div>
           ))}
         </div>
+        </>
+        )}
 
-        <div className="mt-16 border border-[#E5DCCF] p-8 md:p-12 text-center">
-          <h3 className="text-[#2B2925] text-lg font-normal mb-3" style={{ fontFamily: "var(--font-serif)" }}>Share your impression</h3>
-          <p className="text-sm text-[#7A756D] font-light mb-6 max-w-md mx-auto" style={{ fontFamily: "var(--font-sans)" }}>Your experience with this product matters. Tell us what you think — your voice helps others discover what works.</p>
-          <button className="inline-flex h-11 items-center justify-center border border-[#2B2925]/70 px-6 text-[11px] tracking-[0.2em] text-[#2B2925]/90 transition-colors duration-300 hover:bg-[#2B2925] hover:text-white cursor-pointer" style={{ fontFamily: "var(--font-sans)" }}>
-            Write Your Review
-          </button>
-        </div>
+        {reviews.length === 0 && (
+          <p className="text-sm text-[#7A756D] text-center mb-10">No impressions yet. Be the first to share your experience.</p>
+        )}
+
+        <ReviewForm slug={slug} onSubmitted={onReviewSubmitted} />
       </div>
     </section>
   );
@@ -521,6 +561,15 @@ export default function ProductPage() {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [thumbSlide, setThumbSlide] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const API_PUBLIC = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const fetchReviews = async () => {
+    try {
+      const res = await fetch(API_PUBLIC + '/api/reviews/product/' + encodeURIComponent(slug), { cache: 'no-store' });
+      const json = await res.json();
+      if (json.status && Array.isArray(json.data)) setReviews(json.data);
+    } catch {}
+  };
   const rawG = product?.galleryImages;
   const parsedG = Array.isArray(rawG) ? rawG : (typeof rawG === "string" ? (() => { try { return JSON.parse(rawG); } catch { return []; } })() : []);
   const galleryImages = product ? (parsedG.length ? parsedG : (productGallery[slug] || [product.image])) : [""];
@@ -605,6 +654,8 @@ export default function ProductPage() {
       } else {
         setNotFound(true);
       }
+
+      fetchReviews();
 
       // Build "You may also like" list
       if (allApiProducts.length) {
@@ -1040,7 +1091,7 @@ export default function ProductPage() {
         </section>
       )}
 
-      <ReviewsSection slug={product.id} productName={product.name} />
+      <ReviewsSection slug={product.id} productName={product.name} reviews={reviews} onReviewSubmitted={fetchReviews} />
 
       {toast && (
         <div className="fixed bottom-8 right-8 bg-[#2C2A26] text-white px-6 py-4 z-50">

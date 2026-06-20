@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function SuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams();
   const [orderId, setOrderId] = useState<string | null>(null);
 
@@ -26,12 +26,20 @@ export default function SuccessPage() {
           {orderId ? `PayPal Order: ${orderId}` : "Your payment has been processed."}
         </p>
         <Link
-          href="/shop"
+          href="/"
           className="inline-block px-8 py-3 bg-[#2C2A26] text-white text-sm tracking-[0.08em] hover:opacity-90 transition-opacity"
         >
           Continue Shopping
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#FDFAF5]"><p className="text-[#6C6258]">Loading...</p></div>}>
+      <SuccessContent />
+    </Suspense>
   );
 }

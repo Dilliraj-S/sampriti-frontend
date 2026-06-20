@@ -322,7 +322,7 @@ export default function MateriaBotanicaSection() {
           };
         }).filter((product) => (product.sections || []).includes('home') && !["shakti-peya", "chandra-rasa", "parjanya", "jawa", "kha"].includes(product.id));
         merged.sort((a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime());
-        setProducts(merged);
+        if (merged.length > 0) setProducts(merged);
       }
     })();
   }, []);

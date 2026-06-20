@@ -3,7 +3,7 @@ import { Star, ThumbsUp, ThumbsDown, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { api } from "@/services/api.client";
 
-interface Review { id: number; productId: number; customer: string; rating: number; comment: string; status: string; createdAt: string; product?: { id: number; name: string; }; }
+interface Review { id: number; productId: number; productSlug?: string; name: string; email?: string; rating: number; title?: string; comment: string; status: string; createdAt: string; product?: { id: number; name: string; }; }
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -54,7 +54,7 @@ export default function ReviewsPage() {
               <div className="flex items-start justify-between mb-2">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-semibold text-gray-800">{r.customer || "Anonymous"}</span>
+                    <span className="font-semibold text-gray-800">{r.name || "Anonymous"}</span>
                     <span className="text-xs text-gray-400">on</span>
                     <span className="text-xs font-medium text-blue-600">{r.product?.name || `Product #${r.productId}`}</span>
                   </div>
@@ -65,7 +65,8 @@ export default function ReviewsPage() {
                 </div>
                 <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${r.status === "approved" ? "bg-green-50 text-green-700" : r.status === "pending" ? "bg-amber-50 text-amber-700" : "bg-red-50 text-red-600"}`}>{r.status.charAt(0).toUpperCase() + r.status.slice(1)}</span>
               </div>
-              <p className="text-sm text-gray-600 mt-2">{r.comment}</p>
+              {r.title && <p className="text-sm font-medium text-gray-700 mt-1">{r.title}</p>}
+              <p className="text-sm text-gray-600 mt-1">{r.comment}</p>
               <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-50">
                 {r.status !== "approved" && <button onClick={() => updateStatus(r.id, "approved")} className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"><ThumbsUp size={12} /> Approve</button>}
                 {r.status !== "rejected" && <button onClick={() => updateStatus(r.id, "rejected")} className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"><ThumbsDown size={12} /> Reject</button>}

@@ -79,7 +79,7 @@ export default function OrdersPage() {
 
           <div className="text-center mb-12">
             <h1
-              className="text-[#2B2925] text-4xl md:text-5xl font-light"
+              className="text-[#2B2925] text-2xl md:text-3xl font-light"
               style={{ fontFamily: "var(--font-serif)" }}
             >
               My Orders

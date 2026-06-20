@@ -6,8 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { toast, Toaster } from "sonner";
+import { useRouter } from "next/navigation";
 import Navbar from "@/app/components/landing/Navbar";
 import { useCartStore } from "@/app/components/landing/cartStore";
+import { useAuthStore } from "@/app/stores/authStore";
 
 interface ShippingZone {
   id: number; name: string; pinCodes: string; rate: string; freeAbove: string; deliveryTime: string; status: string;
@@ -26,6 +28,9 @@ const API = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace
 const ADMIN_API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/admin";
 
 export default function CheckoutPage() {
+  const router           = useRouter();
+  const isAuthenticated   = useAuthStore(s => s.isAuthenticated);
+  const authLoading       = useAuthStore(s => s.isLoading);
   const [mounted, setMounted] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("paypal");
   const [shippingZones, setShippingZones] = useState<ShippingZone[]>([]);
@@ -55,6 +60,11 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     setMounted(true);
+    if (!authLoading && !isAuthenticated) {
+      const encoded = encodeURIComponent("/checkout");
+      router.replace("/login?redirect=" + encoded);
+      return;
+    }
     (async () => {
       try {
         const res = await fetch(ADMIN_API + "/shipping-zones").then(r => r.json());
@@ -65,7 +75,7 @@ export default function CheckoutPage() {
         }
       } catch {}
     })();
-  }, []);
+  }, [authLoading, isAuthenticated, router]);
 
   const handlePaypalApprove = useCallback(async (data: { orderID: string }) => {
     const currentOrderResult = orderResult;

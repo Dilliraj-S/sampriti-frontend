@@ -2,6 +2,7 @@
 
 import { create } from 'zustand';
 import { initApiClient, apiPost, apiGet } from '@/lib/apiClient';
+import { useCartStore } from '@/app/components/landing/cartStore';
 
 export interface AuthUser {
   id: number;
@@ -27,11 +28,53 @@ interface AuthState {
   setUser: (user: AuthUser | null, token: string | null) => void;
 }
 
+function writeCartAccount(email: string | null) {
+  if (typeof window === 'undefined') return;
+  if (email) {
+    const payload = JSON.stringify({ email });
+    window.localStorage.setItem('sampriti-session', payload);
+    window.localStorage.setItem('sampriti-account', payload);
+  } else {
+    window.localStorage.removeItem('sampriti-session');
+    window.localStorage.removeItem('sampriti-account');
+  }
+}
+
+function migrateGuestCart(email: string) {
+  try {
+    const { cartsByAccount, primaryItemIdByAccount } = useCartStore.getState();
+
+    const guestItems = cartsByAccount['_guest'];
+    if (!guestItems?.length) return;
+
+    const userItems = cartsByAccount[email] || [];
+    const existingIds = new Set(userItems.map((i: any) => i.id));
+    const newItems = guestItems.filter((i: any) => !existingIds.has(i.id));
+
+    const nextCart = { ...cartsByAccount, [email]: [...newItems, ...userItems] };
+    delete nextCart['_guest'];
+
+    const nextPrimary = { ...primaryItemIdByAccount };
+    if (!nextPrimary[email] && nextPrimary['_guest']) {
+      nextPrimary[email] = nextPrimary['_guest'];
+    }
+    delete nextPrimary['_guest'];
+
+    useCartStore.setState({
+      cartsByAccount: nextCart,
+      primaryItemIdByAccount: nextPrimary,
+      items: nextCart[email] ?? [],
+      primaryItemId: nextPrimary[email] ?? null,
+      activeAccountEmail: email,
+    });
+  } catch {}
+}
+
 export const useAuthStore = create<AuthState>((set, get) => {
   // Wire the API client to read/write the store's accessToken
   initApiClient(
     () => get().accessToken,
-    (token) => set({ accessToken: token, isAuthenticated: !!token }),
+    (token) => set({ accessToken: token }),
     () => get().refreshToken,
     (token) => set({ refreshToken: token }),
   );
@@ -63,6 +106,9 @@ export const useAuthStore = create<AuthState>((set, get) => {
         isAuthenticated: true,
         isLoading:       false,
       });
+      const userEmail = data.user?.email || null;
+      writeCartAccount(userEmail);
+      if (userEmail) migrateGuestCart(userEmail);
       return { redirectTo: data.redirectTo || '/' };
     },
 
@@ -70,6 +116,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
       try {
         await apiPost('/api/auth/logout', {});
       } catch {}
+      writeCartAccount(null);
       set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false, isLoading: false });
     },
 
@@ -106,6 +153,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
             isAuthenticated: true,
             isLoading:       false,
           });
+          writeCartAccount(meData.data?.email || null);
         } else {
           set({ isLoading: false });
         }

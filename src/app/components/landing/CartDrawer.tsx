@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useCartStore } from "@/app/components/landing/cartStore";
+import { useAuthStore } from "@/app/stores/authStore";
 import { formatPrice, getSettings } from "@/services/settings";
 
 const suggestionProducts = [
@@ -28,6 +29,7 @@ function QuantityStepper({ quantity, onMinus, onPlus, compact = false }: { quant
 }
 
 export default function CartDrawer() {
+  const isAuthenticated = useAuthStore(s => s.isAuthenticated);
   const items = useCartStore((s) => s.items);
   const isOpen = useCartStore((s) => s.isOpen);
   const primaryItemId = useCartStore((s) => s.primaryItemId);
@@ -44,6 +46,15 @@ export default function CartDrawer() {
   const prevPrimaryItemId = useRef<string | null>(null);
   const prevItemsLength = useRef(0);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
+
+  const handleCheckout = () => {
+    closeCart();
+    if (isAuthenticated) {
+      window.location.href = "/cart";
+    } else {
+      window.location.href = "/login?redirect=%2Fcart";
+    }
+  };
 
   useEffect(() => {
     getSettings().then((s) => { if (s?.currency) setCurrency(s.currency); if (s?.exchange_rate) setExchangeRate(parseFloat(s.exchange_rate)); }).catch(() => {});
@@ -302,9 +313,9 @@ export default function CartDrawer() {
                   <span className="text-[18px] text-[#3B3732]">Subtotal</span>
                   <span className="text-[20px] text-[#171511]">{formatPrice(cartTotal, currency, exchangeRate)}</span>
                 </div>
-                <Link href="/cart" onClick={closeCart} className="flex h-[54px] w-full cursor-pointer items-center justify-center bg-[#302F2D] text-[14px] font-semibold text-white transition-opacity hover:opacity-90">
+                <button type="button" onClick={handleCheckout} className="flex h-[54px] w-full cursor-pointer items-center justify-center bg-[#302F2D] text-[14px] font-semibold text-white transition-opacity hover:opacity-90">
                   Checkout
-                </Link>
+                </button>
               </footer>
             )}
           </motion.aside>

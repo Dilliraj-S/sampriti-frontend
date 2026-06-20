@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { ChevronRight, LogOut, Package, User } from "lucide-react";
 import { useCartStore } from "@/app/components/landing/cartStore";
 import SearchOverlay from "@/app/components/landing/SearchOverlay";
@@ -52,7 +52,6 @@ function IconButton({
 
 export default function Navbar({ forceScrolled = false }: NavbarProps) {
   const pathname = usePathname();
-  const router   = useRouter();
 
   // ── Auth state from Zustand store (replaces localStorage) ────────────────
   const authUser        = useAuthStore(s => s.user);
@@ -113,8 +112,9 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
   const mutedNavColor = scrolled || pathname !== "/" ? "text-[#333333] hover:text-black" : "text-white/90 group-hover:text-black";
 
   const handleProfile = () => {
-    if (!isAuthenticated) {
-      router.push("/login");
+    console.log("[Navbar] handleProfile called, isAuthenticated:", isAuthenticated, "authUser:", authUser);
+    if (!isAuthenticated || !authUser) {
+      window.location.href = "/login";
       return;
     }
     setProfileOpen(true);
@@ -123,7 +123,7 @@ export default function Navbar({ forceScrolled = false }: NavbarProps) {
   const handleLogout = async () => {
     setProfileOpen(false);
     await storeLogout();
-    router.push("/login");
+    window.location.href = "/login";
   };
 
   const cartBadge =
