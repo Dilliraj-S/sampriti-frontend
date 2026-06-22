@@ -1,4 +1,5 @@
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/admin';
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace('/api/admin', '') + '/api/admin';
+const BACKEND_BASE = API_BASE.replace('/api/admin', '');
 
 interface ApiResponse<T = any> {
   status: boolean;
@@ -47,7 +48,7 @@ export const uploadApi = {
       clearTimeout(timeout);
       if (!res.ok) { const e = await res.json().catch(() => ({})); console.error('Upload failed:', e.message || res.statusText); return null; }
       const json = await res.json();
-      if (json.status) return 'http://localhost:5000' + json.data.url;
+      if (json.status) return BACKEND_BASE + json.data.url;
     } catch (err: any) {
       console.error('Upload failed:', err.message);
     }

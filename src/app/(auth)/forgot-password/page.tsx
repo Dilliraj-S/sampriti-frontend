@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { z } from "zod";
 
-const BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const BASE = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace("/api/admin", "");
 const emailSchema = z.string().email("Enter a valid email address.");
 
 export default function ForgotPasswordPage() {

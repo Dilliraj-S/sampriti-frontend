@@ -71,7 +71,7 @@ function ReviewForm({ slug, onSubmitted }: { slug: string; onSubmitted: () => vo
     setSubmitting(true);
     setMessage("");
     try {
-      const API_PUBLIC = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const API_PUBLIC = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace('/api/admin', '');
       const res = await fetch(API_PUBLIC + '/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -562,7 +562,7 @@ export default function ProductPage() {
   const [thumbSlide, setThumbSlide] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const API_PUBLIC = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const API_PUBLIC = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace('/api/admin', '');
   const fetchReviews = async () => {
     try {
       const res = await fetch(API_PUBLIC + '/api/reviews/product/' + encodeURIComponent(slug), { cache: 'no-store' });

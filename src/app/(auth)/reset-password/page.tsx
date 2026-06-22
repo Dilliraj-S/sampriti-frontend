@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 
-const BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const BASE = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace("/api/admin", "");
 
 const schema = z.object({
   password: z.string()

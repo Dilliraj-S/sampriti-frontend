@@ -90,7 +90,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
       set({ user, accessToken: token, isAuthenticated: !!token, isLoading: false }),
 
     login: async (email, password) => {
-      const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace('/api/admin', '');
       const res = await fetch(`${BASE}/api/auth/login`, {
         method:      'POST',
         credentials: 'include',
@@ -127,7 +127,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
     silentRefresh: async () => {
       set({ isLoading: true });
       try {
-        const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace('/api/admin', '');
         const existingRefreshToken = get().refreshToken;
         const res = await fetch(`${BASE}/api/auth/refresh`, {
           method: 'POST',

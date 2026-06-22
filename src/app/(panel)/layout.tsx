@@ -26,7 +26,7 @@ function PanelGuard({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (isLoading) return;
     if (!isAuthenticated) {
-      window.location.href = "/login";
+      window.location.href = "/admin/login";
       return;
     }
     if (!isAdmin) {

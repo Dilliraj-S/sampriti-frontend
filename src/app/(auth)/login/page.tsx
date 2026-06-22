@@ -26,7 +26,7 @@ const signUpSchema = z.object({
 type Mode   = "signin" | "signup";
 type Fields = Record<string, string>;
 
-const BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const BASE = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace("/api/admin", "");
 
 function GoogleMark({ className = "h-5 w-5" }: { className?: string }) {
   return (

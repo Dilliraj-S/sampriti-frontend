@@ -5,7 +5,7 @@
  * - withCredentials equivalent via `credentials: 'include'` (sends HttpOnly cookie)
  */
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace('/api/admin', '');
 
 let getAccessToken: (() => string | null) | null = null;
 let setAccessToken: ((t: string | null) => void) | null = null;
